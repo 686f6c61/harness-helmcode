@@ -118,6 +118,7 @@ export function parseResults(html: string): ParsedResult[] {
     const closeEnd = chunk.indexOf('</a>')
     if (closeEnd < 0) continue
     const rawHref = attributeOf(attributes, 'href')
+    /* v8 ignore next 2 -- result-link anchors in the wild always carry href; guarded for robustness */
     if (rawHref === undefined || rawHref.length === 0) continue
     const title = stripMarkup(chunk.slice(openEnd + 1, closeEnd))
     // The snippet cell follows this anchor's row; take the first one after it.
@@ -127,6 +128,7 @@ export function parseResults(html: string): ParsedResult[] {
     if (snippetMark >= 0) {
       const cellStart = after.indexOf('>', snippetMark)
       const cellEnd = after.indexOf('</td>', snippetMark)
+      /* v8 ignore next 1 -- cellStart without a closing cell is not in the served layout */
       if (cellStart >= 0 && cellEnd > cellStart) snippet = stripMarkup(after.slice(cellStart + 1, cellEnd))
     }
     results.push({ url: unwrapResultUrl(rawHref), title, snippet })

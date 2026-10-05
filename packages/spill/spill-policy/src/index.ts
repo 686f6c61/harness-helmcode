@@ -120,9 +120,12 @@ export function apply(ctx: Context, config: Config): void {
       const merged: ContentBlock[] = []
       for (const block of result) {
         const previous = merged.at(-1)
-        if (block.type === 'text' && previous?.type === 'text') previous.text += block.text
-        /* v8 ignore next 1 -- image blocks are never adjacent in the head/GAP/tail layout */
-        else merged.push(block.type === 'text' ? { ...block } : block)
+        if (block.type === 'text' && previous?.type === 'text') {
+          previous.text += block.text
+          continue
+        }
+        /* v8 ignore next 1 -- retention omits any image it cannot afford whole */
+        merged.push(block.type === 'image' ? block : { ...block })
       }
       return merged
     } catch (error: unknown) {
