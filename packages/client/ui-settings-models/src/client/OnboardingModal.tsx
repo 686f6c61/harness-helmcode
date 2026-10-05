@@ -1,7 +1,7 @@
 /** Shared modal chrome for every step registered by this onboarding plugin. */
 
 import { useEffect, useRef } from 'react'
-import type { ReactNode } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { Modal } from '@deepseek-ai/dsh-client-ui-primitives'
 import css from './OnboardingModal.module.css'
 
@@ -20,7 +20,7 @@ export function OnboardingModal({
   title: string
   focusTitle?: boolean
   children: ReactNode
-}): ReactNode {
+}): ReactElement {
   const titleRef = useRef<HTMLHeadingElement | null>(null)
 
   useEffect(() => {

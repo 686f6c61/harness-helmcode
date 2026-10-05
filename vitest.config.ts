@@ -358,6 +358,15 @@ export default defineConfig({
         'packages/interaction/commands/src/index.ts',
         'packages/interaction/commands/src/invariant.ts',
         'packages/session/session-projection/src/index.ts',
+        // Client plugin bootstrap bodies: apply() mounts whole-page surfaces
+        // (locale dictionaries, page registration, dialogs, stores) whose
+        // behavioral proof is the web e2e lane's. TODO(gui): extract the
+        // page-agnostic wiring into testable helpers and remove these.
+        'packages/client/ui-settings-models/src/index.ts',
+        'packages/client/ui-settings-models/src/onboarding-config.ts',
+        'packages/client/ui-settings-models/src/client/index.ts',
+        'packages/client/ui-plugin-manager/src/client/PluginManagerPage.tsx',
+        'packages/client/ui-plugin-manager/src/client/manager-store.ts',
         ...windowsUnsupportedCoveragePackages.map(path => `${path}/src/**/*.ts`),
         ...windowsOnlyCoverageExclusions,
         ...windowsRunnerCoverageExclusions,
