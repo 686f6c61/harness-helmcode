@@ -61,8 +61,6 @@ session 组让对话持久保存，恢复已发布的日志格式，并使已提
 
 | 包 | 职责 | ctx key |
 |---|---|---|
-| [`session-telemetry/`](session-telemetry/README.zh.md) | 捕获会话活动并把记录交给配置的上报后端 | `ctx.sessionTelemetry` |
-| `session-telemetry-otel/` | 通过 OpenTelemetry 日志以 `FEEDBACK_ONLY` 或 `DISABLED` 模式投递遥测 | 注册到 `ctx.sessionTelemetry` |
 
 同一时间只允许一个标题提供方注册；未注册时，标题服务保留其确定性回退。下面的子系统页面是各家族后端无关的参考资料。
 
@@ -74,7 +72,6 @@ session 组让对话持久保存，恢复已发布的日志格式，并使已提
 - [会话持久化子系统](../../docs/subsystems/persistence.es.md)——后端无关的服务语义、flush 检查点与崩溃恢复。
 - [会话投影子系统](../../docs/subsystems/session-projection.es.md)——投影单元约定与驱动语义。
 - [会话标题子系统](../../docs/subsystems/session-title.es.md)——标题资格、回退与提供方流程。
-- [会话遥测子系统](../../docs/subsystems/session-telemetry.es.md)——捕获、脱敏与投递模式。
 - [会话子系统](../../docs/subsystems/session.es.md)——本组每个包持久化或派生的实时事件日志。
 
 <a id="dev-note"></a>

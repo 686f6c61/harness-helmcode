@@ -310,7 +310,6 @@ const subsystemGroups = [
     ['session-projection.md', 'Proyecciones de sesión', 'Session projections'],
     ['persistence.md', 'Persistencia de sesiones', 'Session persistence'],
     ['spill.md', 'Almacenamiento spill', 'Spill storage'],
-    ['session-telemetry.md', 'Telemetría', 'SessionTelemetryBackend'],
   ]],
   ['Modelo y contexto', 'Model and context', [
     ['llm-streaming.md', 'Streaming de LLM', 'LLM streaming'],

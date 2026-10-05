@@ -50,8 +50,8 @@ flowchart LR
   cfg --> plugin_dsh_base_credentials
   plugin_dsh_base_llm_pi_ai["llm-pi-ai<br/>@deepseek-ai/dsh-llm-pi-ai"]
   cfg --> plugin_dsh_base_llm_pi_ai
-  plugin_dsh_base_deepseek_v4_1_flash["deepseek-v4-flash<br/>DeepSeek V4.1 Flash"]
-  cfg --> plugin_dsh_base_deepseek_v4_1_flash
+  plugin_dsh_base_deepseek_v4_flash["deepseek-v4-flash<br/>DeepSeek V4.1 Flash"]
+  cfg --> plugin_dsh_base_deepseek_v4_flash
   plugin_dsh_base_glm5_3_flash["glm5.3-flash<br/>GLM 5.3 Flash"]
   cfg --> plugin_dsh_base_glm5_3_flash
   plugin_dsh_base_qwen3_6["qwen3.6<br/>Qwen 3.6"]
