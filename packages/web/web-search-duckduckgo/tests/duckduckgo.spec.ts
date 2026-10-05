@@ -84,6 +84,15 @@ describe('DuckDuckGo HTML parsing', () => {
     expect(mapHtml(page).sources).toEqual([{ url: 'https://kept.test', title: 'closed', snippet: 'kept snippet' }])
   })
 
+  it('yields no snippet when the cell never closes and maps the page anyway', () => {
+    const page = row('https://cell.test/page', 'Unclosed cell', 'partial')
+      .replace('</td>', '')
+    expect(parseResults(page)).toEqual([
+      { url: 'https://cell.test/page', title: 'Unclosed cell', snippet: '' },
+    ])
+    expect(mapHtml(page).sources).toEqual([])
+  })
+
   it('unwraps bare and hostile redirect targets without inventing URLs', () => {
     // A /l/ link whose uddg parameter carries no value falls back to the href;
     // an unparseable href is returned verbatim rather than throwing.
@@ -93,12 +102,11 @@ describe('DuckDuckGo HTML parsing', () => {
 
   it('drops anchors whose quoted href never closes and anchors with an empty href', () => {
     const page = [
-      '<a class=\'result-link\' href="https://open.test">never closed quote</a>',
+      '<a class=\'result-link\' href="https://open.test>never closed quote</a>',
       '<a class=\'result-link\' href="">empty href</a>',
       '<a class=\'result-link\' href="https://kept.test">closed</a><td class=\'result-snippet\'>kept</td>',
     ].join('')
     expect(parseResults(page)).toEqual([
-      { url: 'https://open.test', title: 'never closed quote', snippet: '' },
       { url: 'https://kept.test', title: 'closed', snippet: 'kept' },
     ])
   })
@@ -179,6 +187,18 @@ describe('DuckDuckGoSearchProvider', () => {
     })))
     await expect(new DuckDuckGoSearchProvider(options).search({ query: 'q' }))
       .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED' }))
+  })
+
+  it('maps a failing body read to WEB_PROVIDER_ERROR', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({
+      ok: true,
+      text: () => Promise.reject(new Error('body stream interrupted')),
+    })))
+    await expect(new DuckDuckGoSearchProvider(options).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({
+        code: 'WEB_PROVIDER_ERROR',
+        message: 'DuckDuckGo returned an unprocessable response body: Error: body stream interrupted',
+      }))
   })
 
   it('maps an HTTP error to WEB_PROVIDER_ERROR', async () => {

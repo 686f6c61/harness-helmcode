@@ -50,9 +50,9 @@ export function isNoResultsPage(html: string): boolean {
 export function unwrapResultUrl(href: string): string {
   try {
     const parsed = new URL(href, DUCKDUCKGO_DEFAULT_BASE_URL)
-    const wrapped = parsed.pathname === '/l/' && parsed.searchParams.has('uddg')
-    if (!wrapped) return href
-    const target = parsed.searchParams.get('uddg') ?? ''
+    // `has()` above guarantees the parameter; its value may still be empty.
+    const target = parsed.pathname === '/l/' ? parsed.searchParams.get('uddg') : null
+    if (target === null) return href
     return URL.canParse(target) ? target : href
   } catch {
     return href
