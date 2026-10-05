@@ -13,13 +13,13 @@ import { Context } from '@deepseek-ai/cordis'
 import Loader from '@deepseek-ai/cordis-plugin-loader'
 import { createUserMessage, ToolCallId } from '@deepseek-ai/dsh-llm'
 import { estimateContent } from '@deepseek-ai/dsh-token-meter/estimate'
-import type { ContentBlock } from '@deepseek-ai/dsh-llm'
+import type { ContentBlock, ImageBlock } from '@deepseek-ai/dsh-llm'
 import type { ContextFormed } from '@deepseek-ai/dsh-llm'
 import SessionStore, { SessionId } from '@deepseek-ai/dsh-session'
 import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
 import ToolRuntime, { defineContentToolFixture } from '@deepseek-ai/dsh-tools'
 import type { ToolDefinition } from '@deepseek-ai/dsh-tools'
-import type { PostToolDecision, ToolExecution, ToolExecutionToken } from '@deepseek-ai/dsh-tools'
+import type { PostToolDecision, ToolExecution, ToolExecutionResult, ToolExecutionToken } from '@deepseek-ai/dsh-tools'
 import { SpillLocator, SpillStore } from '@deepseek-ai/dsh-spill'
 import type { SaveTextSpill, SpillRef } from '@deepseek-ai/dsh-spill'
 import * as SpillPolicy from '@deepseek-ai/dsh-spill-policy'
@@ -618,5 +618,164 @@ describe('disposal (HMR safety)', () => {
     const after = await ctx.tools.execute(exec('big'))
     expect(textOf(after.content)).toBe(body)
     expect(spill?.saves).toHaveLength(1)
+  })
+})
+
+
+describe('image pricing and description', () => {
+  /** One described image as a model input. */
+  const image: ImageBlock = {
+    type: 'image',
+    attachment: {
+      attachmentId: `sha256:${'c'.repeat(64)}` as never,
+      mediaType: 'image/png' as const,
+      bytes: 12,
+      width: 3,
+      height: 3,
+    },
+  }
+
+  const imageHost = (ctx: Context): void => {
+    ctx.provide('attachments', { imageHostPath: () => '/host/objects/cc/object.png' })
+    // The fs seam maps a host path into the model view; any absolute answer works.
+    ctx.provide('fs', { processPathFromHostPath: (p: string) => p.startsWith('/') ? p : undefined })
+    ctx.provide('llm', {
+      imageRequestPricing: () => ({
+        priceImages: (images: ImageBlock[]) => images.map(() => ({ visualTokens: 900, text: 'a pictured chart' })),
+      }),
+    })
+  }
+
+  /** An exec whose session can route: requestHeader supplies provider/model for image pricing. */
+  const routedExec = (name: string, ctx: Context): ToolExecution => ({
+    ...exec(name),
+    agent: {
+      session: {
+        header: { id: SessionId('s1') },
+        requestHeader: () => ({ config: { provider: 'probe-p', model: 'probe-m' } }),
+      },
+      ctx,
+    },
+  } as unknown as ToolExecution)
+
+  const imageTool = (name: string, tail: string) => defineContentToolFixture({
+    name,
+    description: name,
+    parameters: {},
+    async execute(): Promise<ContentBlock[]> {
+      return [{ type: 'text', text: 'look at this' }, image, { type: 'text', text: tail }]
+    },
+  })
+
+  it('prices routed images, spills their full description, and drops them from the preview', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 64 }, true, imageHost)
+    ctx.tools.register(imageTool('chart', 'z'.repeat(400)))
+    const result = await ctx.tools.execute(routedExec('chart', ctx))
+    expect(spill?.saves.length ?? 0).toBeGreaterThan(0)
+    // The saved text describes the image by its model-visible path.
+    expect(spill?.saves[0]?.content).toContain('/host/objects/cc/object.png')
+    expect(spill?.saves[0]?.content).toContain('look at this')
+    expect(textOf(result.content)).toContain('Full formatted result stored at')
+    expect(result.content.some(block => block.type === 'image')).toBe(false)
+  })
+
+  it('keeps an image result inline when no calculator exists for the routed model', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 64 })
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    ctx.tools.register(imageTool('chart-noprice', 'z'.repeat(400)))
+    const result = await ctx.tools.execute(exec('chart-noprice'))
+    expect(textOf(result.content)).toContain('look at this')
+    expect(warn).toHaveBeenCalled()
+    expect(spill?.saves).toHaveLength(0)
+  })
+
+  it('keeps the inline result when the calculator returns an inconsistent count', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 64 }, true, (ctx) => {
+      ctx.provide('attachments', { imageHostPath: () => '/host/objects/cc/object.png' })
+      ctx.provide('fs', { processPathFromHostPath: (p: string) => p.startsWith('/') ? p : undefined })
+      ctx.provide('llm', {
+        imageRequestPricing: () => ({
+          priceImages: (images: ImageBlock[]) =>
+            Array.from({ length: images.length + 2 }, () => ({ visualTokens: 5, text: 'mismatch' })),
+        }),
+      })
+    })
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    ctx.tools.register(imageTool('chart-mismatch', 'z'.repeat(400)))
+    const result = await ctx.tools.execute(routedExec('chart-mismatch', ctx))
+    expect(textOf(result.content)).toContain('look at this')
+    expect(warn.mock.calls[0]?.[0]).toContain('inconsistent occurrence count')
+    expect(spill?.saves).toHaveLength(0)
+  })
+
+  it('falls back to the agent options for routing when no request header exists', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 8 }, true, (ctx) => {
+      imageHost(ctx)
+    })
+    const optionsOnly = {
+      ...exec('chart-options'),
+      agent: {
+        session: { header: { id: SessionId('s1') }, requestHeader: () => undefined },
+        options: { provider: 'options-p', model: 'options-m' },
+        ctx,
+      },
+    } as unknown as ToolExecution
+    ctx.tools.register(imageTool('chart-options', 'z'.repeat(400)))
+    await ctx.tools.execute(optionsOnly)
+    // The routing fallback priced the image: the spill records the description.
+    expect(spill?.saves[0]?.content).toContain('/host/objects/cc/object.png')
+    expect(spill?.saves[0]?.content).toContain('look at this')
+  })
+
+  it('keeps an image result inline when no pricing service is mounted', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 8 }, true)
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    const unrouted = {
+      ...exec('chart-nollm'),
+      agent: {
+        session: { header: { id: SessionId('s1') }, requestHeader: () => undefined },
+        options: { provider: 'unrouted-p', model: 'unrouted-m' },
+      },
+    } as unknown as ToolExecution
+    ctx.tools.register(imageTool('chart-nollm', 'z'.repeat(400)))
+    const result = await ctx.tools.execute(unrouted)
+    expect(textOf(result.content)).toContain('look at this')
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn.mock.calls[0]?.[0]).toContain('no image token calculator')
+    expect(spill?.saves).toHaveLength(0)
+  })
+
+  it('keeps an image result inline when no attachments service can describe it', async () => {
+    const { ctx, spill } = await setup({ maxInlineTokens: 8 }, true, (ctx) => {
+      ctx.provide('llm', {
+        imageRequestPricing: () => ({
+          priceImages: (images: ImageBlock[]) => images.map(() => ({ visualTokens: 900, text: 'a pictured chart' })),
+        }),
+      })
+    })
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    ctx.tools.register(imageTool('chart-noattach', 'z'.repeat(400)))
+    const result = await ctx.tools.execute(routedExec('chart-noattach', ctx))
+    expect(textOf(result.content)).toContain('look at this')
+    expect(warn.mock.calls[0]?.[0]).toContain('has no readable attachment path')
+    expect(spill?.saves).toHaveLength(0)
+  })
+
+  it('turns a spilled PTC image result into additional context on the decision', async () => {
+    const { ctx } = await setup({ maxInlineTokens: 64 }, true, imageHost)
+    const parented = {
+      ...routedExec('chart-ptc', ctx),
+      parent: { token: 'ptc-parent' as never },
+    } as unknown as ToolExecution
+    const decision = await ctx.waterfall(
+      'tools/post-execute',
+      parented,
+      { content: [{ type: 'text', text: 'look at this' }, image], isError: false } as ToolExecutionResult,
+      async (): Promise<PostToolDecision> => ({ kind: 'accept', content: [{ type: 'text', text: 'look at this' }, image] }),
+    )
+    expect(decision.additionalContexts).toHaveLength(1)
+    const spilled = (decision as { content?: ContentBlock[] }).content ?? []
+    expect(spilled.some(block => block.type === 'image')).toBe(false)
+    expect(textOf(spilled)).toContain('Full formatted result stored at')
   })
 })
