@@ -79,6 +79,23 @@ describe('workflow host callback validation', () => {
     finally { await handle.dispose() }
   })
 
+  it('refuses a child that starts after the host was disposed', async () => {
+    let releaseChildStart: (() => void) | undefined
+    const childStartGate = new Promise<void>((resolve) => { releaseChildStart = resolve })
+    const { ctx, start } = await setup(async (bindings) => {
+      await childStartGate
+      await expect(bindings.startChild!({ prompt: 'late child' }))
+        .rejects.toThrow('workflow child started after cancellation')
+      return completed
+    })
+    const handle = start()
+    await ctx.fiber.dispose()
+    releaseChildStart!()
+    await new Promise(r => setTimeout(r, 20))
+    void handle
+  })
+
+
   it('does not emit duplicate agent-end notifications', async () => {
     const info = { seq: 1, label: 'child', childId: 'host-child' }
     const { ctx, start } = await setup(async (bindings) => {
