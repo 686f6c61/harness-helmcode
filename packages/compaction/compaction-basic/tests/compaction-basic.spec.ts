@@ -1936,6 +1936,29 @@ describe('automatic listener and loader composition', () => {
     expect(session.surface.replaceGeneration).toBe(1)
   })
 
+  it('retries the summarizer once when the summary-error waterfall accepts the recovery', async () => {
+    const accepted: boolean[] = []
+    const ctx = createContext()
+    ctx.on('compaction/summary-error', () => {
+      const accept = accepted.length === 0
+      accepted.push(accept)
+      return accept
+    })
+    const compact = service({ auto: false, thresholdRatio: 0.5, retainTokens: 60 }, ctx)
+    let attempts = 0
+    const inner = compact.summarize.bind(compact)
+    compact.summarize = async (input: SummarizationInput, owner: Agent, signal?: AbortSignal) => {
+      attempts += 1
+      if (attempts === 1) throw new Error('transient summarize failure')
+      return inner(input, owner, signal)
+    }
+    const session = conversation(4)
+    const outcome = await compact.compactIfNeeded(agent(session, MODEL), 'pressure', SIGNAL)
+    expect(outcome).not.toBe(false)
+    expect(accepted).toEqual([true])
+    expect(attempts).toBe(2)
+    expect(session.snapshotEvents().some(event => event.type === 'compaction/summary')).toBe(true)
+  })
   it('preserves the newest whole tool-call/result pair during forced overflow compaction', async () => {
     const ctx = createContext()
     void new TestCompactionEngine(ctx, {
