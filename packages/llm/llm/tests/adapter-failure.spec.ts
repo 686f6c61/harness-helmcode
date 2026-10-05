@@ -47,6 +47,30 @@ describe('adapter failure normalization', () => {
     expect(normalizeLlmFailure(hostileFailure)).toEqual({ message: 'provider failed', code: 'UNKNOWN' })
   })
 
+  it('keeps every present optional fact and rejects out-of-range ones', () => {
+    const error = new Error('provider failed') as Error & { failure: unknown; code: string }
+    error.failure = {
+      message: 'provider failed', code: 'FOREIGN', status: 429,
+      providerRetryAfterMs: 1200, requestId: 'req-1', offloadImages: 2,
+    }
+    error.code = 'FOREIGN'
+    expect(normalizeLlmFailure(error)).toEqual({
+      message: 'provider failed', code: 'FOREIGN', status: 429,
+      providerRetryAfterMs: 1200, requestId: 'req-1', offloadImages: 2,
+    })
+
+    for (const failure of [
+      { message: 'x', code: 'C', providerRetryAfterMs: -1 },
+      { message: 'x', code: 'C', offloadImages: 0 },
+      { message: 'x', code: 'C', requestId: 42 },
+    ]) {
+      const hostile = new Error('provider failed') as Error & { failure: unknown; code: string }
+      hostile.failure = failure
+      hostile.code = 'C'
+      expect(normalizeLlmFailure(hostile)).toEqual({ message: 'provider failed', code: 'UNKNOWN' })
+    }
+  })
+
   it('rejects malformed or accessor-backed failure snapshots', () => {
     const malformed = new Error('provider failed') as Error & { failure: unknown; code: string }
     malformed.failure = { message: 'provider failed', code: 'FOREIGN', requestId: '' }
