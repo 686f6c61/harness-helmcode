@@ -17,7 +17,7 @@ describe('searchRegistryPlugins', () => {
   it('searches the plugin topic when the query is missing, blank, or whitespace', async () => {
     const seen: URL[] = []
     const fetchImpl: typeof fetch = (input) => {
-      seen.push(new URL(input instanceof URL ? input.href : input))
+      seen.push(new URL(typeof input === 'string' ? input : 'href' in input ? input.href : input.url))
       return Promise.resolve(registryReply([]))
     }
     await searchRegistryPlugins({ fetchImpl })
@@ -29,7 +29,7 @@ describe('searchRegistryPlugins', () => {
   it('trims a free-text query and clamps the page size to the registry bounds', async () => {
     const seen: URL[] = []
     const fetchImpl: typeof fetch = (input) => {
-      seen.push(new URL(input instanceof URL ? input.href : input))
+      seen.push(new URL(typeof input === 'string' ? input : 'href' in input ? input.href : input.url))
       return Promise.resolve(registryReply([]))
     }
     await searchRegistryPlugins({ query: '  git tools  ', fetchImpl })
@@ -43,7 +43,7 @@ describe('searchRegistryPlugins', () => {
   it('targets /-/v1/search under the shipped registry or an explicit alternative root', async () => {
     const seen: URL[] = []
     const fetchImpl: typeof fetch = (input) => {
-      seen.push(new URL(input instanceof URL ? input.href : input))
+      seen.push(new URL(typeof input === 'string' ? input : 'href' in input ? input.href : input.url))
       return Promise.resolve(registryReply([]))
     }
     await searchRegistryPlugins({ fetchImpl })

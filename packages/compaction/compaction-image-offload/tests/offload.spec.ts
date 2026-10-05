@@ -4,8 +4,9 @@ import { describe, expect, it } from 'vitest'
 import { Context } from '@deepseek-ai/cordis'
 import { agentEvents, type Agent, type RequestErrorAction } from '@deepseek-ai/dsh-agent'
 import type { ContentBlock, ImageBlock } from '@deepseek-ai/dsh-llm'
-import { createToolResultMessage, createUserMessage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, ToolCallId } from '@deepseek-ai/dsh-llm'
-import { Session, SessionId } from '@deepseek-ai/dsh-session'
+import { createAssistantMessage, createToolResultMessage, createUserMessage, IMAGE_OFFLOAD_REQUIRED_CODE, LlmError, ToolCallId } from '@deepseek-ai/dsh-llm'
+import type { LlmFailure } from '@deepseek-ai/dsh-llm'
+import { Session, SessionId, type SessionSeq } from '@deepseek-ai/dsh-session'
 import { offloadOldestImages } from '../src/image-offload.ts'
 import { imageOffloadProjection } from '../src/projection.ts'
 import * as plugin from '../src/index.ts'
@@ -96,7 +97,7 @@ describe('offloadOldestImages', () => {
     const source = userImages(session)
     const assistant = session.append('assistant/message', {
       turn: 1, step: 1, stream: [],
-      message: { role: 'assistant', content: [{ type: 'text', text: 'done' }], source: { kind: 'model', provider: 'mock', model: 'mock' } },
+      message: createAssistantMessage({ content: [{ type: 'text', text: 'done' }], source: { provider: 'mock', model: 'mock' } }),
     }, { surfaceOp: 'append' })
     expect(offloadOldestImages(session, [assistant.seq, source.seq], 1)).toBe(true)
     expect(lastOffload(session)).toEqual({ targets: [{ seq: source.seq, imageIndexes: [0] }] })
@@ -117,11 +118,9 @@ describe('recovery listeners', () => {
     return { session } as unknown as Agent
   }
 
-  type RecoveryFailure = { code: string; offloadImages?: number }
-
-  async function recover(ctx: Context, agent: Agent, failure: RecoveryFailure): Promise<RequestErrorAction | undefined> {
+  async function recover(ctx: Context, agent: Agent, failure: LlmFailure): Promise<RequestErrorAction | undefined> {
     return agentEvents(ctx, agent).waterfall('agent/request-error', {
-      turn: 1, step: 1, provider: 'test', failure, retryPolicy: undefined,
+      turn: 1, step: 1, provider: 'test', failure, retryPolicy: undefined, signal: new AbortController().signal,
     }, () => Promise.resolve(undefined))
   }
 
@@ -131,15 +130,15 @@ describe('recovery listeners', () => {
     const source = userImages(session)
     const agent = agentOf(session)
 
-    await expect(recover(ctx, agent, { code: 'CONTEXT_OVERFLOW' })).resolves.toBeUndefined()
-    await expect(recover(ctx, agent, { code: IMAGE_OFFLOAD_REQUIRED_CODE })).resolves.toBeUndefined()
-    await expect(recover(ctx, agent, { code: IMAGE_OFFLOAD_REQUIRED_CODE, offloadImages: 2 })).resolves.toEqual({ kind: 'retry' })
+    await expect(recover(ctx, agent, { message: 'provider overflow', code: 'CONTEXT_OVERFLOW' })).resolves.toBeUndefined()
+    await expect(recover(ctx, agent, { message: 'no key', code: IMAGE_OFFLOAD_REQUIRED_CODE })).resolves.toBeUndefined()
+    await expect(recover(ctx, agent, { message: 'offload', code: IMAGE_OFFLOAD_REQUIRED_CODE, offloadImages: 2 })).resolves.toEqual({ kind: 'retry' })
     expect(lastOffload(session)).toEqual({ targets: [{ seq: source.seq, imageIndexes: [0, 1] }] })
-    await expect(recover(ctx, agent, { code: IMAGE_OFFLOAD_REQUIRED_CODE, offloadImages: 1 })).resolves.toBeUndefined()
+    await expect(recover(ctx, agent, { message: 'offload', code: IMAGE_OFFLOAD_REQUIRED_CODE, offloadImages: 1 })).resolves.toBeUndefined()
   })
 
   async function summarize(
-    ctx: Context, session: Session, error: unknown, seqs: readonly number[], signal?: AbortSignal,
+    ctx: Context, session: Session, error: unknown, seqs: readonly SessionSeq[], signal?: AbortSignal,
   ): Promise<boolean> {
     return ctx.waterfall('compaction/summary-error', {
       session,

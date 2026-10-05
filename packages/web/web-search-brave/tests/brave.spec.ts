@@ -275,7 +275,7 @@ describe('BraveSearchProvider error handling', () => {
 
   it('reads a structured error body message and clamps oversized counts', async () => {
     const fetchMock = vi.fn(async (input: URL | RequestInfo, _init?: RequestInit) => {
-      expect(new URL(input instanceof URL ? input.href : input).searchParams.get('count')).toBe('20')
+      expect(new URL(typeof input === 'string' ? input : 'href' in input ? input.href : input.url).searchParams.get('count')).toBe('20')
       return jsonResponse({ message: 'structured rate limit' }, { status: 429 })
     })
     vi.stubGlobal('fetch', fetchMock)
@@ -351,7 +351,7 @@ describe('web-search-brave plugin', () => {
 
   it('mounts from a plain section: literal key, explicit env name, bounds, and safety', async () => {
     const fetchMock = vi.fn(async (input: URL | RequestInfo, init?: RequestInit) => {
-      const url = new URL(input instanceof URL ? input.href : input)
+      const url = new URL(typeof input === 'string' ? input : 'href' in input ? input.href : input.url)
       expect(url.searchParams.get('count')).toBe('3')
       expect(url.searchParams.get('safesearch')).toBe('strict')
       expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe(keyOf('plain'))

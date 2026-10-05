@@ -119,10 +119,7 @@
           nan-builders:
             displayName: NaN Builders
             api: openai-completions
-            # The cluster gateway; NAN_BUILDERS_BASE_URL retargets the route
-            # for a self-hosted gateway or the HTTP mock in the built-CLI e2e
-            # suite without restating this provider profile.
-            baseURL: !!js "process.env.NAN_BUILDERS_BASE_URL ?? 'https://api.nan.builders/v1'"
+            baseURL: https://api.nan.builders/v1
             apiKeyEnv: NAN_BUILDERS_API_KEY
             # NaN serves chat through LiteLLM and emits reasoning traces in the
             # deepseek `reasoning_content` dialect; its Pi guide asks clients

@@ -30,6 +30,9 @@ const SPAWN_TIMEOUT_MS = 60_000
 const cliVersion = (JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')) as { version: string }).version
 const dshBin = join(repoRoot, 'apps/cli/lib/bin.js')
 const invalidProvider = fileURLToPath(new URL('./fixtures/invalid-provider.cordis.yml', import.meta.url))
+// Replaces the shipped nan-builders profile with one aimed at each test's
+// HTTP mock; the endpoint itself arrives through NAN_BUILDERS_BASE_URL.
+const nanMockRoute = fileURLToPath(new URL('./fixtures/nan-mock-route.patch.yml', import.meta.url))
 const webReadyExitHook = new URL('./fixtures/web-browser-open/register.mjs', import.meta.url).href
 
 async function runBuiltBin(
@@ -520,7 +523,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
       successText: 'ACP BUILT PROFILE OK',
     })
     const home = mkdtempSync(join(tmpdir(), 'dsh-built-acp-'))
-    const child = execa(process.execPath, [dshBin, '--profile', 'acp'], {
+    const child = execa(process.execPath, [dshBin, '--profile', 'acp', '--patch', nanMockRoute], {
       cwd: home,
       reject: false,
       timeout: SPAWN_TIMEOUT_MS,
@@ -608,7 +611,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
     })
     const home = mkdtempSync(join(tmpdir(), 'dsh-built-headless-'))
     try {
-      const result = await runBuiltBin(['--profile', 'headless', 'answer', 'from', 'the', 'published', 'entry'], {
+      const result = await runBuiltBin(['--profile', 'headless', '--patch', nanMockRoute, 'answer', 'from', 'the', 'published', 'entry'], {
         DSH_HOME: home,
         DSH_TELEMETRY_DISABLED: '1',
         NAN_BUILDERS_API_KEY: apiKey,
@@ -748,7 +751,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
     createEnvironmentProbeProfile(home, project)
     try {
       const result = await runBuiltBin(
-        ['--profile', 'environment-probe'],
+        ['--profile', 'environment-probe', '--patch', nanMockRoute],
         {
           DSH_HOME: home,
           DSH_TELEMETRY_DISABLED: '1',
