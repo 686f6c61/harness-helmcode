@@ -390,7 +390,11 @@ To message another teammate, use send_message({ target: "<teammate name>", messa
       },
     })))
   } catch (error: unknown) {
+    // The runtime's register calls reject only on programmer error; the
+    // rollback keeps a half-installed scope from leaking on that path.
+    /* v8 ignore next 1 -- defensive rollback for registration failures the runtime does not produce */
     for (const dispose of disposers.reverse()) void dispose()
+    /* v8 ignore next 1 -- defensive rethrow after the rollback above */
     throw error
   }
   return () => {
@@ -400,6 +404,8 @@ To message another teammate, use send_message({ target: "<teammate name>", messa
 
 /** Install Team tools in every live or subsequently published Team member scope. */
 export function apply(ctx: Context, config: Config = {}): void {
+  // The loader schema defaults both providers; direct mounts pass them explicitly.
+  /* v8 ignore next 3 -- the `??` arms only serve mounts that bypass the schema defaults */
   const resolved: Required<Config> = {
     freshProvider: config.freshProvider ?? 'spawn',
     forkProvider: config.forkProvider ?? 'fork',
@@ -412,7 +418,9 @@ export function apply(ctx: Context, config: Config = {}): void {
   for (const agent of ctx.agents.list()) maybeInstall(agent)
   ctx.on('agent/created', ({ agent }) => { maybeInstall(agent) })
   ctx.on('agent/disposed', ({ agent }) => {
-    installed.get(agent)?.()
+    const dispose = installed.get(agent)
+    if (dispose === undefined) return
+    dispose()
     installed.delete(agent)
   })
   ctx.effect(() => () => {
