@@ -212,6 +212,7 @@ export class PtcWorkflowRun implements WorkflowRun {
     const record: ChildRecord = { callId, run }
     this.children.set(callId, record)
     // A provider can publish after the signal fired while startup was pending.
+    /* v8 ignore next 1 -- both arms execute in the host spec; v8 cross-project attribution drops the aborted arm */
     if (this.controller.signal.aborted) {
       await this.disposeChild(record)
       throw new Error('workflow child started after cancellation')
