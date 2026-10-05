@@ -104,6 +104,13 @@ describe('dsh-memory-tool', () => {
     expect(messageOf(await call(ctx, { action: 'list' }))).toBe('No memory notes.')
   })
 
+  it('lists the empty state over an existing but emptied memory directory', async () => {
+    const ctx = await setup()
+    await call(ctx, { action: 'write', key: 'temporary', content: 'data' })
+    await call(ctx, { action: 'delete', key: 'temporary' })
+    expect(messageOf(await call(ctx, { action: 'list' }))).toBe('No memory notes.')
+  })
+
   it('overwrites an existing note (last write wins)', async () => {
     const ctx = await setup()
     await call(ctx, { action: 'write', key: 'key', content: 'v1' })
@@ -121,6 +128,26 @@ describe('dsh-memory-tool', () => {
   it('key-requiring actions reject a missing key', async () => {
     const ctx = await setup()
     expect(messageOf(await call(ctx, { action: 'read' }))).toContain('requires a key')
+    expect(messageOf(await call(ctx, { action: 'write' }))).toContain('the "write" action requires a key')
+    expect(messageOf(await call(ctx, { action: 'delete' }))).toContain('the "delete" action requires a key')
+  })
+
+  it('writes store an empty body when no content is supplied, and list over an existing empty directory', async () => {
+    const ctx = await setup()
+    expect(messageOf(await call(ctx, { action: 'write', key: 'empty-body' }))).toBe('Memory note "empty-body" written.')
+    expect(readFileSync(join(home(), 'memory', 'empty-body.md'), 'utf8')).toBe('')
+    expect(messageOf(await call(ctx, { action: 'list' }))).toBe('- empty-body')
+  })
+
+  it('the tool card titles the action and keeps the key optional in its raw input', async () => {
+    const ctx = await setup()
+    const definition = ctx.tools.get('memory')!
+    expect(definition.presentCall?.({ action: 'read', key: 'notes' })).toEqual({
+      card: 'generic', title: 'Memory read', kind: 'other', rawInput: 'notes',
+    })
+    expect(definition.presentCall?.({ action: 'list' })).toEqual({
+      card: 'generic', title: 'Memory list', kind: 'other', rawInput: null,
+    })
   })
 
   it('notes persist as plain files, independent of any session (no egress)', async () => {

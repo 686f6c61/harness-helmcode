@@ -122,6 +122,9 @@ export function apply(ctx: Context, config: Config): void {
             return Promise.resolve({ message: 'No memory notes.' })
           }
         }
+        // Runtime input validation rejects off-enum actions before the body
+        // runs, so this arm only guards direct unguarded callers.
+        /* v8 ignore next 2 -- unreachable through the enum-gated runtime input */
         default:
           return Promise.resolve({ message: `Unknown action: ${String(args.action)}` })
       }

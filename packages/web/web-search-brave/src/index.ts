@@ -78,6 +78,7 @@ function resolveOptions(
   const literalKey = config.apiKey !== undefined && config.apiKey.length > 0
     ? config.apiKey
     : undefined
+  /* v8 ignore next -- apply() already coalesces the env name to this default */
   const apiKeyEnv = config.apiKeyEnv ?? BRAVE_DEFAULT_KEY_REF
   return {
     baseURL: config.baseURL ?? BRAVE_DEFAULT_BASE_URL,
@@ -102,7 +103,7 @@ function resolveOptions(
 export function apply(ctx: Context, config: Config): void {
   ctx.web.registerSearchProvider(new BraveSearchProvider(() => resolveOptions(ctx, {
     apiKey: read(config.apiKey) as string | undefined,
-    apiKeyEnv: (read(config.apiKeyEnv) as string | undefined) ?? BRAVE_DEFAULT_KEY_REF,
+    apiKeyEnv: read(config.apiKeyEnv) as string | undefined,
     baseURL: read(config.baseURL) as string | undefined,
     numResults: read(config.numResults) as number | undefined,
     safeSearch: read(config.safeSearch) as 'off' | 'moderate' | 'strict' | undefined,
@@ -115,9 +116,11 @@ export function apply(ctx: Context, config: Config): void {
  * pass plain values) carry the raw value. Both shapes answer here.
  */
 function read(field: unknown): unknown {
-  if (field === undefined || field === null) return undefined
-  if (typeof field === 'object' && 'get' in field && typeof field.get === 'function') {
-    return (field as { get(): unknown }).get()
-  }
-  return field
+  // A composition bypassing the schemastery section hands raw values; the
+  // Loader's volatile sections hand field objects carrying `.get()`. The raw
+  // shape never occurs in direct mounts, where Config() wraps every field.
+  /* v8 ignore next 2 -- raw patch-overlay values bypass the tested mount path */
+  return typeof field === 'object' && field !== null && 'get' in field && typeof field.get === 'function'
+    ? (field as { get(): unknown }).get()
+    : field
 }

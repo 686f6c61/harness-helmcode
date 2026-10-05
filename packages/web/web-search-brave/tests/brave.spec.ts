@@ -215,6 +215,75 @@ describe('BraveSearchProvider error handling', () => {
       .rejects.toThrow(expect.objectContaining({ code: 'WEB_PROVIDER_ERROR' }))
   })
 
+  it('resolves the key through the options thunk when the literal is absent', async () => {
+    const fetchMock = vi.fn(async (_input: URL | RequestInfo, init?: RequestInit) => {
+      expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe(keyOf('resolved'))
+      return jsonResponse({ web: { results: [] } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await new BraveSearchProvider(() => ({
+      baseURL: 'https://api.brave.test',
+      resolveApiKey: async () => keyOf('resolved'),
+    })).search({ query: 'q' })
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
+  it('surfaces fetch-phase and body-phase aborts as WEB_ABORTED', async () => {
+    const abort = (): DOMException => new DOMException('The operation was aborted.', 'AbortError')
+    vi.stubGlobal('fetch', vi.fn(async () => { throw abort() }))
+    await expect(new BraveSearchProvider(() => ({ ...options })).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED', message: 'Brave search aborted' }))
+
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({ error: 'late' }, { status: 429 }) && {
+      ok: false, status: 429, json: () => Promise.reject(abort()),
+    }))
+    await expect(new BraveSearchProvider(() => ({ ...options })).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED' }))
+
+    const lateBody = vi.fn(async () => ({ ok: true, json: () => Promise.reject(abort()) }))
+    vi.stubGlobal('fetch', lateBody)
+    await expect(new BraveSearchProvider(() => ({ ...options })).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED' }))
+  })
+
+  it('sends an empty token when the thunk resolves nothing', async () => {
+    const fetchMock = vi.fn(async (_input: URL | RequestInfo, init?: RequestInit) => {
+      expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe('')
+      return jsonResponse({ web: { results: [] } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await new BraveSearchProvider(() => ({
+      baseURL: 'https://api.brave.test',
+      resolveApiKey: async () => undefined,
+    })).search({ query: 'q' })
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
+  it('falls back to the thunk when the literal key is an empty string', async () => {
+    const fetchMock = vi.fn(async (_input: URL | RequestInfo, init?: RequestInit) => {
+      expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe(keyOf('empty-fallback'))
+      return jsonResponse({ web: { results: [] } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await new BraveSearchProvider(() => ({
+      baseURL: 'https://api.brave.test',
+      apiKey: '',
+      resolveApiKey: async () => keyOf('empty-fallback'),
+    })).search({ query: 'q' })
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
+  it('reads a structured error body message and clamps oversized counts', async () => {
+    const fetchMock = vi.fn(async (input: URL | RequestInfo, _init?: RequestInit) => {
+      expect(new URL(input instanceof URL ? input.href : input).searchParams.get('count')).toBe('20')
+      return jsonResponse({ message: 'structured rate limit' }, { status: 429 })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(new BraveSearchProvider(() => ({ ...options, numResults: 50 })).search({ query: 'q', maxResults: 99 }))
+      .rejects.toThrow(expect.objectContaining({ message: 'structured rate limit' }))
+    expect(fetchMock).toHaveBeenCalledOnce()
+  })
+
   it('maps an unprocessable success body to WEB_PROVIDER_ERROR', async () => {
     vi.stubGlobal('fetch', vi.fn(async (_input: URL | RequestInfo, _init?: RequestInit) => new Response('{not json', {
       status: 200, headers: { 'content-type': 'application/json' },
@@ -278,6 +347,39 @@ describe('web-search-brave plugin', () => {
     await ctx.web.search({ query: 'q' })
     const [, init] = fetchMock.mock.calls[0] ?? []
     expect(((init?.headers as Record<string, string>) ?? {})['x-subscription-token']).toBe(keyOf('literal'))
+  })
+
+  it('mounts from a plain section: literal key, explicit env name, bounds, and safety', async () => {
+    const fetchMock = vi.fn(async (input: URL | RequestInfo, init?: RequestInit) => {
+      const url = new URL(input instanceof URL ? input.href : input)
+      expect(url.searchParams.get('count')).toBe('3')
+      expect(url.searchParams.get('safesearch')).toBe('strict')
+      expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe(keyOf('plain'))
+      return jsonResponse({ web: { results: [{ url: 'https://x.test', description: 'found' }] } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = await bootPlugin({
+      apiKey: keyOf('plain'),
+      apiKeyEnv: 'CUSTOM_BRAVE_KEY',
+      numResults: 3,
+      safeSearch: 'strict',
+      baseURL: 'https://api.brave.test',
+    })
+    await expect(ctx.web.search({ query: 'q' })).resolves.toMatchObject({ truncated: false })
+  })
+
+  it('falls back to the launch environment key without a credentials plane', async () => {
+    vi.stubEnv('BRAVE_API_KEY', keyOf('ambient'))
+    const fetchMock = vi.fn(async (_input: URL | RequestInfo, init?: RequestInit) => {
+      expect((init?.headers as Record<string, string>)['x-subscription-token']).toBe(keyOf('ambient'))
+      return jsonResponse({ web: { results: [] } })
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = new Context()
+    await ctx.plugin(WebRuntime, { searchProvider: BRAVE_PROVIDER_ID })
+    await ctx.plugin(bravePlugin, { baseURL: 'https://api.brave.test' })
+    await expect(ctx.web.search({ query: 'q' })).resolves.toMatchObject({ truncated: false })
+    expect(fetchMock).toHaveBeenCalledOnce()
   })
 
   it('has no default export (namespace plugin export shape)', () => {

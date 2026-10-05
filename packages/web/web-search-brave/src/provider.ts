@@ -119,9 +119,8 @@ export class BraveSearchProvider implements WebSearchProvider {
     // settings write landing inside that await must not send the key resolved
     // from the old section to the endpoint named by the new one.
     const options = this.resolveOptions()
-    const apiKey = options.apiKey !== undefined && options.apiKey.length > 0
-      ? options.apiKey
-      : (await options.resolveApiKey?.()) ?? ''
+    // An empty literal is no key at all: the thunk answers instead.
+    const apiKey = options.apiKey ? options.apiKey : (await options.resolveApiKey?.()) ?? ''
     // A per-request bound wins over the configured default; either may be
     // absent, and Brave rejects counts above its per-request ceiling.
     const requested = request.maxResults ?? options.numResults

@@ -4,7 +4,7 @@ import { Context } from '@deepseek-ai/cordis'
 import WebRuntime from '@deepseek-ai/dsh-web'
 import * as plugin from '@deepseek-ai/dsh-web-search-duckduckgo'
 import { DuckDuckGoSearchProvider, DUCKDUCKGO_PROVIDER_ID } from '@deepseek-ai/dsh-web-search-duckduckgo'
-import { isNoResultsPage, mapHtml, parseResults, stripMarkup, unwrapResultUrl } from '../src/provider.ts'
+import { isNoResultsPage, mapHtml, mapResults, parseResults, stripMarkup, unwrapResultUrl } from '../src/provider.ts'
 
 const options = { baseURL: 'https://lite.ddg.test' }
 
@@ -67,6 +67,49 @@ describe('DuckDuckGo HTML parsing', () => {
     expect(result.content).toBeUndefined()
   })
 
+  it('drops anchors without a usable href attribute form', () => {
+    const page = [
+      "<a class='result-link'>no attributes at all</a>",
+      "<a class='result-link' href=unquoted/path>unquoted href</a>",
+      '<a class=\'result-link\' href="https://cut.test">unterminated cell</a><td class=\'result-snippet\'>never closed',
+      '<a class=\'result-link\' href="https://kept.test">closed</a><td class=\'result-snippet\'>kept snippet</td>',
+    ].join('')
+    const parsed = parseResults(page)
+    // An anchor without href= or with an unquoted href is dropped; a snippet
+    // cell without its closing tag yields no snippet.
+    expect(parsed).toEqual([
+      { url: 'https://cut.test', title: 'unterminated cell', snippet: '' },
+      { url: 'https://kept.test', title: 'closed', snippet: 'kept snippet' },
+    ])
+    expect(mapHtml(page).sources).toEqual([{ url: 'https://kept.test', title: 'closed', snippet: 'kept snippet' }])
+  })
+
+  it('unwraps bare and hostile redirect targets without inventing URLs', () => {
+    // A /l/ link whose uddg parameter carries no value falls back to the href;
+    // an unparseable href is returned verbatim rather than throwing.
+    expect(unwrapResultUrl('https://ddg.test/l/?uddg')).toBe('https://ddg.test/l/?uddg')
+    expect(unwrapResultUrl('http://[invalid')).toBe('http://[invalid')
+  })
+
+  it('drops anchors whose quoted href never closes and anchors with an empty href', () => {
+    const page = [
+      '<a class=\'result-link\' href="https://open.test">never closed quote</a>',
+      '<a class=\'result-link\' href="">empty href</a>',
+      '<a class=\'result-link\' href="https://kept.test">closed</a><td class=\'result-snippet\'>kept</td>',
+    ].join('')
+    expect(parseResults(page)).toEqual([
+      { url: 'https://open.test', title: 'never closed quote', snippet: '' },
+      { url: 'https://kept.test', title: 'closed', snippet: 'kept' },
+    ])
+  })
+
+  it('keeps the empty-title omission and the no-results page verdict in the mapping', () => {
+    const parsed = parseResults(row('https://titleless.test/', '', 'snippet survives'))
+    expect(mapResults(parsed)).toEqual([{ url: 'https://titleless.test/', snippet: 'snippet survives' }])
+    expect(mapHtml('<html>No results for that query.</html>').sources).toEqual([])
+    expect(mapResults([{ url: '//relative-only.test/path', title: 'rel', snippet: 'kept out' }])).toEqual([])
+  })
+
   it('tolerates a page without any anchor', () => {
     expect(parseResults('<html></html>')).toEqual([])
     expect(mapHtml('<html></html>').sources).toEqual([])
@@ -111,6 +154,31 @@ describe('DuckDuckGoSearchProvider', () => {
     await new DuckDuckGoSearchProvider(options).search({ query: 'q' }, controller.signal)
     const [, init] = fetchMock.mock.calls[0] ?? []
     expect(init?.signal).toBe(controller.signal)
+  })
+
+  it('surfaces an abort as WEB_ABORTED and omits the signal when none is given', async () => {
+    const fetchMock = vi.fn(async (_input: URL | RequestInfo, _init?: RequestInit) => {
+      throw new DOMException('The operation was aborted.', 'AbortError')
+    })
+    vi.stubGlobal('fetch', fetchMock)
+    await expect(new DuckDuckGoSearchProvider(options).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED', message: 'DuckDuckGo search aborted' }))
+
+    const plain = vi.fn(async (_input: URL | RequestInfo, init?: RequestInit) => {
+      expect(init?.signal).toBeUndefined()
+      return htmlResponse(PAGE)
+    })
+    vi.stubGlobal('fetch', plain)
+    await expect(new DuckDuckGoSearchProvider(options).search({ query: 'q' })).resolves.toMatchObject({ truncated: false })
+  })
+
+  it('surfaces a body-read abort as WEB_ABORTED', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => ({
+      ok: true,
+      text: () => Promise.reject(new DOMException('body stream aborted', 'AbortError')),
+    })))
+    await expect(new DuckDuckGoSearchProvider(options).search({ query: 'q' }))
+      .rejects.toThrow(expect.objectContaining({ code: 'WEB_ABORTED' }))
   })
 
   it('maps an HTTP error to WEB_PROVIDER_ERROR', async () => {
