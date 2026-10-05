@@ -105,7 +105,6 @@ flowchart LR
   pkg_credentials_local["credentials-local"]
   pkg_authorization["authorization"]
   svc_authorization["ctx.authorization<br/>Authorization flow registry"]
-  pkg_session_telemetry["session-telemetry"]
   svc_sessionTelemetry["ctx.sessionTelemetry<br/>Session telemetry seam"]
   pkg_storage["storage"]
   svc_storage["ctx.storage<br/>Non-session storage hub"]
@@ -354,7 +353,6 @@ flowchart LR
   pkg_session_query --> svc_sessionQuery
   pkg_session_query_sqlite --> svc_sessionQuery
   pkg_session_reference --> svc_sessionReferenceResolver
-  pkg_session_telemetry --> svc_sessionTelemetry
   pkg_session_title --> svc_sessionTitle
   pkg_session_title_all_prompts_llm --> svc_sessionTitle
   pkg_session_title_first_prompt_llm --> svc_sessionTitle
@@ -582,7 +580,6 @@ flowchart LR
 | `ctx.subagentModelSelection` | `core` | [`tool-subagent`](../packages/subagent/tool-subagent) | - | [`tool-subagent`](../packages/subagent/tool-subagent) | - | Posee el espacio de nombres de configuración desactivado por defecto que los tools de delegación con scope de Agent muestrean al componer una nueva Session de nivel superior. |
 | `ctx.credentials` | `seam` | [`credentials`](../packages/credentials/credentials) | [`credentials-local`](../packages/credentials/credentials-local) | [`api-settings-controller`](../packages/api/settings-controller), [`llm-pi-ai`](../packages/llm/llm-pi-ai) | - | La configuración porta referencias a secretos; los proveedores poseen los valores. Los consumidores resuelven por operación, de modo que una credencial rotada llega a la solicitud inmediatamente siguiente; el controlador de configuración expone vistas sin valores y almacenamiento de solo escritura. |
 | `ctx.authorization` | `seam` | [`authorization`](../packages/credentials/authorization) | - | [`llm-pi-ai`](../packages/llm/llm-pi-ai) | - | Los flujos los registra el plugin que sabe cómo obtener una credencial y se indexan por el registro que escriben; el seam posee la conversación y el ciclo de vida de un intento por clave, nunca el protocolo. |
-| `ctx.sessionTelemetry` | `seam` | [`session-telemetry`](../packages/session/session-telemetry) | - | - | - | El seam captura, redacta y entrega los registros de sesión a un backend que el despliegue monte; Helmcode no incluye ninguno y los registros permanecen en la máquina. |
 | `ctx.storage` | `seam` | [`storage`](../packages/storage/storage) | [`storage-json`](../packages/storage/storage-json), [`storage-sqlite`](../packages/storage/storage-sqlite) | [`storage-domain`](../packages/storage/storage-domain) | - | Los backends se registran lado a lado bajo nombres; las formas de datos (dominio primero) se montan en el hub y traducen las operaciones tipadas a primitivas opacas de unidades KV. |
 | `ctx.storageDomain` | `core` | [`storage-domain`](../packages/storage/storage-domain) | - | [`workspace`](../packages/workspace/workspace) | - | Espera a cada backend configurado y después publica la forma de dominio como un único servicio vinculado al ciclo de vida para el estado duradero tipado. |
 | `ctx.messageFeedback` | `core` | [`message-feedback`](../packages/feedback/message-feedback) | - | - | - | Posee el feedback por mensaje de assistant en el registro canónico de la Session, la validación del objetivo, el compare-and-set por elemento y el contrato Remote unario del Host. El feedback permanece fuera del historial del modelo; la exportación del registro sigue la política del consumidor. |

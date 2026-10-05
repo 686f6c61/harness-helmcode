@@ -10534,18 +10534,6 @@ importers:
         specifier: workspace:*
         version: link:../session-projection
 
-  packages/session/session-telemetry:
-    devDependencies:
-      '@deepseek-ai/cordis':
-        specifier: workspace:~
-        version: link:../../../vendor/cordis
-      '@deepseek-ai/dsh-agent':
-        specifier: workspace:*
-        version: link:../../core/agent
-      '@deepseek-ai/dsh-session':
-        specifier: workspace:*
-        version: link:../../core/session
-
   packages/session/session-title:
     dependencies:
       '@deepseek-ai/dsh-util-values':
@@ -13617,9 +13605,6 @@ importers:
       '@deepseek-ai/dsh-session-reference':
         specifier: workspace:*
         version: link:../../packages/context/session-reference
-      '@deepseek-ai/dsh-session-telemetry':
-        specifier: workspace:*
-        version: link:../../packages/session/session-telemetry
       '@deepseek-ai/dsh-session-title':
         specifier: workspace:*
         version: link:../../packages/session/session-title

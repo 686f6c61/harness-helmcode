@@ -389,15 +389,6 @@ const SERVICE_ROLES: ServiceRole[] = [
   },
 
   {
-    key: 'sessionTelemetry',
-    pkg: 'session-telemetry',
-    title: 'Session telemetry seam',
-    mode: 'seam',
-    implementations: [],
-    consumers: [],
-    note: 'The seam captures, redacts, and hands session records to one backend; nothing else consumes the service — its output leaves the process.',
-  },
-  {
     key: 'storage',
     pkg: 'storage',
     title: 'Non-session storage hub',
