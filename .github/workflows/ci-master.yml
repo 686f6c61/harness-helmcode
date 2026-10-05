@@ -24,21 +24,17 @@ env:
 
 jobs:
   coverage:
-    # Advisory on main for now: the fork's first hosted coverage run measured
-    # 30 files below the 100% branch bar — mostly the fork's own new packages
-    # (plugin discovery, memory, checkpoints, web search, GitHub connector,
-    # the V4→V5 migration) and inherited surface left uncovered by the
-    # telemetry/account purge. The bar itself stays 100%; closing the gap is
-    # the next test workstream, and this job reports it without blocking
-    # packaging and releases meanwhile.
-    name: coverage (partitions, advisory)
-    continue-on-error: true
+    name: coverage (partitions)
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
+      # Source-runtime compaction/workflow specs drive the production shell
+      # sandbox, which needs bubblewrap on the hosted image.
+      - name: Prepare bubblewrap for the command sandbox
+        run: bash scripts/prepare-ci-bubblewrap.sh
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v6
         with:
