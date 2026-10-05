@@ -8,7 +8,7 @@ Primera versión pública. Fork del DeepSeek Harness reconstruido zero-log: inst
 
 ### Añadido
 
-- Modelos multi-proveedor sin proveedor por defecto (Anthropic, OpenAI, Kimi, GLM, gateways propios vía `llm-pi-ai`); ruta por defecto `nan-builders` servida por los servidores de NaN.
+- Modelos multi-proveedor sin proveedor por defecto (Anthropic, OpenAI, Kimi, GLM, gateways propios vía `llm-pi-ai`); ruta por defecto `nan-builders` servida por los servidores de NaN. El id de cable del modelo por defecto es `deepseek-v4-flash`, el que la API del cluster sirve realmente bajo el nombre visible DeepSeek V4.1 Flash.
 - Búsqueda web sin clave en la primera ejecución (DuckDuckGo; Brave opt-in).
 - Memoria persistente entre sesiones (tool `memory` + prompt) y checkpoints de ficheros reversibles (tool `checkpoint`).
 - Conector GitHub (issues/PRs, comentarios opt-in) y descubrimiento/instalación de plugins (`dsh plugin search` + panel en el Plugin Manager).

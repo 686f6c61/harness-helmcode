@@ -50,7 +50,7 @@ flowchart LR
   cfg --> plugin_dsh_base_credentials
   plugin_dsh_base_llm_pi_ai["llm-pi-ai<br/>@deepseek-ai/dsh-llm-pi-ai"]
   cfg --> plugin_dsh_base_llm_pi_ai
-  plugin_dsh_base_deepseek_v4_1_flash["deepseek-v4.1-flash<br/>DeepSeek V4.1 Flash"]
+  plugin_dsh_base_deepseek_v4_1_flash["deepseek-v4-flash<br/>DeepSeek V4.1 Flash"]
   cfg --> plugin_dsh_base_deepseek_v4_1_flash
   plugin_dsh_base_glm5_3_flash["glm5.3-flash<br/>GLM 5.3 Flash"]
   cfg --> plugin_dsh_base_glm5_3_flash
@@ -221,7 +221,7 @@ flowchart LR
 | `authorization` | `@deepseek-ai/dsh-authorization` |
 | `credentials` | `@deepseek-ai/dsh-credentials-local` |
 | `llm-pi-ai` | `@deepseek-ai/dsh-llm-pi-ai` |
-| `deepseek-v4.1-flash` | `DeepSeek V4.1 Flash` |
+| `deepseek-v4-flash` | `DeepSeek V4.1 Flash` |
 | `glm5.3-flash` | `GLM 5.3 Flash` |
 | `qwen3.6` | `Qwen 3.6` |
 | `qwen3.8-flash` | `Qwen 3.8 Flash` |

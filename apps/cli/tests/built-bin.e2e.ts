@@ -196,7 +196,7 @@ function createEnvironmentProbeProfile(home: string, project: string): void {
     "    let text = ''",
     '    for await (const chunk of ctx.llm.stream({',
     "      provider: 'nan-builders',",
-    "      model: 'deepseek-v4.1-flash',",
+    "      model: 'deepseek-v4-flash',",
     '      messages: [],',
     '      maxTokens: 32,',
     '    })) {',
@@ -492,7 +492,7 @@ describe.skipIf(!existsSync(dshBin))('dsh BUILT bin (node lib/bin.js, no tsx)', 
         jsonrpc: '2.0',
         id: 1,
         method: 'initialize',
-        params: { cwd: home, provider: 'nan-builders', model: 'deepseek-v4.1-flash' },
+        params: { cwd: home, provider: 'nan-builders', model: 'deepseek-v4-flash' },
       })}\n`)
       const initialized = await response(1)
       expect(initialized, `${JSON.stringify(initialized)}\n${stderr}`).toMatchObject({

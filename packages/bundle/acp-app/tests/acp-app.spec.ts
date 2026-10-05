@@ -30,7 +30,7 @@ describe('dsh-acp-app bundle', () => {
     expect(rows.find(row => row.id === 'acp-app-startup')?.name).toBe('@deepseek-ai/dsh-acp-app')
     expect(rows.find(row => row.id === 'acp')).toMatchObject({
       inject: ['acpAppStartup'],
-      config: { provider: 'nan-builders', model: 'deepseek-v4.1-flash' },
+      config: { provider: 'nan-builders', model: 'deepseek-v4-flash' },
     })
   })
 })

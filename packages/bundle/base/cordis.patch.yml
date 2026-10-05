@@ -74,7 +74,7 @@
       name: '@deepseek-ai/dsh-agent-default-model'
       config:
         provider: nan-builders
-        model: deepseek-v4.1-flash
+        model: deepseek-v4-flash
 
     - id: jobs
       name: '@deepseek-ai/dsh-jobs-local'
@@ -131,7 +131,7 @@
               # Cluster default: the widest shared quota, function tool
               # calling, vision, 1M context. Reasoning is adaptive — the
               # cluster accepts the effort parameter but gives it no effect.
-              - id: deepseek-v4.1-flash
+              - id: deepseek-v4-flash
                 name: DeepSeek V4.1 Flash
                 contextWindow: 1048576
                 maxTokens: 32768

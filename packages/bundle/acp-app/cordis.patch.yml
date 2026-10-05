@@ -18,7 +18,7 @@
       inject: [acpAppStartup]
       config:
         provider: nan-builders
-        model: deepseek-v4.1-flash
+        model: deepseek-v4-flash
 
 - id: hmr
   disabled: true

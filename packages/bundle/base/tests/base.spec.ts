@@ -92,7 +92,7 @@ describe('dsh-base bundle', () => {
     // The shipped default: the cluster model with the widest shared quota.
     expect(rows.find(row => row.id === 'agent-default-model')?.config).toMatchObject({
       provider: 'nan-builders',
-      model: 'deepseek-v4.1-flash',
+      model: 'deepseek-v4-flash',
     })
     const providers = rows.find(row => row.id === 'llm-pi-ai')?.config?.providers as
       | Parameters<typeof resolveProfiles>[0]
@@ -103,7 +103,7 @@ describe('dsh-base bundle', () => {
     const models = resolveProfiles(providers).get('nan-builders')?.piProvider?.getModels() ?? []
     const byId = new Map(models.map(model => [model.id, model]))
     expect([...byId.keys()]).toEqual([
-      'deepseek-v4.1-flash',
+      'deepseek-v4-flash',
       'glm5.3-flash',
       'qwen3.6',
       'qwen3.8-flash',
@@ -118,7 +118,7 @@ describe('dsh-base bundle', () => {
     // Every declared model carries the cluster's per-answer token ceiling and
     // context window; reasoning draws from the same budget.
     for (const [id, contextWindow, maxTokens] of [
-      ['deepseek-v4.1-flash', 1048576, 32768],
+      ['deepseek-v4-flash', 1048576, 32768],
       ['glm5.3-flash', 1048576, 32768],
       ['qwen3.6', 262144, 65536],
       ['qwen3.8-flash', 262144, 32768],
