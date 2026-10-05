@@ -1,0 +1,13 @@
+# Bilingual-pair consistency record for settings.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/settings.md
+/plugin-configuration-forms:
+  en: 76a6954a134b6de2
+  es: 9d20d8c526647bff
+/plugin-configuration-forms/identity-and-values:
+  en: 7fabd502b5dcbe5b
+  es: 183bdff01881897a
+/plugin-configuration-forms/edits:
+  en: 1d97c98a8634bfe7
+  es: 9bfd969e99413ebc

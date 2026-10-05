@@ -1,0 +1,11 @@
+- listbox "Sugerencias de activación":
+  - text: Añadir
+  - option "Archivo file" [selected]
+  - option "Objetivo goal Establecer o ver el objetivo de una tarea de larga duración"
+  - option "Plan Entrar o salir del modo plan"
+  - option "Comentarios feedback Enviar comentarios sobre la sesión actual"
+  - text: Comandos
+  - option "Compactar compact Compactar el historial de conversación anterior"
+  - option "Permisos permission Cambiar el preset de permisos (modo sandbox y política de aprobación)"
+  - option "Modelo model Seleccionar el modelo de esta conversación"
+  - option "Descargar registro export Descargar el registro de esta sesión como archivo ZIP"

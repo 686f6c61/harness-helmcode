@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for invariants.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/invariants.md
+/runtime-invariants:
+  en: d2f2ab1577aba423
+  es: 5a64e1f01161c7a9
+/runtime-invariants/selection:
+  en: 566410ce505b5979
+  es: 8e72e17dabc7e2e6
+/runtime-invariants/the-installer:
+  en: ba1607612e5ed640
+  es: 7c973fb94b729087
+/runtime-invariants/the-service:
+  en: 6368b54b2cbdb36c
+  es: 6daec5e59bff8c34
+/runtime-invariants/the-companion-contract:
+  en: 6f9b2d40e590877f
+  es: 54a34ed8287783f4

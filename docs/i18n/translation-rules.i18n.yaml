@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for translation-rules.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/i18n/translation-rules.md
+/translation-rules:
+  en: e86dc41937bb62f5
+  es: 412ea31b688c2713
+/translation-rules/faithfulness:
+  en: 8ce28f619f598d6e
+  es: f0cc40b955d6d698
+/translation-rules/voice:
+  en: b4d68671a07f8e3c
+  es: ba94b0630a3dd457
+/translation-rules/structure-preservation:
+  en: 529f8456a164d6d7
+  es: e5584a38bf6b984a
+/translation-rules/terminology:
+  en: 3174fd9212ed3427
+  es: e5d635af061bdc5e
+/translation-rules/typography:
+  en: a2f6fcd64a327ee3
+  es: 33906169bb4dec19
+/translation-rules/quality-bar:
+  en: f6220091b7ad5eed
+  es: b45770a61af4a622
+/translation-rules/references:
+  en: d932bdd1995f4ddf
+  es: 52b3e9e1f6a2f42a

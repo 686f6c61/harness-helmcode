@@ -1,0 +1,10 @@
+{
+  "title": "Aún hay tareas en curso",
+  "detail": "La actualización detendrá las tareas en curso y reiniciará la app. ¿Continuar?",
+  "status": "",
+  "version": "Nueva versión: 1.0.1-nightly.1",
+  "buttons": [
+    "Detener tareas y actualizar",
+    "Actualizar más tarde"
+  ]
+}

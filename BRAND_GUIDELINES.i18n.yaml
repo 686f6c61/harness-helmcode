@@ -1,0 +1,7 @@
+# Bilingual-pair consistency record for BRAND_GUIDELINES.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write BRAND_GUIDELINES.md
+/deepseek-harness-brand-asset-usage-guidelines:
+  en: 5675b08a1f776f86
+  es: 7ea8944e42f21edb

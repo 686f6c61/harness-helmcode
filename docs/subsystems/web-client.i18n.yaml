@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for web-client.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/web-client.md
+/web-client-architecture:
+  en: 9aa7a60c3cdb8122
+  es: 2e332ca5be2bc677
+/web-client-architecture/layers-and-ownership:
+  en: c0454bca818f86ee
+  es: 93e7e3499f3c7d02
+/web-client-architecture/browser-boot:
+  en: 5ac7d3aed7bf273a
+  es: 4c61c5d53da3538e
+/web-client-architecture/remote-communication:
+  en: f17e83b0d2e865f7
+  es: b677a72e49597656
+/web-client-architecture/client-models:
+  en: 13be17c2a2790ae9
+  es: db92b23af382fded
+/web-client-architecture/client-models/sessions:
+  en: 6f6000e13126d053
+  es: 326a361c60ae4780
+/web-client-architecture/client-models/workspaces:
+  en: 90c727d18fa621fd
+  es: 8a18fd4b45d725b3
+/web-client-architecture/conversation-and-presentation:
+  en: 1887ada8aba58932
+  es: e7be68862c84e6e4
+/web-client-architecture/data-paths:
+  en: ca26d824f4419089
+  es: 5dcb40757855f7bd
+/web-client-architecture/reconnection:
+  en: 478f461e261b1ca5
+  es: 9a7189305abd4b0d
+/web-client-architecture/package-boundaries:
+  en: 3e64e8c28f0c4cb1
+  es: 1dc7e080bf9024c8

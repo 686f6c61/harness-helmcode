@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for skills.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/skills.md
+/skills:
+  en: 9b765f03be8bd8b2
+  es: 79fa400a65db0e34
+/skills/provider-registry:
+  en: abe338b6c6d1ebd1
+  es: 35c667a1f3cdf8e7
+/skills/local-discovery-priority:
+  en: accf8ad4c73c41ad
+  es: 03d5453da143f40d
+/skills/skill-identity:
+  en: 61295a9cf1c51588
+  es: 5bceb165c809ca0d
+/skills/summaries-candidates-and-complete-definitions:
+  en: 8819c25fac497a1f
+  es: 9042ef7984e5ba08
+/skills/lookup-and-configuration:
+  en: e60215d73b0abe75
+  es: 15ddeddc8fd61a88
+/skills/session-catalog-and-tool-contract:
+  en: 5d5c36b1843a9d7d
+  es: 6b4ba6db0c56d324
+/skills/browser-session-catalog:
+  en: 1209dc6ee65fd476
+  es: 9372a6549f6419e6

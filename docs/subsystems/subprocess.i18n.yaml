@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for subprocess.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/subprocess.md
+/subprocess:
+  en: 7b03c5ced505c2ea
+  es: 93e5d6019af9b355
+/subprocess/executable-lookup:
+  en: be4ddc71906d893d
+  es: 9ef62b9e43130963
+/subprocess/managed-environment-namespace-and-captured-output:
+  en: 379561c465f061a2
+  es: decc2e09f4d9d27b
+/subprocess/node-shaped-stdio-dispositions:
+  en: f591b05b1c765670
+  es: ab7ed15ddf3b6333
+/subprocess/the-fully-explicit-spawn-spec:
+  en: fbbe3aa52c088343
+  es: cbb092272a74c707
+/subprocess/handles-streams-readers-and-managed-range-termination:
+  en: 664ba5f23b9da1d9
+  es: b987b67e1df2b2fb
+/subprocess/outcomes-carry-exit-facts-only:
+  en: b61bda6c2806b335
+  es: 9973ae0b81f23ce6
+/subprocess/terminal-process-primitive:
+  en: 7c28ae67ee840ebd
+  es: 479ce3c9877b1295
+/subprocess/service-behavior:
+  en: a91f1b6e859b55ce
+  es: 826fae4344b3c215

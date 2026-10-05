@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for client-modules.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/client-modules.md
+/client-modules:
+  en: 77f6da72c0ee44d7
+  es: 283051bc49500b15
+/client-modules/the-wire:
+  en: 5734d296e8ea39d1
+  es: 86863d46734be698
+/client-modules/the-scan:
+  en: 91ce66fab388a8a2
+  es: 1a7bad6f67109471
+/client-modules/the-bundle-route-and-index-injection:
+  en: d653be500d3a0d67
+  es: f90b8c3157e34d33
+/client-modules/the-service:
+  en: c29f0151fd29c4c4
+  es: fcd0fe84807df217

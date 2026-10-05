@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for feedback.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/feedback.md
+/message-feedback:
+  en: 43f10e2c303b3165
+  es: 96b477eeb885c12a
+/message-feedback/public-types:
+  en: 514e3a869e355a86
+  es: 2ccfad3c1d5d3abe
+/message-feedback/session-feedback-types:
+  en: dacd5384864a040f
+  es: de2d2a984eeb9e66
+/message-feedback/data-and-concurrency:
+  en: 12231161d9001f8b
+  es: a22a9b613313bc6f
+/message-feedback/target-and-lifecycle-authority:
+  en: 5f27c79e933bec0a
+  es: 7d8edd83f395ad4a
+/message-feedback/persistence-and-remote-contract:
+  en: 10b076f16409ae2e
+  es: 8ead0f37b046ed8a
+/message-feedback/web-surface:
+  en: 6f60352749185e55
+  es: c5c1335053042e1d
+/message-feedback/boundaries-and-limitations:
+  en: 6e258de40224234e
+  es: a4a294a328348d14

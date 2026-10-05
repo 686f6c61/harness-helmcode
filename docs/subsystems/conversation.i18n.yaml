@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for conversation.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/conversation.md
+/conversation-assembly:
+  en: a3a1c3251d81ea85
+  es: 2be42a6eee5ba508
+/conversation-assembly/data-model-and-ownership:
+  en: 9f86eaf987b4f631
+  es: a0e51db12f641ebd
+/conversation-assembly/target-activation:
+  en: 41a32beb5c85354f
+  es: 91602a4896ce7424
+/conversation-assembly/group-definitions:
+  en: 62c0a5ae4ed7e1aa
+  es: ba1c7ce3e06e0514
+/conversation-assembly/replayable-event-families:
+  en: 17f9e11d512b2b8e
+  es: 562a218997dfcdd8
+/conversation-assembly/definition-and-typed-chat-payload:
+  en: c7ea2c9192f80274
+  es: 1e909ad057f09fab
+/conversation-assembly/predecessor-reads:
+  en: da849b3b5da81da8
+  es: 33d30be9d1257908
+/conversation-assembly/window-update-paths:
+  en: 1e22169d3d7b8ff1
+  es: 75c58808111c4930
+/conversation-assembly/verification-obligations:
+  en: ee832671cb7d94ef
+  es: 99c5aa3073dd8073

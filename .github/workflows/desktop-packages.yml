@@ -1,0 +1,151 @@
+name: Desktop packages
+
+# Build the Desktop packages for both operating systems: the Windows
+# installer (.exe, unsigned) and the macOS application bundle (.app,
+# unsigned). On a `desktop-v*` tag the jobs feed a draft GitHub release with
+# SHA256 checksums and the matching CHANGELOG section. Release signing runs
+# separately; these builds exist so every push can produce a runnable package
+# per platform without a build host.
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'desktop-v*'
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows x64 installer (.exe, unsigned)
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create the minimal packaging env (unsigned, auto-update disabled)
+        run: printf 'DSH_DESKTOP_APP_ID=com.deepseek.harness\nDSH_DESKTOP_AUTO_UPDATE_ENV=production\nDSH_DESKTOP_MANDATORY_UPDATE_PROD_ORIGIN=https://updates.helmcode.invalid\n' > apps/desktop/.env.windows
+        shell: bash
+
+      - name: Package the Windows installer
+        run: pnpm --filter @deepseek-ai/dsh-desktop run package:win:x64:unsigned
+
+      - name: Collect artifacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifacts | Out-Null
+          Copy-Item (Get-ChildItem 'apps/desktop/.desktop-build/targets/win-x64' -Recurse -Include *.exe,*.yml | Where-Object { $_.FullName -notmatch 'win-unpacked' }) artifacts
+
+      - name: Upload the installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: helmcode-win-x64-installer
+          path: artifacts/
+
+  macos:
+    name: macOS arm64 application bundle (.app, unsigned)
+    runs-on: macos-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create the minimal packaging env (unsigned, auto-update disabled)
+        run: printf 'DSH_DESKTOP_APP_ID=com.deepseek.harness\nDSH_DESKTOP_AUTO_UPDATE_ENV=production\nDSH_DESKTOP_MANDATORY_UPDATE_PROD_ORIGIN=https://updates.helmcode.invalid\n' > apps/desktop/.env.macos
+
+      - name: Package the macOS bundle
+        run: pnpm run package:desktop:mac:arm64:dir
+
+      - name: Upload the bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: helmcode-mac-arm64-app
+          path: apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts/
+
+  release:
+    # Draft releases only from tags; workflow_dispatch builds stay artifacts.
+    if: startsWith(github.ref, 'refs/tags/desktop-v')
+    name: Draft GitHub release
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Download the Windows installer
+        uses: actions/download-artifact@v4
+        with:
+          name: helmcode-win-x64-installer
+          path: dist/win
+
+      - name: Download the macOS bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: helmcode-mac-arm64-app
+          path: dist/mac
+
+      - name: Bundle and checksum the artifacts
+        run: |
+          app=$(find dist/mac -name '*.app' -maxdepth 3 | head -1)
+          test -n "$app" || { echo 'no .app in the macOS artifact'; exit 1; }
+          (cd "$(dirname "$app")" && zip -qry "$GITHUB_WORKSPACE/dist/Helmcode-${GITHUB_REF_NAME}-mac-arm64.zip" "$(basename "$app")")
+          installer=$(find dist/win -name '*.exe' | head -1)
+          test -n "$installer" || { echo 'no .exe in the Windows artifact'; exit 1; }
+          cp "$installer" "dist/Helmcode-${GITHUB_REF_NAME}-win-x64-setup.exe"
+          (cd dist && sha256sum Helmcode-*.zip Helmcode-*.exe > SHA256SUMS.txt)
+
+      - name: Extract the CHANGELOG section for this tag
+        run: |
+          version="${GITHUB_REF_NAME#desktop-v}"
+          awk -v ver="$version" '
+            $0 ~ "^## \\[" ver "\\]" { flag = 1; next }
+            flag && /^## \[/ { exit }
+            flag { print }
+          ' CHANGELOG.md > dist/notes.md
+          # A tag without a changelog section still releases, with a plain note.
+          [ -s dist/notes.md ] || printf 'Helmcode Harness %s\n' "$GITHUB_REF_NAME" > dist/notes.md
+
+      - name: Create the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --draft \
+            --title "Helmcode Harness $GITHUB_REF_NAME" \
+            --notes-file dist/notes.md \
+            dist/Helmcode-*.zip dist/Helmcode-*.exe dist/SHA256SUMS.txt

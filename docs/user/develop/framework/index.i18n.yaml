@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for index.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/develop/framework/index.md
+/plugins-and-lifecycle:
+  en: 74d21b76a72e8d89
+  es: 3b15aac17d4bf23b
+/plugins-and-lifecycle/fiber-state-machine:
+  en: 66b51bb63094de1a
+  es: b11c9543df7d952c
+/plugins-and-lifecycle/dependency-driven-loading:
+  en: 726a61e5c20db20f
+  es: 2f5bd744fd6f1c4c
+/plugins-and-lifecycle/automatic-cleanup:
+  en: e9bcc83f7a752d13
+  es: 02d00b1a22c44a5a
+/plugins-and-lifecycle/nested-contexts:
+  en: 2862ee99034d4423
+  es: 05c5ff5fe3253e01
+/plugins-and-lifecycle/dispose-semantics:
+  en: 1d23337dbcc4ae61
+  es: dd2b5c14ca5536dc
+/plugins-and-lifecycle/hot-replacement-hmr:
+  en: ca8495ec7369856c
+  es: 5f9ef8df89d55cbf
+/plugins-and-lifecycle/example-lifecycle:
+  en: e17160970571b690
+  es: 8f848e6b8d3f38a2
+/plugins-and-lifecycle/next-steps:
+  en: c245d538e75eef67
+  es: baeebb4825efcf67

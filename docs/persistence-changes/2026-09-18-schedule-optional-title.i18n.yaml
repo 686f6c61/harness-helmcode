@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for 2026-09-18-schedule-optional-title.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/2026-09-18-schedule-optional-title.md
+/:
+  en: 3d5a424ae7d7e46b
+  es: 6ad47d423415423f
+/2026-09-18-schedule-optional-title:
+  en: 1f288dbde68ac232
+  es: a70acc59033072ba
+/2026-09-18-schedule-optional-title/summary:
+  en: cf0b4015528ea944
+  es: 6bc95a9af99e4515
+/2026-09-18-schedule-optional-title/table-of-contents:
+  en: 6cf314a069ceb451
+  es: dabbc0fcbc05c776
+/2026-09-18-schedule-optional-title/declaration:
+  en: 6907136f28e48c90
+  es: 19b18a160ca02442
+/2026-09-18-schedule-optional-title/compatibility:
+  en: d9caa582fc9306ee
+  es: ac7ea5f83c52e647
+/2026-09-18-schedule-optional-title/verification:
+  en: 62bf89a21ce1ff76
+  es: 287052510fb07faf
+/2026-09-18-schedule-optional-title/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12

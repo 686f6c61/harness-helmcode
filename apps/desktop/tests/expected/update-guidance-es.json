@@ -1,0 +1,49 @@
+[
+  {
+    "title": "Actualiza para continuar",
+    "detail": "Esta versión ya no es compatible. Actualiza para continuar. Las tareas en curso seguirán ejecutándose hasta que confirmes la instalación y el reinicio.",
+    "version": "Nueva versión: 0.1.7-alpha.2",
+    "update": "Descargar actualización"
+  },
+  {
+    "title": "Actualización lista",
+    "detail": "La app se cerrará durante la actualización y se reabrirá automáticamente al finalizar.",
+    "version": "Nueva versión: 0.1.7-alpha.2",
+    "update": "Instalar y reiniciar"
+  },
+  {
+    "title": "Aún hay tareas en curso",
+    "detail": "La actualización detendrá las tareas en curso y reiniciará la app. ¿Continuar?",
+    "version": "Nueva versión: 0.1.7-alpha.2",
+    "update": "Detener tareas y actualizar",
+    "later": "Actualizar más tarde"
+  },
+  {
+    "title": "Actualización lista",
+    "detail": "Las tareas en curso seguirán ejecutándose. Completa la actualización antes de volver a usar la app.",
+    "version": "Nueva versión: 0.1.7-alpha.2",
+    "update": "Continuar actualización"
+  },
+  {
+    "title": "Preparando reinicio…",
+    "detail": "Deteniendo tareas…",
+    "version": "Nueva versión: 0.1.7-alpha.2"
+  },
+  {
+    "title": "Actualiza para continuar",
+    "detail": "Esta versión ya no es compatible. Actualiza para continuar. Las tareas en curso seguirán ejecutándose hasta que confirmes la instalación y el reinicio.",
+    "version": "Nueva versión: 0.1.7-alpha.2",
+    "error": "La actualización no se ha instalado. Comprueba las tareas de nuevo e inténtalo otra vez.",
+    "update": "Reintentar actualización",
+    "page": "Descargar desde el sitio web oficial"
+  },
+  {
+    "title": "Actualiza para continuar",
+    "detail": "Esta versión ya no es compatible. Actualiza para continuar. Las tareas en curso seguirán ejecutándose hasta que confirmes la instalación y el reinicio.",
+    "version": "",
+    "error": "No se encontró ninguna actualización compatible. Vuelve a comprobarlo o contacta con soporte.",
+    "page": "Abrir de nuevo la página oficial de descarga",
+    "browser-message": "No se pudo abrir la página oficial de descarga. Copia el enlace y ábrelo en tu navegador.",
+    "copy-message": "No se pudo copiar el enlace. Selecciónalo y cópialo a continuación."
+  }
+]

@@ -1,0 +1,5 @@
+- group "Expandir/contraer la barra lateral izquierda":
+  - button "Restablecer valor predeterminado"
+  - button "Quitar"
+  - button "Pulsa un atajo"
+  - text: Usa Command+/, Command+,, Command+barra invertida, Control+acento grave, Command+Option+tecla o Command+Shift+tecla. También se admiten combinaciones de tres o cuatro modificadores distintos. Es posible que las combinaciones del navegador o del sistema no lleguen a la página.

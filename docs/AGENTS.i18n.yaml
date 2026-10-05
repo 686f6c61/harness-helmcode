@@ -1,0 +1,25 @@
+# Bilingual-pair consistency record for AGENTS.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/AGENTS.md
+/agents-md-the-documentation-standard:
+  en: b6903aa5e23c8742
+  es: 22d2d8b7402d6369
+/agents-md-the-documentation-standard/document-structure:
+  en: 96abc5587f524ba8
+  es: b24ce11123cec404
+/agents-md-the-documentation-standard/the-tier-taxonomy-one-home-per-fact:
+  en: 416a85ad36a3b6a2
+  es: cff3e4c73da8fe41
+/agents-md-the-documentation-standard/writing-rules:
+  en: d9b18e1adb2fdd53
+  es: d48b63d4b7202fd5
+/agents-md-the-documentation-standard/wordcount-budgets:
+  en: 9a7d00f473f6eaae
+  es: f28c798f3038a359
+/agents-md-the-documentation-standard/the-slop-checklist:
+  en: 0ece84da7f09c59a
+  es: 8b7bed024364d9ba
+/agents-md-the-documentation-standard/repository-references:
+  en: 0ff98c51b7d58d20
+  es: dd6ef2b2da289211

@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for reviewing-persistence-type-changes.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cookbook/reviewing-persistence-type-changes.md
+/:
+  en: 81db5d0ea2dbd0e2
+  es: bb773b000abbb66c
+/cookbook-reviewing-persistence-type-changes:
+  en: f4942028285cc5eb
+  es: f52d5c17f348abdf
+/cookbook-reviewing-persistence-type-changes/summary:
+  en: 58040d6422d9ef9d
+  es: 0000e2eccaa56a17
+/cookbook-reviewing-persistence-type-changes/table-of-contents:
+  en: 5fca19ac2bb1ddac
+  es: 562179868bd72f26
+/cookbook-reviewing-persistence-type-changes/optional-inspect-the-change:
+  en: 3f85edb803afe870
+  es: ea361b4d28b90f89
+/cookbook-reviewing-persistence-type-changes/1-record-the-change:
+  en: 342bd49412db070e
+  es: 564acaa9792971aa
+/cookbook-reviewing-persistence-type-changes/2-check-commit-and-push:
+  en: 91d39719ec40b0f7
+  es: e60b640c94a1de4d
+/cookbook-reviewing-persistence-type-changes/update-an-unaccepted-record:
+  en: 55980fd747e258ff
+  es: 8c2e7723c0553b56
+/cookbook-reviewing-persistence-type-changes/dev-note:
+  en: 5de1d6304e00c58f
+  es: e99335b421cdf9e1

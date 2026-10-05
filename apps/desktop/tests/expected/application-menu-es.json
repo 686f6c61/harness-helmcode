@@ -1,0 +1,24 @@
+[
+  {
+    "label": "Buscar actualizaciones…"
+  },
+  {
+    "label": "Gestionar comando dsh…"
+  },
+  {
+    "role": "hide",
+    "label": "Ocultar Helmcode"
+  },
+  {
+    "role": "hideOthers",
+    "label": "Ocultar otros"
+  },
+  {
+    "role": "unhide",
+    "label": "Mostrar todo"
+  },
+  {
+    "role": "quit",
+    "label": "Salir de Helmcode"
+  }
+]

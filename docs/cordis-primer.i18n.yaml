@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for cordis-primer.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cordis-primer.md
+/cordis-primer:
+  en: 59ff29364942a515
+  es: 86bddea644fa20ad
+/cordis-primer/cordis-in-five-ideas:
+  en: c11cc0f2927f7bad
+  es: a24fe960c43a591a
+/cordis-primer/dispatch-modes:
+  en: 7adc1e4cc7a7a471
+  es: 9447085578319896
+/cordis-primer/cordis-waterfall-semantics:
+  en: 34055815ef4034ee
+  es: 7d17e7aac1238b0f
+/cordis-primer/loader-configuration:
+  en: affe2b40ba1aa67d
+  es: 08a82d8e1c167446
+/cordis-primer/practical-rules:
+  en: 94846dacd018f8a1
+  es: febe0c4e503d5710

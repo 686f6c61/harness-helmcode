@@ -1,0 +1,28 @@
+{
+  "name": "harness-helmcode",
+  "description": "Helmcode — the NaN Builders zero-log agent harness. Boot the local Web/Desktop harness with your own model provider (npx harness-helmcode web).",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/686f6c61/harness-helmcode.git",
+    "directory": "npm/harness-helmcode"
+  },
+  "type": "module",
+  "bin": {
+    "harness-helmcode": "bin.js"
+  },
+  "files": [
+    "bin.js",
+    "README.md"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.1.0"
+  }
+}

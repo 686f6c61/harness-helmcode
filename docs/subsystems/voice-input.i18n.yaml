@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for voice-input.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/voice-input.md
+/voice-input:
+  en: 20f050e959b20bd9
+  es: 115cdb32f9c9493c
+/voice-input/provider-selection:
+  en: 3a5ec4718b839349
+  es: 2c3573f7beb372fb
+/voice-input/browser-and-host-ownership:
+  en: 404d67d8276522db
+  es: 39f1fd512cf5aa8c
+/voice-input/preparation-and-settings:
+  en: 9350b2e58813262e
+  es: b2173d1e619b207b
+/voice-input/design-rationale:
+  en: ca69496360c028c9
+  es: e2f8ce2761b28baa

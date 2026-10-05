@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for schedule.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/guide/schedule.md
+/schedule-reminders:
+  en: 683df75c979b6e89
+  es: bdaa16377687950e
+/schedule-reminders/summary:
+  en: bc85e4ac935f2fd5
+  es: 94e512233cdd9342
+/schedule-reminders/table-of-contents:
+  en: b3b2a6e0ce02bdee
+  es: df741770ebc1ab41
+/schedule-reminders/create-reminders:
+  en: 68763ffeedaeea3c
+  es: b15d25195fb6d6b9
+/schedule-reminders/inspect-and-delete-tasks:
+  en: a44fc1aabc2ab957
+  es: a7d1f8d70c740578
+/schedule-reminders/edit-an-active-task:
+  en: b3426f5dbc185958
+  es: 58bec58a23af067e
+/schedule-reminders/timing-and-delivery-reference:
+  en: 6e5aa8ae5906df4f
+  es: d1ed3b2af95258f2
+/schedule-reminders/further-exploration:
+  en: 199fdc77ab56a4b3
+  es: e790e0a4a8e28a3f
+/schedule-reminders/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12

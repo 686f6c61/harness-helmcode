@@ -1,0 +1,10 @@
+Helmcode no está disponible
+La aplicación no pudo iniciarse o se detuvo inesperadamente.
+Desktop Host failed
+Plugin initialization failed
+Informe de diagnóstico: C:\Users\someone\AppData\Roaming\Helmcode\logs\crash-2026-09-22T10-30-00-000Z-host.log
+
+Si faltan archivos de la aplicación o están dañados, cierra la aplicación y reinstálala. Tus tareas se almacenan por separado.
+Salir
+Reiniciar
+Desactivar plugins de terceros, respaldar el parche del perfil y reiniciar

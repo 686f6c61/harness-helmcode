@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for persistence.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/persistence.md
+/session-persistence:
+  en: f42694feca1a4268
+  es: 03da8b495aeba6ef
+/session-persistence/sessionhandle-one-open-channel-onto-a-stored-session:
+  en: 283765de86ff454d
+  es: 38f37ea577a6e7b1
+/session-persistence/the-flush-checkpoint:
+  en: a751d1952a47d938
+  es: 9d56cc8cab039fd3
+/session-persistence/crash-recovery-preserves-an-interrupted-turn:
+  en: 7de09a7336276373
+  es: 1e1d70511220fb8f
+/session-persistence/sessionlocation-refusal-diagnostics-artifact-target:
+  en: 886589f052a916d7
+  es: 699e9ec789f57d35
+/session-persistence/sessionheader-metadata-beside-the-log:
+  en: 5795ae03d2d163cd
+  es: 5c1948e51eb2faf7
+/session-persistence/format-refusal-logs-a-build-cannot-faithfully-read:
+  en: d8896d69e2144298
+  es: c3e36dad07fb92e7
+/session-persistence/createsessionoptions-seeding-and-metadata:
+  en: 627c1f7798802ae7
+  es: b92c5aee0917bb47
+/session-persistence/preparation-and-restoration-ownership:
+  en: 8a37d5ec058058e5
+  es: 2ba77dc5d4977d50
+/session-persistence/lightweight-source-revisions:
+  en: 142ff3bed547efcf
+  es: 46fc6ba95b3c6723
+/session-persistence/the-backend:
+  en: adcd78909565b046
+  es: 96153139dcc6db47

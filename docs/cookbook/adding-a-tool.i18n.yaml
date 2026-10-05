@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for adding-a-tool.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cookbook/adding-a-tool.md
+/tool-authoring-reference:
+  en: 775e822ae923cb63
+  es: ded381f5059ff837
+/tool-authoring-reference/the-minimal-shape:
+  en: 2cc80a2a79e23005
+  es: 52b399d5288b27ab
+/tool-authoring-reference/rules-of-the-execute-contract:
+  en: 110fa68298c53f96
+  es: dc6937b1b4dad85d
+/tool-authoring-reference/long-running-work:
+  en: 361014e2ac768163
+  es: cfbf31a6615eaaa0
+/tool-authoring-reference/execution-policy-and-observation:
+  en: 539c4bfe792de947
+  es: 11b4ffc1f4944487
+/tool-authoring-reference/ptc-mode-reaches-your-tool-for-free:
+  en: a370b3a23f6de419
+  es: 247810eaa05f1344
+/tool-authoring-reference/how-your-tool-renders-in-a-ui:
+  en: 21ac7c01b82a4880
+  es: 8903b3f7ac97b363
+/tool-authoring-reference/web-client-presentation:
+  en: e96adefb160096c3
+  es: edd725f66d7d8d4d
+/tool-authoring-reference/verification:
+  en: 834e4936552af0a7
+  es: 26bb65d721ca1889

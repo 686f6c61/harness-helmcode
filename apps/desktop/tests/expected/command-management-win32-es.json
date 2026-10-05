@@ -1,0 +1,67 @@
+{
+  "dialogs": [
+    {
+      "type": "info",
+      "title": "Gestionar comando dsh",
+      "message": "Añade el comando de Desktop a tu terminal.",
+      "detail": "Comando de Desktop: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd",
+      "buttons": [
+        "Instalar",
+        "Cancelar"
+      ],
+      "defaultId": 0,
+      "cancelId": 1
+    },
+    {
+      "type": "info",
+      "title": "Gestionar comando dsh",
+      "message": "El comando de Desktop está instalado.",
+      "detail": "Comando de Desktop: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd\n\nComando dsh actual: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd",
+      "buttons": [
+        "Cerrar",
+        "Reparar",
+        "Eliminar"
+      ],
+      "defaultId": 0,
+      "cancelId": 0
+    },
+    {
+      "type": "info",
+      "title": "Gestionar comando dsh",
+      "message": "El comando de Desktop necesita reparación.",
+      "detail": "Comando de Desktop: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd",
+      "buttons": [
+        "Cerrar",
+        "Reparar",
+        "Eliminar"
+      ],
+      "defaultId": 0,
+      "cancelId": 0
+    },
+    {
+      "type": "warning",
+      "title": "Gestionar comando dsh",
+      "message": "El comando de Desktop está instalado.",
+      "detail": "Comando de Desktop: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd\n\nComando dsh actual: C:\\Program Files\\nodejs\\dsh.cmd\n\nOtro dsh tiene prioridad. Elimina o reordena esa instalación para usar el comando de Desktop de forma predeterminada. También puedes ejecutar el comando de Desktop por su ruta completa.",
+      "buttons": [
+        "Cerrar",
+        "Reparar",
+        "Eliminar"
+      ],
+      "defaultId": 0,
+      "cancelId": 0
+    },
+    {
+      "type": "info",
+      "title": "Gestionar comando dsh",
+      "message": "Añade el comando de Desktop a tu terminal.",
+      "detail": "Comando de Desktop: C:\\Users\\user\\AppData\\Local\\Programs\\Helmcode\\resources\\runtime\\cli\\bin\\dsh.cmd\n\nNo se pudo verificar el comando de tu shell. Un alias u otra instalación de dsh puede tener prioridad.",
+      "buttons": [
+        "Instalar",
+        "Cancelar"
+      ],
+      "defaultId": 0,
+      "cancelId": 1
+    }
+  ]
+}

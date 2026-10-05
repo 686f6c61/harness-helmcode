@@ -1,0 +1,34 @@
+# Bilingual-pair consistency record for filesystem.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/filesystem.md
+/filesystem:
+  en: 836670d9244cb991
+  es: f3283554ebdf6fa6
+/filesystem/target-identity-and-metadata-provider-contract:
+  en: 345def8a8e6c58e0
+  es: 2831127f2142317f
+/filesystem/write-and-edit-guards-provider-contract:
+  en: 067137c8b8181c98
+  es: e67abd9a8b083973
+/filesystem/the-fs-policy-events-provider-contract-vocabulary:
+  en: 5dd0bdff9508350d
+  es: 7365c7a62a79ce9b
+/filesystem/execution-context-policy-plugin:
+  en: a23c12fc81bb4786
+  es: 26651bd16da3d096
+/filesystem/read-outcome-consumer-read-rendering:
+  en: 9315d84e53db33e9
+  es: 7dd1d3e3ec78ec4b
+/filesystem/observed-file-state-policy-plugin:
+  en: 93e8d93a5049b67f
+  es: 5f9e6ed85a5d0096
+/filesystem/error-taxonomy-provider-contract:
+  en: 0785de8395fef24f
+  es: 65396149972f11d9
+/filesystem/no-timeouts-on-file-io:
+  en: f0126d1289aba3e5
+  es: 990d99235e6d5692
+/filesystem/the-service-and-the-plugin:
+  en: 6dcd1f39906d785e
+  es: d28d66630e8808d3

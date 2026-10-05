@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/historical-formats/README.md
+/:
+  en: 1257a74512f9daed
+  es: dff5be48a5855cf5
+/session-persistence-formats:
+  en: af7147f592a04076
+  es: 51a8fe44055efb17
+/session-persistence-formats/summary:
+  en: f1592445394a7daf
+  es: 6a2f5d641aa5f8e4
+/session-persistence-formats/table-of-contents:
+  en: 14c57f30e676f6e3
+  es: 807a4eeec1d8b5fa
+/session-persistence-formats/format-references:
+  en: c2e9f5cf0573e89b
+  es: e69a8e54878a67e4
+/session-persistence-formats/scope-and-evidence:
+  en: 2502a9b28b25b036
+  es: 64823f11f05be038
+/session-persistence-formats/maintain-coverage:
+  en: 0be8010f3fd20d2d
+  es: 990ef4dfe0037566
+/session-persistence-formats/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12

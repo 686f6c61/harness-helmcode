@@ -1,0 +1,1 @@
+- alert: Ya la usa «Abrir atajos de teclado»

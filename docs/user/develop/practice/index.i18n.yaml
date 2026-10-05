@@ -1,0 +1,46 @@
+# Bilingual-pair consistency record for index.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/develop/practice/index.md
+/three-role-capability-design:
+  en: d9bd0e0bbcc016e0
+  es: c3708c49e03d2748
+/three-role-capability-design/concept-reference:
+  en: 4e60abf663a9748f
+  es: 84f3b735ad4f4124
+/three-role-capability-design/bash-example:
+  en: 548526d726675a23
+  es: fbdb9ed85bd29fc3
+/three-role-capability-design/benefits-of-the-split:
+  en: 026507583f272d46
+  es: b54d6b2d3e23bad6
+/three-role-capability-design/benefits-of-the-split/replace-providers:
+  en: 8f74a0bba164ce14
+  es: d948ef067f047866
+/three-role-capability-design/benefits-of-the-split/evolve-independently:
+  en: bdf8329fe9d51537
+  es: 6d47a6c0dc35dcc7
+/three-role-capability-design/benefits-of-the-split/decouple-dependencies:
+  en: 068feeea47c2ab74
+  es: 6db65f042e832c6d
+/three-role-capability-design/tutorial-develop-a-three-role-capability:
+  en: 7bd3c99c2cdb06ad
+  es: f72d835a7d8fc025
+/three-role-capability-design/tutorial-develop-a-three-role-capability/step-1-write-the-service-definition:
+  en: 3940ce7faa9e33d6
+  es: 38c03284e4049b69
+/three-role-capability-design/tutorial-develop-a-three-role-capability/step-2-write-a-service-provider:
+  en: 187b9fd73900f8ea
+  es: eb20637f73a627c9
+/three-role-capability-design/tutorial-develop-a-three-role-capability/step-3-write-a-consumer:
+  en: 604c3c3483a0db87
+  es: 9d2e9cdb74a88436
+/three-role-capability-design/tutorial-develop-a-three-role-capability/compose-them-in-cordis-yml:
+  en: 7b5eae32911c61d3
+  es: 22f5c63f04cd7e36
+/three-role-capability-design/design-points:
+  en: 5822e06c2cfce8e1
+  es: 85c99d5424d6c4b8
+/three-role-capability-design/next-steps:
+  en: 27b5fd93b6ab9e75
+  es: 0f307fc8e5ac52f7

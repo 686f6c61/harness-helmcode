@@ -1,0 +1,25 @@
+# Bilingual-pair consistency record for tools.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/tools.md
+/tools:
+  en: b5221c8ec300058a
+  es: d13bef3574f72393
+/tools/tooldefinition-a-registered-tool:
+  en: e5ebf149f6783674
+  es: 49387897aebe57f6
+/tools/the-unified-json-value-schema-dsl:
+  en: 9ff354e00a1fbe91
+  es: f531590f1ad52445
+/tools/toolrestriction-one-scope-s-live-filter-over-what-it-inherits:
+  en: 8c3fc4ca26f7e314
+  es: e22dbaf61f8f7c36
+/tools/execution-extensible-waterfalls-plus-monotonic-policy:
+  en: 1ff922c9803d5456
+  es: 27037b6d1b25147e
+/tools/the-enforced-raw-json-schema-subset:
+  en: 28e354bfa2f9cebb
+  es: 006ede66b6890e59
+/tools/tool-presentation-ui-vocabulary:
+  en: ba6bf33f74356cfb
+  es: 6a0543c0c6f3baa9

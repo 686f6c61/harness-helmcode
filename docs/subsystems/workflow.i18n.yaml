@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for workflow.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/workflow.md
+/workflow:
+  en: 533c7b6fbf8af19c
+  es: e88c137e62792592
+/workflow/the-start-request:
+  en: 6c8755833293a36c
+  es: 0a087007145780a7
+/workflow/the-workflow-s-identity-workflowmeta:
+  en: ab33fd965499d38c
+  es: d3b0db0a6a9c010a
+/workflow/the-terminal-result-workflowresult:
+  en: acaa0abbacaa752b
+  es: 4c94f476ca82fb79
+/workflow/a-live-run-workflowrun:
+  en: a86b204323005042
+  es: e36ff321317f3513
+/workflow/failure-discipline-workflowerror-fatal:
+  en: 9eb1ca0608e09cc8
+  es: 43a5d1071fb11105
+/workflow/events:
+  en: de123821a128c1d1
+  es: 7844bb34da4b3539
+/workflow/durable-chat-records:
+  en: d7aa256c6c91b87f
+  es: 686e2196747f32bb

@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for index.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/develop/basic/index.md
+/your-first-plugin:
+  en: cfea7d8249e07dc7
+  es: 316913ba3ee0d9c2
+/your-first-plugin/create-a-local-project:
+  en: 2a9ff85da3a6ea8b
+  es: 0a56dda3c36749f8
+/your-first-plugin/what-is-a-plugin:
+  en: 0bca3ea987fecb61
+  es: 30988921f2c86e38
+/your-first-plugin/create-the-plugin-file:
+  en: 80e4e9f139d4773e
+  es: 3273a38839c7cf6d
+/your-first-plugin/register-it-in-cordis-yml:
+  en: 216e79287d237f2a
+  es: 71752c1c27ca2133
+/your-first-plugin/automatic-cleanup:
+  en: 0a1486714b9d67d7
+  es: 386f99a83d45fc96
+/your-first-plugin/declare-dependencies:
+  en: da59e4c09e258f94
+  es: 593564a249e70a23
+/your-first-plugin/three-plugin-forms:
+  en: 155369321743b317
+  es: cb0a48507d582662
+/your-first-plugin/three-plugin-forms/object-form:
+  en: d674c416f5b0fd14
+  es: 81a4a98225f50738
+/your-first-plugin/three-plugin-forms/class-form:
+  en: 130f504f9ebacebd
+  es: f7ee3be80cd0dc03
+/your-first-plugin/next-steps:
+  en: 9836e246d8279c8b
+  es: 7536aa8f895e6767

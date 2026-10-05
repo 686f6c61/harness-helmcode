@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for slots.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/slots.md
+/web-client-slots:
+  en: 2dfe6869169a93a1
+  es: 0f35be282ea7c82d
+/web-client-slots/declaration-and-lifecycle:
+  en: f2d2c0d3b8f14ec7
+  es: 0a80b9cc78530aa2
+/web-client-slots/cardinality-and-scope:
+  en: 5b0ada069239576b
+  es: 1ae16dd0ec8841e6
+/web-client-slots/component-inputs:
+  en: 9cb70abb2e39b958
+  es: 9d377faf55f09cb2
+/web-client-slots/framework-provided-hooks:
+  en: 2fcfc55fbac80f72
+  es: efa7de7c2e1c658c
+/web-client-slots/developer-provided-injection:
+  en: 4fb5222bb2b064e7
+  es: e3cc97a4cfe46586
+/web-client-slots/current-hierarchy:
+  en: 8a4cc4b8608ce0f6
+  es: d1e27249ba582883
+/web-client-slots/extension-rules:
+  en: b2cce357141883ee
+  es: 079d602f244410b2

@@ -1,0 +1,13 @@
+# Bilingual-pair consistency record for event-producer-consumer.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/event-producer-consumer.md
+/:
+  en: 41d772192075e133
+  es: 39d95ed5219e7418
+/event-producer-and-consumer-matrix:
+  en: 19f30fda81e73345
+  es: 4b5c2ac5d9b71156
+/event-producer-and-consumer-matrix/non-harness-or-undeclared-event-strings-seen-in-package-source:
+  en: 96dc0ff1580e5741
+  es: 759a61a2aa28eae2

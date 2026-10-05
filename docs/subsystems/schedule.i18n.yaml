@@ -1,0 +1,40 @@
+# Bilingual-pair consistency record for schedule.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/schedule.md
+/host-wide-schedule:
+  en: 9728b8d64dd0975d
+  es: 1899e1588fa93fdc
+/host-wide-schedule/durable-records:
+  en: 41cd197b5c74bfa3
+  es: e06236380b2dc3e7
+/host-wide-schedule/absolute-time-input:
+  en: 8186d070ab412545
+  es: b3e8693ebd326584
+/host-wide-schedule/daily-wall-clock-input:
+  en: 2d249edc3dfccb8a
+  es: 4474ed3e0c1ad640
+/host-wide-schedule/fixed-rate-input-and-catch-up:
+  en: d2b5997cce3806dc
+  es: b4b7b5c59fe38dc1
+/host-wide-schedule/cron-wall-clock-input:
+  en: 1ba9ae84f05d8919
+  es: b266600b8d814c5b
+/host-wide-schedule/historical-session-changes:
+  en: 9cd7f65e0699aa91
+  es: 1e54390ce7f283c3
+/host-wide-schedule/active-views-and-management:
+  en: 0656173de50ee132
+  es: 6ac25c9515d0bcd6
+/host-wide-schedule/web-catalog:
+  en: 45d362f165e940b9
+  es: 2771e7d016eafd78
+/host-wide-schedule/timing-edits:
+  en: ce5d2095a3ad2e82
+  es: 1631ef826d531948
+/host-wide-schedule/saved-delivery-records:
+  en: 077aa6573d9ede1a
+  es: 4bc47d40a4d253e5
+/host-wide-schedule/host-delivery:
+  en: b6d522d24b9b97ba
+  es: 72c63b2d2c01ccb4

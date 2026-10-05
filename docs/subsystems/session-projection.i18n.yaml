@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for session-projection.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/session-projection.md
+/session-projections:
+  en: 5e0a8235e75330c3
+  es: e591937082070cc8
+/session-projections/the-unit:
+  en: fad897af8b8839ff
+  es: 6d36be839cd72449
+/session-projections/the-snapshot-and-the-change-feed:
+  en: a49a57c600c3cbd0
+  es: 7531b9e025a586c0
+/session-projections/the-registry-ctx-sessionprojections:
+  en: 50e79c1bc16abb63
+  es: 25d51b4fc921146c

@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for config-catalog.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/config-catalog.md
+/:
+  en: 0977df2d5eaa10e9
+  es: 2eb5ac29c73e6cf8
+/plugin-config-catalog:
+  en: e372950a550bc4a7
+  es: 8d0105a6a3d294ef
+/plugin-config-catalog/loadable-plugins-with-no-config:
+  en: 171d45e5a8385abc
+  es: f13c32b95b68fdbc
+/plugin-config-catalog/seam-packages-not-directly-loadable:
+  en: fb892f5d4eb326a9
+  es: cde37045ef267a30
+/plugin-config-catalog/library-packages-no-plugin-entry:
+  en: 2efa9041cc87895c
+  es: f7708088a86ca8ce

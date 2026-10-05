@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for agent-team.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/agent-team.md
+/agent-teams:
+  en: bbc309f62167f3ac
+  es: df89781106d2c1ca
+/agent-teams/identity-and-roster:
+  en: c6e6d2add95df5e8
+  es: d3d1cd2abde0f532
+/agent-teams/durable-mailbox:
+  en: 75fb392a6ccfbdf9
+  es: 728f96ad0979f99e
+/agent-teams/shared-task-dag:
+  en: 4515005d07e4d2a3
+  es: bee6bb3ddcd239d5
+/agent-teams/web-projection:
+  en: 6af99eff8036597a
+  es: 432dcd886765fd3c
+/agent-teams/replay:
+  en: cfa473cda7becd77
+  es: 1fc66b72f9e4d993

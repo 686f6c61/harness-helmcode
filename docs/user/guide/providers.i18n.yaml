@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for providers.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/guide/providers.md
+/configure-models:
+  en: 14c599004e9188cc
+  es: 462742dd80011397
+/configure-models/add-your-first-provider:
+  en: 0713cc3a6b9cd0a6
+  es: 0454979251956d49
+/configure-models/add-your-first-provider/add-a-third-party-provider:
+  en: e2d7beb0c7a68469
+  es: 977376d7d38b66ce
+/configure-models/add-a-custom-model-api:
+  en: 17867305a3e1b52a
+  es: 6e6b38740120ea1b
+/configure-models/add-a-custom-model-api/discover-models:
+  en: 97318c5a115199ff
+  es: 827dd3a4ef520865
+/configure-models/select-a-model:
+  en: 6a94264c99535caf
+  es: b4eb35b547eb4f00
+/configure-models/advanced-configuration:
+  en: 69bde89b58c3ec55
+  es: 023871dcb8fadfb0
+/configure-models/advanced-configuration/image-input:
+  en: b0d9ab821b1828f8
+  es: eccff471eb974bb8
+/configure-models/advanced-configuration/reasoning-effort:
+  en: 036aa42e504dc9e8
+  es: fcb4a8177f6ca246
+/configure-models/advanced-configuration/request-compatibility:
+  en: 6f52195d1502783e
+  es: 229538fbfced0dfb
+/configure-models/troubleshooting:
+  en: 64847a9f1355242d
+  es: 68958da2cd588628

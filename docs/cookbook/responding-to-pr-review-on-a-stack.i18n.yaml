@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for responding-to-pr-review-on-a-stack.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cookbook/responding-to-pr-review-on-a-stack.md
+/responding-to-review-across-a-stacked-pr-chain:
+  en: 94fc6768884979e8
+  es: f33fe79590e8e0ca
+/responding-to-review-across-a-stacked-pr-chain/ground-rules:
+  en: 5545e41aea74b5d6
+  es: 1fcaa7ba653a1a6e
+/responding-to-review-across-a-stacked-pr-chain/resolve-comments-through-the-stack:
+  en: 4d58b207c8ecbcaa
+  es: 4ef6083e44992da1
+/responding-to-review-across-a-stacked-pr-chain/verify:
+  en: 07cfbae7602fc30e
+  es: c3202ae0d2d9087e

@@ -1,0 +1,5 @@
+{
+  "message": "Las tareas en ejecución continuarán. Puedes volver a abrir la ventana desde la bandeja del sistema.",
+  "buttons": ["Confirmar"],
+  "detailHidden": true
+}

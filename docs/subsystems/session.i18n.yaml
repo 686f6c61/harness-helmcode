@@ -1,0 +1,67 @@
+# Bilingual-pair consistency record for session.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/session.md
+/sessions:
+  en: e78d2e1e6bb011a7
+  es: dafdf4f385d08633
+/sessions/sessioneventmap-the-event-vocabulary:
+  en: 541354f6468e117d
+  es: 3c40c418c70bc183
+/sessions/sessioneventmap-the-event-vocabulary/the-request-header-event-request-header:
+  en: 5d89b5849019c723
+  es: 9af229d85b197358
+/sessions/sessioneventmap-the-event-vocabulary/the-route-capacity-event-request-context:
+  en: 6f393fddb449add0
+  es: b2ace96f1002e054
+/sessions/sessionevent-t-one-log-entry:
+  en: 622d333d9d903795
+  es: a49bd36f90a60fa9
+/sessions/surface-types:
+  en: a66fda2f0d614a77
+  es: 2a61455fbfbbd7d5
+/sessions/surface-types/surfaceeventtype-the-message-producing-subset-of-event-types:
+  en: 2f1b6a16a4ee7cc1
+  es: 4d9c45fab9838987
+/sessions/surface-types/surfaceop-how-an-event-entered-the-surface:
+  en: 8fcc967516a13692
+  es: 27ef485fef516d59
+/sessions/surface-types/surfaceintent-the-parameter-to-session-append:
+  en: 43253d8c024d96fc
+  es: 094faf42290f4b8f
+/sessions/surface-types/plugin-owned-message-projections:
+  en: f1f73607d650620f
+  es: 7fd48496c6966e86
+/sessions/surface-types/sessionsurface-the-live-readonly-surface-projection:
+  en: 350259099d8d60c9
+  es: 0ef5f9d3a3db2b97
+/sessions/surface-types/surfacefoldreplacement-and-surfacefoldresult-a-complete-surface-replay:
+  en: 13820e0611b2e141
+  es: 01f27b5969ea71ad
+/sessions/session-public-api:
+  en: 04e9982948d9560d
+  es: 0dc1f9fa63be0b9e
+/sessions/derived-history-derivemessages-and-deriveeventmessage:
+  en: 6e48ebd63b85f473
+  es: 2874e53ccc4926e0
+/sessions/live-session-fork-api:
+  en: e779481af02174c6
+  es: b65e769095d61bad
+/sessions/why-a-turn-ended-turnendreasonmap:
+  en: 966cc60273fb3911
+  es: 1ebe31748ed25f53
+/sessions/execution-enclosure-and-standalone-events:
+  en: f80af6a05ba6cf5f
+  es: 9f6bf488d7f486ba
+/sessions/the-end-seed-boundary-session-end-seed:
+  en: 63b4059793255ca3
+  es: 7bb67326df6cff04
+/sessions/plugin-contributed-log-only-events:
+  en: 6b895a381f28a41c
+  es: 36493b43d6ae7817
+/sessions/durability-contract:
+  en: 62e3e4fbcba292a3
+  es: 8c07ca238c1f739d
+/sessions/remote-catalog-and-workspace-opening:
+  en: dd27307e0d7c893c
+  es: be8ec2d0c31162b6

@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for adding-a-settings-card.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cookbook/adding-a-settings-card.md
+/cookbook-live-configuration-forms:
+  en: 69a6d3b04636cd82
+  es: 98481fc638796189
+/cookbook-live-configuration-forms/1-declare-live-fields:
+  en: a758ea63530ecf34
+  es: 176afa2bb45617c4
+/cookbook-live-configuration-forms/2-compose-the-plugin:
+  en: 9c2680c175632a58
+  es: d871a2269b102363
+/cookbook-live-configuration-forms/3-verify-editing:
+  en: e5fc9a735a29d1a0
+  es: 40ff3bbfa5e1ba7e
+/cookbook-live-configuration-forms/4-contribute-to-another-plugin-s-page:
+  en: 0abb582a1a25b3d9
+  es: e74a09d766220c98
+/cookbook-live-configuration-forms/5-where-the-browser-half-rides:
+  en: 0846d77ad69ef6cf
+  es: a15ec6b2faa9f7a9

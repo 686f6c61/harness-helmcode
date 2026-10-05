@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for webhook.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/webhook.md
+/webhook-runtime:
+  en: 1947b94aec1b8275
+  es: fa43d2bef57df819
+/webhook-runtime/shared-values:
+  en: 99af66fb4c51ecf6
+  es: 2548386bf4cd2219
+/webhook-runtime/fire-and-forget-dispatch:
+  en: 0e62c74b195d1c74
+  es: 62de04022d0fdb99
+/webhook-runtime/session-creation:
+  en: 2ccdbc45140f9c41
+  es: b5fe6c9d97c6c82a
+/webhook-runtime/github-adapter:
+  en: ddb0522ef321a8c5
+  es: 6403f283dfe30186

@@ -1,0 +1,76 @@
+# Bilingual-pair consistency record for fiber.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cordis-api/fiber.md
+/:
+  en: d2c0c5bce430d1be
+  es: e1e94c5c4f022ff0
+/fiber:
+  en: b5b3510f4b6dd13a
+  es: 1f0b50b1d66560ec
+/fiber/ctx-effect-execute-label:
+  en: ef3418fd5ffbe86d
+  es: ddd34dd2aa0525fa
+/fiber/ctx-fiber:
+  en: a10e38bf26b4ecfe
+  es: e05edaf79b3c6cbb
+/fiber/the-fiber-class:
+  en: 0e0fcb134ed44957
+  es: ae97ee653b549af6
+/fiber/the-fiber-class/fiber-uid:
+  en: 2f0eb3658bb8497e
+  es: 70c4727ea4a156bd
+/fiber/the-fiber-class/fiber-ctx:
+  en: 1b527d85759324f9
+  es: 3749d00e64353a68
+/fiber/the-fiber-class/fiber-config:
+  en: ee804c03c39e7806
+  es: 2daef4f5d7a5428c
+/fiber/the-fiber-class/fiber-state:
+  en: 999ad29dfc29661b
+  es: 7da06578c30c6839
+/fiber/the-fiber-class/fiber-dispose:
+  en: 29e304d183eb9104
+  es: 77f262a4fb9b53e8
+/fiber/the-fiber-class/fiber-store:
+  en: c4185e5d051136a2
+  es: 0875a98c5f116122
+/fiber/the-fiber-class/fiber-inertia:
+  en: 2a3b1d3bc37bf986
+  es: 78c5f18406fa1184
+/fiber/the-fiber-class/fiber-name:
+  en: e5c2ecca13167a32
+  es: d9f6b0ef3afb72b3
+/fiber/the-fiber-class/fiber-assertactive:
+  en: cceb503899634d09
+  es: 2e39fbdf7ce3609e
+/fiber/the-fiber-class/fiber-effect-execute-label:
+  en: 55dcfacf295bbcf2
+  es: 60ae7b77acc6bd55
+/fiber/the-fiber-class/fiber-geteffects:
+  en: 4d739a9c186fd9c2
+  es: e369f4b08a440925
+/fiber/the-fiber-class/fiber-await:
+  en: 1d6258cbea61cd18
+  es: dff41673569d7598
+/fiber/the-fiber-class/fiber-restart:
+  en: 62d68dedb20b4fa9
+  es: f67f26b5d186eeae
+/fiber/the-fiber-class/fiber-update-config-nosave:
+  en: b57ce0f6260c2cb8
+  es: 5741a653b319ef4c
+/fiber/effect:
+  en: 007d5b214e8a8610
+  es: 5ff00a296676e1ee
+/fiber/disposable:
+  en: 56e4218392fa7234
+  es: c8783c26859ec40f
+/fiber/effectmeta:
+  en: 849aa91b8e67809f
+  es: b2cd90fae4760d7f
+/fiber/cordiserror:
+  en: d276771958d3c05f
+  es: b87094cdc94c68dc
+/fiber/validationerror:
+  en: 178782124cc15210
+  es: 1a52b603a03046be

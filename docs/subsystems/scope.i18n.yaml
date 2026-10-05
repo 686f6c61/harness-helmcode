@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for scope.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/scope.md
+/scoped-registration:
+  en: f64387f38605565e
+  es: 25efbadc136b1555
+/scoped-registration/identity-and-dispatch-carrier:
+  en: f4e1bdd96c43a845
+  es: 0be861b89189a7d0
+/scoped-registration/owned-registration-context:
+  en: 7908e0caa7acf71f
+  es: 3f356de2b47e5047
+/scoped-registration/scoped-registry-layer:
+  en: 19c3ed72868597e5
+  es: 264d2dad0dc52090

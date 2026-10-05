@@ -1,0 +1,75 @@
+{
+  "initial": [
+    {
+      "name": "bash",
+      "description": "Run commands in a bash shell\n* When invoking this tool, the contents of the \"command\" parameter does NOT need to be XML-escaped.\n* Network access depends on the task environment. Prefer configured mirrors/proxies when they are available.\n* State is persistent across command calls and discussions with the user.\n* To inspect a particular line range of a file, e.g. lines 10-25, try 'sed -n 10,25p /path/to/the/file'.\n* Please avoid commands that may produce a very large amount of output.\n* Please run long lived commands in the background, e.g. 'sleep 10 &' or start a server in the background.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The bash command to run. Relative path is preferred in the command."
+          }
+        },
+        "required": [
+          "command"
+        ]
+      }
+    },
+    {
+      "name": "checkpoint",
+      "description": "Filesystem checkpoints taken automatically before every write or edit. Actions: list (recent snapshots), restore (copy one snapshot back over its file, by id). Use them to undo a change that turned out wrong.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Operation: list or restore.",
+            "enum": [
+              "list",
+              "restore"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "description": "Checkpoint id from list; required for restore."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    },
+    {
+      "name": "memory",
+      "description": "Persistent memory notes that survive across sessions on this machine. Use them to remember project decisions, code style preferences, architecture choices, or any context worth preserving for later sessions. Actions: read (key), write (key + content), delete (key), list.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Operation: read, write, delete, or list.",
+            "enum": [
+              "read",
+              "write",
+              "delete",
+              "list"
+            ]
+          },
+          "key": {
+            "type": "string",
+            "description": "Memory key (becomes the note filename). Required for read, write, and delete."
+          },
+          "content": {
+            "type": "string",
+            "description": "Note body; required for write, ignored otherwise."
+          }
+        },
+        "required": [
+          "action"
+        ]
+      }
+    }
+  ],
+  "changes": []
+}

@@ -1,0 +1,79 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write apps/desktop/README.md
+/nan-harness-desktop:
+  en: 5365a44250a1fc8c
+  es: 1b91ed56464aafad
+/nan-harness-desktop/terminal-command:
+  en: bef92953c237363f
+  es: 90a6fece81899da8
+/nan-harness-desktop/closing-the-window-and-quitting:
+  en: 967c07751d45cb92
+  es: 0a379e4935d43b9b
+/nan-harness-desktop/key-technical-decisions:
+  en: 2b1ea2c829e9c7dd
+  es: 8cd90c3c2cdedb26
+/nan-harness-desktop/key-technical-decisions/bundled-workspace-dependencies:
+  en: da928d33009e1ab5
+  es: b7ffe850b777218a
+/nan-harness-desktop/bundled-command-runtime:
+  en: 2150c957c8ce5d6b
+  es: 200fed5c3ac65589
+/nan-harness-desktop/installation-ownership:
+  en: d54abd22f02a7680
+  es: a39c7d111b76852f
+/nan-harness-desktop/installation-ownership/runtime-and-plugin-activation:
+  en: 8a83f664900e7063
+  es: b0a4327ff08583d6
+/nan-harness-desktop/installation-ownership/host-environment:
+  en: 84a9cc7ca9455aa8
+  es: 9e20dd255ce46d4f
+/nan-harness-desktop/develop:
+  en: 0bd0e51e7450b2a8
+  es: cabb8c844f945f0b
+/nan-harness-desktop/develop/startup-onboarding:
+  en: 66f77cf4a7cbb533
+  es: 2fd60d789ea1f736
+/nan-harness-desktop/develop/welcome-window-appearance:
+  en: 3efdadffd33ca38e
+  es: 569ed40e25b96419
+/nan-harness-desktop/package:
+  en: 4cd8a8da6977928d
+  es: fd067d058127c673
+/nan-harness-desktop/package/release-versions:
+  en: dc26d763f4be9068
+  es: 9d66099edfedad2e
+/nan-harness-desktop/package/runtime-file-selection:
+  en: de1665dd8ee1cd51
+  es: 35d663e087e66729
+/nan-harness-desktop/package/upload-updates:
+  en: a5276e190db15ff6
+  es: 74e8001b5c040fae
+/nan-harness-desktop/package/unsigned-windows-test-installer:
+  en: cfd5780dd26a8e46
+  es: a235c58216f3c0c4
+/nan-harness-desktop/package/windows-installer-interface:
+  en: b9549c33d5f78b41
+  es: a4564b11629667fa
+/nan-harness-desktop/package/windows-ev-signing:
+  en: cd4beb1e555dae1e
+  es: 617d8abc841aad99
+/nan-harness-desktop/updates:
+  en: d0df867b69cbffa4
+  es: 2c29930004a2a8b7
+/nan-harness-desktop/updates/mandatory-update-policy:
+  en: 3c2215f9770e810d
+  es: 7e2adfa77df5f496
+/nan-harness-desktop/updates/local-updater-qualification:
+  en: 6ceb4938f0fae4d6
+  es: dc318f0c5bb50921
+/nan-harness-desktop/low-level-development-overrides:
+  en: 0b225f914142ef0b
+  es: b5895f08aff1f3b5
+/nan-harness-desktop/known-limitations:
+  en: 5b77213c86bbcfb6
+  es: 5ca66859ed2ce7ea
+/nan-harness-desktop/dev-note:
+  en: ae8c884e29307df8
+  es: 5a3c0b85f4229774

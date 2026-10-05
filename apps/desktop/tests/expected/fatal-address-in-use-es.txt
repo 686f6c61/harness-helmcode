@@ -1,0 +1,5 @@
+Helmcode no está disponible
+La aplicación no pudo iniciarse o se detuvo inesperadamente.
+Hay otra instancia de DSH en ejecución (como dsh web o la app de escritorio). No pueden iniciarse al mismo tiempo. Sal de la otra instancia de DSH en ejecución y reinicia.
+Salir
+Reiniciar

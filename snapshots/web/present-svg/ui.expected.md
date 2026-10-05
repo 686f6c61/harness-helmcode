@@ -1,0 +1,43 @@
+- text: 简单画一个 SVG 表示冯诺依曼架构, 保存为 von-neumann.svg {{clock}}
+- button "Copiar"
+- status: Completado
+- button "Completado en {{duration}}" [expanded]
+- button "Análisis completado" [expanded]
+- button "Pensar The user wants a simple SVG diagram of the von Neumann architecture, saved as von-neumann.svg. Let me create a clean SVG showing CPU (control unit, ALU), memory, input, and output with bidirectional data/control buses."
+- paragraph: 我来创建一个冯诺依曼架构的 SVG 示意图。
+- button "Se escribieron archivos y se llamó a herramientas" [expanded]
+- button "Escribir von-neumann.svg +83 -0":
+  - text: Escribir
+  - button "von-neumann.svg"
+  - text: +83 -0
+- button "Pensar The file is created. Let me present it as a deliverable."
+- button "Presentar archivos Entregado von-neumann.svg"
+- paragraph:
+  - text: 已创建
+  - code:
+    - button "Abrir von-neumann.svg en la barra lateral": von-neumann.svg
+  - text: ，一个简洁的冯诺依曼架构示意图，包含：
+- list:
+  - listitem:
+    - strong: CPU（中央处理器）
+    - text: ：内含控制单元 CU、算术逻辑单元 ALU 和寄存器组
+  - listitem:
+    - strong: 内存储器 Memory
+    - text: ：标注"指令和数据统一存放"（存储程序思想）
+  - listitem:
+    - strong: 输入设备 / 输出设备
+    - text: ：分别用绿色和粉色表示数据流向
+  - listitem:
+    - strong: 总线连接
+    - text: ：CPU 与内存间的地址总线，以及 CPU 与 I/O 设备间的数据/控制线，箭头标明数据流向
+- paragraph: 下方附一行核心思想说明：指令与数据以二进制统一存储在存储器中。用浏览器打开该 SVG 文件即可查看。
+- button "Ver cambios en von-neumann.svg": Se editó von-neumann.svg +83 -0
+- text: Este host no tiene un escritorio disponible para abrir archivos o carpetas en aplicaciones externas. Los archivos aún pueden previsualizarse en la barra lateral.
+- button "Previsualizar von-neumann.svg en la barra lateral"
+- text: von-neumann.svg 冯诺依曼架构示意图 SVG
+- button "Copiar"
+- button "Buena respuesta"
+- button "Respuesta con problemas"
+- button "Ramificar en una nueva conversación"
+- button "Uso 32K tok"
+- text: {{clock}}

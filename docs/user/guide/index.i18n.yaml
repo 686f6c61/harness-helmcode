@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for index.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/guide/index.md
+/use-the-web-ui:
+  en: 35c87479c3327183
+  es: 3fe69c1a856500ee
+/use-the-web-ui/configure-a-model:
+  en: 017967a6f7c60eeb
+  es: 7817aa2b6dec777d
+/use-the-web-ui/choose-a-workspace:
+  en: ed78cd0a583896ae
+  es: 636ad2070c0c1d81
+/use-the-web-ui/run-a-task:
+  en: e1cb5a05bf6e109d
+  es: c28fbe62bb7f7052
+/use-the-web-ui/continue:
+  en: 0e74e287e009b401
+  es: 29844449cb89c1b1

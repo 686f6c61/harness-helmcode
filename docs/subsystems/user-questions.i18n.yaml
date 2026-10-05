@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for user-questions.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/user-questions.md
+/user-interaction:
+  en: 9020c227961b10e6
+  es: 757101403389ecdb
+/user-interaction/question-options:
+  en: 88cceb3cf383248e
+  es: bbb859d3bf440e4f
+/user-interaction/presentation-intent:
+  en: aca3811ea3f0c2ef
+  es: 42d93f7666fa84e9
+/user-interaction/question-item:
+  en: 1ad4373e6fdfe4c7
+  es: a23ae34f4acd599e
+/user-interaction/ask-request:
+  en: e10cf6c8c9c20962
+  es: a11b00611c748be5
+/user-interaction/answer:
+  en: efd2dbb95a885d0e
+  es: ba5d7f60bb3220d8
+/user-interaction/timed-questions-and-late-replies:
+  en: 74fa698d4a115e80
+  es: f5ccfd571a9608cf
+/user-interaction/errors:
+  en: 5762b1498a426ab6
+  es: d47118e15a55d3a9

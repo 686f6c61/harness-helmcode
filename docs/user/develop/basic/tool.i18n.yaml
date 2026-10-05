@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for tool.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/user/develop/basic/tool.md
+/build-a-tool:
+  en: ecf6a714a6537f6e
+  es: 359ab25b0c26ae16
+/build-a-tool/create-the-tool-plugin:
+  en: ee66fee86af58d93
+  es: ae4088c28b965256
+/build-a-tool/run-and-call-the-tool:
+  en: 3bdae6640d729bfc
+  es: da56d2f63e3334e4
+/build-a-tool/next-steps:
+  en: aba2c55a0ba557f9
+  es: 042de550ef855df4

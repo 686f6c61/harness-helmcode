@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write npm/harness-helmcode/README.md
+/harness-helmcode:
+  en: 6377654442b92baf
+  es: 9065ab854d770fb0
+/harness-helmcode/quick-start:
+  en: 68d8b7261f5d6d27
+  es: 162732b1b66a5aed
+/harness-helmcode/what-you-get:
+  en: 55dcd2ff6091b715
+  es: 1cf337202774c7e9
+/harness-helmcode/links:
+  en: 4937e9f79516d571
+  es: 90eb981039537406

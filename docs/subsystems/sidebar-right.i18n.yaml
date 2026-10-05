@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for sidebar-right.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/sidebar-right.md
+/right-sidebar:
+  en: f0d0d632cecd0a2f
+  es: a76e6dd549eb0021
+/right-sidebar/position-and-ownership:
+  en: 5fb24b48e5ad3b0d
+  es: ec9e420d1c46ff46
+/right-sidebar/addresses:
+  en: 43de059da1d69fee
+  es: 7d0d6afad1a40f6b
+/right-sidebar/tab-type-registration:
+  en: 02490647b8250399
+  es: 252047092671fd83
+/right-sidebar/navigation-ctx-sidebarright:
+  en: f92470eea5e949d3
+  es: 4aea4932c5ccea72
+/right-sidebar/slots-and-owner-props:
+  en: c750a07c17a0f92e
+  es: 38b92fb190fe2eff
+/right-sidebar/document-renderers:
+  en: 40f135ba3cdb8e70
+  es: 592beb65e84605aa
+/right-sidebar/resource-model:
+  en: 97e1e8504df3b696
+  es: acbc3429aab1f841
+/right-sidebar/workspace-files:
+  en: 0023350865ccf093
+  es: 536de1a94f5ca513
+/right-sidebar/shipped-types:
+  en: f4a7b09cacd06d3e
+  es: de2bae14486511c2
+/right-sidebar/not-built:
+  en: 803e6c42be778830
+  es: eecc4f728ec2c005

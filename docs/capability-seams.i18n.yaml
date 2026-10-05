@@ -1,0 +1,10 @@
+# Bilingual-pair consistency record for capability-seams.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/capability-seams.md
+/:
+  en: 41d772192075e133
+  es: 936e9703bf31732d
+/capability-seams-and-core-services:
+  en: b0414f0af5f88339
+  es: 2fe07b56690f0a9f

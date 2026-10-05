@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for 05-config.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cordis-tutorial/05-config.md
+/5-configuration:
+  en: f1211ad35f28fa63
+  es: 3a0e4329a95bae5e
+/5-configuration/a-configurable-plugin:
+  en: 1fcc4b1a64c6e6bb
+  es: be812293829a5de5
+/5-configuration/fail-loud:
+  en: 261253c9d96b0fc1
+  es: 18a55647f5ca76a9
+/5-configuration/volatile-fields:
+  en: ee367f4db7e8598c
+  es: 4f6df33c6ebcdd32
+/5-configuration/computed-config-values:
+  en: dbd47e8aa99fb2e0
+  es: 4aa5ae0e1995ae27

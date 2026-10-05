@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for sandbox.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/sandbox.md
+/process-sandbox:
+  en: 5ee666297b0b0e52
+  es: c3aa782516f38e61
+/process-sandbox/modes-and-enforcement:
+  en: 11f91b55cc317334
+  es: 635e2edc521ef719
+/process-sandbox/per-call-policy:
+  en: 7661eb4559bbc395
+  es: e21fac7bfcfd4057
+/process-sandbox/wrapped-argv-and-classification-dialects:
+  en: 7431eb1b86787035
+  es: 8c99cb3a3d25702e
+/process-sandbox/provider-and-fail-closed-errors:
+  en: 1fe32023c6acfa59
+  es: fed98c8649ac7ead

@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for dsh-v0.1.5-alpha.1.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/releases/dsh-v0.1.5-alpha.1.md
+/:
+  en: ed817d763d31349a
+  es: 09691364e404a656
+/persistence-release-dsh-v0-1-5-alpha-1:
+  en: 668175e08310402f
+  es: 6f69a19f7d828744
+/persistence-release-dsh-v0-1-5-alpha-1/summary:
+  en: dba208d5975c7186
+  es: 15c09d16d1f65494
+/persistence-release-dsh-v0-1-5-alpha-1/table-of-contents:
+  en: 0ff4a6f3c6af323f
+  es: 855b007f48946830
+/persistence-release-dsh-v0-1-5-alpha-1/release-evidence:
+  en: c17b4600477cb891
+  es: b28ad7b490c0586b
+/persistence-release-dsh-v0-1-5-alpha-1/declaration:
+  en: af9cea43334ee692
+  es: 588fe971b1053cae
+/persistence-release-dsh-v0-1-5-alpha-1/structural-changes:
+  en: f65ce6c033426a9d
+  es: 9e79ae547c3272ad
+/persistence-release-dsh-v0-1-5-alpha-1/verification:
+  en: 8ccca317964523b1
+  es: 64ab7d27f612b2a6
+/persistence-release-dsh-v0-1-5-alpha-1/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12

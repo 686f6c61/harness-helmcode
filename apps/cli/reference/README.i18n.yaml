@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write apps/cli/reference/README.md
+/dsh-cli-behavior-reference:
+  en: 9bb5ffc4083785e4
+  es: ee1840da7a1e7ebd
+/dsh-cli-behavior-reference/profile-boot:
+  en: e3a159750f5f9ed3
+  es: 60654f0b6af447bd
+/dsh-cli-behavior-reference/profile-boot/app-arguments:
+  en: b5bc346dfcab2f70
+  es: 178bf7bc869bd91c
+/dsh-cli-behavior-reference/profile-boot/config-schema-dump:
+  en: a8a138844875e823
+  es: 4139906025dcf797
+/dsh-cli-behavior-reference/startup-diagnostics:
+  en: d6368bf97a02bd57
+  es: a1f40509b10619f7
+/dsh-cli-behavior-reference/plugin-management:
+  en: 99debbde161c259b
+  es: 505caa982580a325
+/dsh-cli-behavior-reference/web-profile:
+  en: 84ee39aa068a1f3e
+  es: 016c47e3ed9f5d0e
+/dsh-cli-behavior-reference/shared-deployment-behavior:
+  en: fdd0b5482d5eb25c
+  es: 5cdee27f1aa2234b
+/dsh-cli-behavior-reference/source-execution:
+  en: 05c2b23790f7b296
+  es: 6f6b2f2502c0cb07

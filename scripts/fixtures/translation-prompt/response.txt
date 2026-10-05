@@ -1,0 +1,23 @@
+<translation>
+---
+layout: doc
+---
+
+# Nota de snapshot
+
+El agent ejecuta un paso.
+</translation>
+
+<review>
+- Sin correcciones
+</review>
+
+<final>
+---
+layout: doc
+---
+
+# Nota de snapshot
+
+El agent ejecuta un paso.
+</final>

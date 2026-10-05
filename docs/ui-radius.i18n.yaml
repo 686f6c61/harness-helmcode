@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for ui-radius.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/ui-radius.md
+/dsh-unified-corner-radius-standard:
+  en: 5d8853f43019acde
+  es: 4fe25e6e04709e70
+/dsh-unified-corner-radius-standard/summary:
+  en: 9f7d83fc6c1e56ff
+  es: c17f1acbd11b5852
+/dsh-unified-corner-radius-standard/table-of-contents:
+  en: aad65e4a8399adbb
+  es: b4cdd4713e9a18c4
+/dsh-unified-corner-radius-standard/scope-and-authority:
+  en: cd8120cba5566e19
+  es: 74794c7a2b16e828
+/dsh-unified-corner-radius-standard/select-the-radius:
+  en: 06ddd6bf9ef1e48c
+  es: e0f1556b01498144
+/dsh-unified-corner-radius-standard/reuse-tokens-and-preserve-deliberate-shapes:
+  en: b3b4e9edc9c01fd8
+  es: 0477320a5bc9112b
+/dsh-unified-corner-radius-standard/nested-geometry-and-hover:
+  en: 3920921700d8ad1c
+  es: 3731d7ef938a8aee
+/dsh-unified-corner-radius-standard/settings-card-materials:
+  en: 85e7e63183df06d1
+  es: d8d3972be5a81712
+/dsh-unified-corner-radius-standard/apply-and-verify:
+  en: 2f6f10e45b27c19b
+  es: cdcdc282f88762e1

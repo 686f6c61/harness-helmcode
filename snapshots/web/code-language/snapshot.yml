@@ -1,0 +1,13 @@
+version: 1
+scenario: code-language
+profile: web
+composition: web-default
+recording: live
+header:
+  class: web-default
+sessionFormat:
+  # The writer advanced to V5 with the DeepSeek-only event removal; this
+  # scenario keeps its V4 recording as the declared adjacent-migration
+  # coverage, replayed through the current reader by its owning spec.
+  version: 4
+  coverage: [adjacent-migration]

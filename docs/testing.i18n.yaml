@@ -1,0 +1,34 @@
+# Bilingual-pair consistency record for testing.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/testing.md
+/testing-policy:
+  en: 918a1b4055a90784
+  es: d593f4d9ef4eced0
+/testing-policy/tiers:
+  en: 23a4d53b19380b2c
+  es: de8f0b7b03205b74
+/testing-policy/how-specs-execute:
+  en: 298c13b105e86eae
+  es: 3e1591f82565fbac
+/testing-policy/the-with-key-policy-inference-is-cheap-here:
+  en: d555af53068bf523
+  es: 419c1d2e397bfb57
+/testing-policy/prefer-the-real-implementation-over-a-mock:
+  en: 96a5bdcea4960b25
+  es: 25876737871b4071
+/testing-policy/verify-the-world-not-the-self-report:
+  en: e7cbafc4f96b72c2
+  es: 873bb6beb0f9f7e3
+/testing-policy/test-the-real-entry-path:
+  en: 002e4c4a1bcbef50
+  es: 85909beee6970dd9
+/testing-policy/test-resolution-source-plane-only:
+  en: 8a142fe4cbd196d7
+  es: af167aa9f3866335
+/testing-policy/test-subprocess-launch-modes:
+  en: 5ea1c7ff7a9a5728
+  es: 8acb36b0239f0efa
+/testing-policy/when-a-snapshot-test-is-required:
+  en: 1120eff946de7301
+  es: 97491ab032cd7327

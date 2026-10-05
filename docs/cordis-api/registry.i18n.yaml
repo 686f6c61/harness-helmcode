@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for registry.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cordis-api/registry.md
+/:
+  en: d2c0c5bce430d1be
+  es: 124ef6f2a9b53228
+/registry:
+  en: 002c10f39db567b7
+  es: f8d1024c01bf5dc2
+/registry/ctx-inject-deps-callback:
+  en: 3e7b7ded1bf8ddf0
+  es: 332540d7bafdc4b0
+/registry/ctx-plugin-plugin-args:
+  en: 9963e1dac2483850
+  es: 2705bc4993f88dfe
+/registry/plugin:
+  en: 403f61a503ccf2ab
+  es: bec15315b6dd5061
+/registry/inject:
+  en: 6e730d459d7d5663
+  es: 496e46d7f0bccaa3

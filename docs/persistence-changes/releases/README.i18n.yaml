@@ -1,0 +1,31 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/releases/README.md
+/:
+  en: 813000c665a9a00b
+  es: 7be8910dda6ff749
+/persistence-changes-across-dsh-prereleases:
+  en: da37bc2063911e28
+  es: 0d5a4a52f09b6675
+/persistence-changes-across-dsh-prereleases/summary:
+  en: 2fb5f2079645f85f
+  es: 459e58f070e2cc59
+/persistence-changes-across-dsh-prereleases/table-of-contents:
+  en: 66af6c63111e0d4f
+  es: f03cefeaee7f1a6d
+/persistence-changes-across-dsh-prereleases/archived-releases:
+  en: 995581f72b7d7bf7
+  es: 0017f6b8d8d5e33f
+/persistence-changes-across-dsh-prereleases/files-and-scope:
+  en: c7b3012355eec9c6
+  es: 91686bb24285dbc1
+/persistence-changes-across-dsh-prereleases/extraction-and-limitations:
+  en: 2212c587e280c935
+  es: da03d2d1396d8d31
+/persistence-changes-across-dsh-prereleases/verification:
+  en: 5ae84a4b450733df
+  es: 02cf2544d7738afb
+/persistence-changes-across-dsh-prereleases/dev-note:
+  en: 5de1d6304e00c58f
+  es: 55913db2d556792d

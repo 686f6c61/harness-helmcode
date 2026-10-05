@@ -1,0 +1,34 @@
+# Bilingual-pair consistency record for 0001-acp-default-export-drops-inject.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/postmortem/0001-acp-default-export-drops-inject.md
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject:
+  en: e70f568eac4f35da
+  es: ce5076cda63a4cd7
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/executive-summary:
+  en: 4c04bfd12a9abc10
+  es: 04e726aed6514df1
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/summary:
+  en: 15b14cde0d25bf7e
+  es: 2442f19fc32b8550
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/impact:
+  en: c0280f3cf50c52de
+  es: 511719ce4f99f0f0
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/timeline:
+  en: 0a3527d26904f25b
+  es: d1eba90602168f2c
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/root-cause-1-export-default-apply-drops-the-plugin-s-inject-broke-session-new:
+  en: 3245b91e4b91eb30
+  es: 807b686c2e0f5790
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/root-cause-2-optional-service-read-trips-the-inject-guard-through-a-traceable-shadow-broke-session-load:
+  en: dcb8a8c88825aa15
+  es: da60fb3a82b9262f
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/why-every-test-missed-it-the-real-failure:
+  en: ec8486bb598fea8c
+  es: ada6015a2d39c933
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/guardrails-added:
+  en: 485f2ebdf38b0eac
+  es: 3d8cb7968bf13bc0
+/post-mortem-0001-acp-server-crashed-on-connect-export-default-dropped-the-plugin-s-inject/lessons:
+  en: 0a548f66ad8f6b7d
+  es: f4c3d30b87340c65

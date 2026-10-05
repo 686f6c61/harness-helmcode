@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for session-title.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/session-title.md
+/session-titles:
+  en: 09a05d75fd8451dc
+  es: 052707e479a10119
+/session-titles/durable-title-state:
+  en: c6be2d86647daa6f
+  es: 5c4e8ac50b3a7613
+/session-titles/auxiliary-request-record:
+  en: 4942bec7a7d1d9de
+  es: 14741104fc369a4c
+/session-titles/provider-input-and-output:
+  en: 886e036e442ae06a
+  es: 55945a94b66d46a7

@@ -1,0 +1,22 @@
+# Bilingual-pair consistency record for typert.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/typert.md
+/typert-remote-calls:
+  en: feaf7337a1e9b03c
+  es: 4d7fef12126f1be7
+/typert-remote-calls/lookup-and-context-declarations:
+  en: 8725fa62f36364d7
+  es: 39d5353ebfa5039e
+/typert-remote-calls/invocation-descriptors:
+  en: 6417ffb792fd5385
+  es: 992f28857ce9a05e
+/typert-remote-calls/typert-registry:
+  en: 29f578ba733cfd5a
+  es: 30a2b9eb81f0eb9b
+/typert-remote-calls/host-gateway:
+  en: 90fab88fe51d17bb
+  es: e29b8e20746b0f54
+/typert-remote-calls/consumer-remote:
+  en: 4836f8f44fef8fd3
+  es: a9838318ce695fac

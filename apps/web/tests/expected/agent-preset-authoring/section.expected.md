@@ -1,0 +1,47 @@
+- dialog "Configuración":
+  - navigation:
+    - text: Configuración
+    - button "General"
+    - button "Modelos"
+    - button "Plugins integrados"
+    - button "Presets de agente"
+  - button "Abrir archivo de configuración"
+  - button "Cerrar"
+  - heading "Presets de agente" [level=2]
+  - paragraph: Elige las herramientas del agente y su forma de trabajar. Usa el modo Estándar para las tareas diarias, o el modo Creador para añadir capacidades a DSH.
+  - heading "Integrados" [level=3]
+  - list:
+    - listitem:
+      - 'button "Predeterminado para nuevas tareas: Modo estándar" [disabled] [pressed]':
+        - text: Modo estándar Predeterminado para nuevas tareas
+        - code: standard
+        - text: Trabaja con código, archivos e información. Adecuado para la mayoría de las tareas, con búsqueda, edición, comandos de terminal y otras herramientas disponibles según sea necesario.
+      - 'button "Detalles del modo: Modo estándar"': Detalles del modo
+      - 'button "Cómo usarlo: Modo estándar"': Cómo usarlo
+      - 'button "Ver configuración: Modo estándar"': Ver configuración
+    - listitem:
+      - 'button "Establecer como predeterminado para nuevas tareas: Modo PTC"':
+        - text: Modo PTC Integrados
+        - code: ptc
+        - text: Incluye todas las capacidades del modo Estándar. Más adecuado para tareas que llaman herramientas por lotes y luego filtran, organizan, deduplican, cuentan o resumen los resultados.
+      - 'button "Detalles del modo: Modo PTC"': Detalles del modo
+      - 'button "Cómo usarlo: Modo PTC"': Cómo usarlo
+      - 'button "Ver configuración: Modo PTC"': Ver configuración
+    - listitem:
+      - 'button "Establecer como predeterminado para nuevas tareas: Modo mínimo"':
+        - text: Modo mínimo Integrados
+        - code: minimal
+        - text: El agente trabaja usando solo una herramienta de terminal. Útil para probar y comparar su rendimiento básico.
+      - 'button "Detalles del modo: Modo mínimo"': Detalles del modo
+      - 'button "Cómo usarlo: Modo mínimo"': Cómo usarlo
+      - 'button "Ver configuración: Modo mínimo"': Ver configuración
+    - listitem:
+      - 'button "Establecer como predeterminado para nuevas tareas: Modo creador"':
+        - text: Modo creador Integrados
+        - code: cordis
+        - text: Personaliza DSH mediante conversación. Deja que el agente escriba plugins que añadan funciones o interfaz, o combina herramientas y prompts para crear tu propio modo.
+      - 'button "Detalles del modo: Modo creador"': Detalles del modo
+      - 'button "Cómo usarlo: Modo creador"': Cómo usarlo
+      - 'button "Ver configuración: Modo creador"': Ver configuración
+  - heading "Personalizados" [level=3]
+  - button "Dejar que el agente me ayude a crear un preset"

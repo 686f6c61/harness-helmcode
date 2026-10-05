@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for terminal.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/terminal.md
+/persistent-pty-sessions:
+  en: 2b42a6c629920b55
+  es: c2cb34469f4a6a72
+/persistent-pty-sessions/identity-and-readiness:
+  en: d2b0f4a2ea428e95
+  es: f19087529ae8d021
+/persistent-pty-sessions/backend-and-live-session:
+  en: 327d7a0e306ceb35
+  es: d47610f699c43253
+/persistent-pty-sessions/send-and-retained-output:
+  en: c895ec190cf3e5d8
+  es: e7940aac8476ddd5
+/persistent-pty-sessions/ownership-and-durability:
+  en: 5604e1d1c450882a
+  es: aee73a2640ba386b

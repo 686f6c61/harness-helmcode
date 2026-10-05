@@ -1,0 +1,78 @@
+- dialog "Atajos de teclado":
+  - banner:
+    - heading "Atajos de teclado" [level=2]
+    - button "Cerrar atajos de teclado"
+  - search "Buscar atajos":
+    - searchbox "Buscar atajos"
+  - region "Aplicación":
+    - list:
+      - listitem:
+        - button "Editar el atajo de Abrir atajos de teclado"
+        - text: Abrir atajos de teclado ⌘ /
+      - listitem:
+        - button "Editar el atajo de Nueva sesión"
+        - text: Nueva sesión ⌥ ⌘ N
+      - listitem:
+        - button "Editar el atajo de Expandir/contraer la barra lateral izquierda"
+        - text: Expandir/contraer la barra lateral izquierda ⌥ ⌘ B
+      - listitem:
+        - button "Editar el atajo de Buscar sesiones"
+        - text: Buscar sesiones ⌥ ⌘ K
+      - listitem:
+        - button "Editar el atajo de Añadir espacio de trabajo"
+        - text: Añadir espacio de trabajo ⌥ ⌘ O
+      - listitem:
+        - button "Editar el atajo de Renombrar sesión"
+        - text: Renombrar sesión ⌥ ⌘ G
+      - listitem:
+        - button "Editar el atajo de Bifurcar sesión"
+        - text: Bifurcar sesión ⇧ ⌘ F
+      - listitem:
+        - button "Editar el atajo de Archivar sesión"
+        - text: Archivar sesión ⌥ ⌘ A
+      - listitem:
+        - button "Editar el atajo de Abrir configuración"
+        - text: Abrir configuración ⌥ ⌘ ,
+      - listitem:
+        - button "Editar el atajo de Expandir/contraer la barra lateral derecha"
+        - text: Expandir/contraer la barra lateral derecha ⇧ ⌘ B
+      - listitem:
+        - button "Editar el atajo de Archivos del espacio de trabajo"
+        - text: Archivos del espacio de trabajo ⌥ ⌘ P
+      - listitem:
+        - button "Editar el atajo de Nuevo terminal"
+        - text: "Nuevo terminal ⌃ `"
+      - listitem:
+        - button "Editar el atajo de Dividir"
+        - text: Dividir ⌘ \
+      - listitem:
+        - button "Editar el atajo de Alternar pantalla completa del panel"
+        - text: Alternar pantalla completa del panel ⌥ ⌘ Enter
+      - listitem:
+        - button "Editar el atajo de Actualizar la página actual"
+        - text: Actualizar la página actual Sin atajo
+      - listitem:
+        - button "Editar el atajo de Cerrar la página o ventana actual"
+        - text: Cerrar la página o ventana actual ⌥ ⌘ W
+  - region "Entrada de mensajes":
+    - heading "Entrada de mensajes" [level=3]
+    - list:
+      - listitem: Usar la acción complementaria Queue / Steer ⌘ Enter
+      - listitem: Abrir el menú de referencias @
+      - listitem: Nueva línea ⇧ Enter
+      - listitem: Enviar mensaje Enter
+      - listitem: Abrir el menú de comandos /
+      - listitem: Detener la generación Esc Esc
+  - region "Menús y diálogos":
+    - heading "Menús y diálogos" [level=3]
+    - list:
+      - listitem: Cerrar menú o diálogo superior Esc
+      - listitem: Mover la selección del menú ↑ ↓
+      - listitem: Seleccionar elemento del menú Enter
+  - region "Área de aprobación":
+    - heading "Área de aprobación" [level=3]
+    - list:
+      - listitem: Permitir una vez Enter
+      - listitem: Rechazar Esc
+  - contentinfo:
+    - button "Restablecer todos los valores predeterminados" [disabled]

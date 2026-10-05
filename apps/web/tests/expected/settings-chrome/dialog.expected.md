@@ -1,0 +1,32 @@
+- dialog "Configuración":
+  - navigation:
+    - text: Configuración
+    - button "General"
+    - button "Modelos"
+    - button "Plugins integrados"
+    - button "Presets de agente"
+  - button "Abrir archivo de configuración"
+  - button "Cerrar"
+  - text: Permisos Elegir el modo de permisos predeterminado para las nuevas sesiones
+  - button "Escritura en el espacio de trabajo"
+  - text: Idioma
+  - button "Español"
+  - text: Apariencia
+  - button "Claro"
+  - button "Oscuro"
+  - button "Sistema" [pressed]
+  - text: Tamaño de fuente Solo afecta al contenido de la conversación 14
+  - button "Aumentar tamaño de fuente"
+  - button "Reducir tamaño de fuente"
+  - text: px Detalles del trabajo Elegir cuánto detalle mostrar de las llamadas a herramientas
+  - button "Detallado"
+  - text: Mostrar vista de código Muestra la trayectoria, las diferencias de código y todos los presets de Agent
+  - switch "Mostrar vista de código"
+  - text: Atajos de teclado
+  - paragraph: Ver y editar los atajos y las acciones de entrada disponibles
+  - button "Editar atajos"
+  - text: Comportamiento de envío cuando está ocupado Qué hacen Enter y el botón Enviar mientras el agente se ejecuta; Cmd/Ctrl+Enter usa el otro comportamiento
+  - button "Enviar a la cola"
+  - text: Rendimiento y uso Elegir cuánta información de rendimiento y uso mostrar
+  - button "Detallado"
+  - text: "Versión actual: {{version}}"

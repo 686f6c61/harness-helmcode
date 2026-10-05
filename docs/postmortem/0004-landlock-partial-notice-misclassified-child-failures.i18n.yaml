@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for 0004-landlock-partial-notice-misclassified-child-failures.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/postmortem/0004-landlock-partial-notice-misclassified-child-failures.md
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures:
+  en: fc522f0da00c0d68
+  es: a9844eb550afcaaa
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/executive-summary:
+  en: 2ec1637fb5a99515
+  es: b9558c581a47b3ad
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/summary:
+  en: 818daf81fe33bfb2
+  es: e4df2ecab6014a4d
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/impact:
+  en: a65c52d5874b07e5
+  es: a27c8b56d1eb63be
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/timeline:
+  en: 43c9f047bbd0a239
+  es: 17efcc91e7c6859f
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/root-cause:
+  en: 97c948a04dd4ac89
+  es: b349d588b29f6c44
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/guardrails-added:
+  en: bf3bc8101efe4b0f
+  es: 00fe81d37793461f
+/post-mortem-0004-landlock-partial-enforcement-notice-misclassified-child-failures/lessons:
+  en: eea3aedb5f5f4f9f
+  es: efd0bb0930930190

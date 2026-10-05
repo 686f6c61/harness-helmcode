@@ -1,0 +1,112 @@
+name: CI
+
+# Pull-request gate matrix. Every job is a thin wrapper over the repository's
+# own gate runner (scripts/run-gates.ts) so `scripts/ci-simulate.ts` can replay
+# each job's exact commands locally: simulator green means Actions green.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+# Cancel a superseded pull-request run on a new push so a fresh head does not
+# queue a second full run behind a stale one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # CI runs must never report to any telemetry endpoint (none ships anymore,
+  # but the flag keeps inherited tooling honest).
+  DSH_TELEMETRY_DISABLED: '1'
+  # Hosted runners share and throttle hosts: give the suite the same explicit
+  # per-test budget the serial lanes use instead of Vitest's defaults.
+  DSH_COVERAGE_TEST_TIMEOUT_MS: '60000'
+
+jobs:
+  static:
+    name: static gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:ci:static
+
+  typecheck:
+    name: typecheck (host + client)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
+
+  lint:
+    name: lint and duplication
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:ci:lint:contracts-ready
+
+  unit:
+    name: unit suite (shard ${{ matrix.shard }}/4)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build:native-system
+      # The four shards partition exactly the inventory `check:ci:unit` runs
+      # serially; the simulator replays that aggregate once locally.
+      - run: pnpm exec vitest run --shard=${{ matrix.shard }}/4
+
+  summary:
+    name: all checks passed
+    needs: [static, typecheck, lint, unit]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          if [ "${{ contains(needs.*.result, 'failure') }}" = "true" ] \
+            || [ "${{ contains(needs.*.result, 'cancelled') }}" = "true" ]; then
+            echo 'One or more CI jobs failed.'
+            exit 1
+          fi
+          echo 'All CI jobs passed.'

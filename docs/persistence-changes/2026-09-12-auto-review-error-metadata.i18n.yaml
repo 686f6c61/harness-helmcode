@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for 2026-09-12-auto-review-error-metadata.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/2026-09-12-auto-review-error-metadata.md
+/:
+  en: 3d5a424ae7d7e46b
+  es: 6ad47d423415423f
+/2026-09-12-auto-review-error-metadata:
+  en: 972b0c8700a5a2d0
+  es: 5c3d7dcb9dccbc1e
+/2026-09-12-auto-review-error-metadata/summary:
+  en: 52d047afc26892fa
+  es: 18346f9ba4c71141
+/2026-09-12-auto-review-error-metadata/table-of-contents:
+  en: 6cf314a069ceb451
+  es: dabbc0fcbc05c776
+/2026-09-12-auto-review-error-metadata/declaration:
+  en: 6907136f28e48c90
+  es: 19b18a160ca02442
+/2026-09-12-auto-review-error-metadata/compatibility:
+  en: 0fbc992ed4149fb1
+  es: c5610dd38b7d389c
+/2026-09-12-auto-review-error-metadata/verification:
+  en: 59b830b1b9229362
+  es: 42835f2d749b79d7
+/2026-09-12-auto-review-error-metadata/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12

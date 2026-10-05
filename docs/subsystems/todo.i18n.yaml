@@ -1,0 +1,13 @@
+# Bilingual-pair consistency record for todo.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/todo.md
+/todo:
+  en: 88a835ce7658f934
+  es: 26ea1667ab697545
+/todo/todoitem-one-list-entry:
+  en: 3580467f183af02a
+  es: 37e0ade9bb90b597
+/todo/durable-event-and-invariant:
+  en: ae4046c1260671ae
+  es: 8a4976ae13ad2033

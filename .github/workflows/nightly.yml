@@ -1,0 +1,84 @@
+name: Nightly
+
+# The night lane: the whole unit inventory serially (a sharded PR run can
+# mask cross-shard flake that a single serial run exposes), a dependency
+# audit, and — when the repository secret exists — a live smoke of the NaN
+# Builders route that would have caught model-id drift in the shipped
+# catalog. Failures are visible here first; nothing blocks a push.
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DSH_TELEMETRY_DISABLED: '1'
+  DSH_COVERAGE_TEST_TIMEOUT_MS: '60000'
+
+jobs:
+  full-suite:
+    name: full unit inventory (serial)
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run check:ci:unit
+
+  audit:
+    name: dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Advisory on purpose: disclosed advisories are not a product regression
+    # and must not turn the night lane red without a fix to apply.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm audit --prod --audit-level critical
+
+  nan-smoke:
+    name: NaN Builders live smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Smoke the default route when a key is configured
+        env:
+          NAN_BUILDERS_API_KEY: ${{ secrets.NAN_BUILDERS_API_KEY }}
+        run: |
+          if [ -z "$NAN_BUILDERS_API_KEY" ]; then
+            echo 'NAN_BUILDERS_API_KEY is not configured; skipping the live smoke.'
+            exit 0
+          fi
+          # The smoke follows the shipped catalog: whatever the composition
+          # ships as the default model is what gets validated live.
+          model=$(sed -n 's/^        model: //p' packages/bundle/base/cordis.patch.yml | head -1)
+          test -n "$model" || { echo 'shipped catalog lost the default model row'; exit 1; }
+          echo "smoking the default route model: $model"
+          code=$(curl -sS -o /tmp/nan-smoke.json -w '%{http_code}' -m 60 \
+            https://api.nan.builders/v1/chat/completions \
+            -H "Authorization: Bearer $NAN_BUILDERS_API_KEY" \
+            -H 'Content-Type: application/json' \
+            -d "{\"model\":\"$model\",\"max_tokens\":16,\"messages\":[{\"role\":\"user\",\"content\":\"Reply with the single word: ok\"}]}")
+          echo "chat/completions -> HTTP $code"
+          test "$code" = 200 || { cat /tmp/nan-smoke.json; exit 1; }

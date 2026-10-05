@@ -1,0 +1,37 @@
+# Bilingual-pair consistency record for service.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cordis-api/service.md
+/:
+  en: d2c0c5bce430d1be
+  es: 92b9f986e19c8292
+/service:
+  en: a163fe605c4a8045
+  es: 5060e26ab2412aef
+/service/service-name:
+  en: 32a75e66b17c0b79
+  es: d2f9338811312096
+/service/static-members:
+  en: ceb197529207a8ed
+  es: f12fbfa59cbc2574
+/service/static-members/service-init:
+  en: ade1a1c4543fac8c
+  es: a211c8758f6184d9
+/service/static-members/service-check:
+  en: 111351ada5972a9a
+  es: e84ef12820042914
+/service/static-members/service-config:
+  en: 93d8ff69722f9b46
+  es: 89cf66b6f2f431ff
+/service/static-members/service-invoke:
+  en: 6d87f35f8cf52b05
+  es: 55f081ab7b30b291
+/service/static-members/service-extend:
+  en: 5b78b68d8de8cef9
+  es: 78b894e202ef9d48
+/service/static-members/service-tracker:
+  en: 52071ebded7ec026
+  es: 20707ed18ac4a766
+/service/static-members/service-resolveconfig:
+  en: ad62f59468d1a765
+  es: e4e618d7fa3a05af

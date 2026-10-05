@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for system-prompt.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/system-prompt.md
+/system-prompt-assembly:
+  en: d56571bc21173c54
+  es: 645e45d8a8461916
+/system-prompt-assembly/assembly-context:
+  en: 371539c21c1ffc45
+  es: 1179222fc08c2f46
+/system-prompt-assembly/tool-provider-result:
+  en: 89cb015bf2e3e7a5
+  es: 65fa30de7bfc280b
+/system-prompt-assembly/prompt-sections:
+  en: df3f908ba2dec129
+  es: 0a4ff6ffc8b77fef
+/system-prompt-assembly/dynamic-prompt-context:
+  en: 043740c2cf02b0aa
+  es: 565aab43fd2f8c4e

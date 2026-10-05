@@ -1,0 +1,7 @@
+- menu:
+  - menuitem "Solo lectura"
+  - menuitem "Escritura en el espacio de trabajo"
+  - menuitem "Acceso completo"
+  - menuitem "Auto review EXP":
+    - text: Auto review
+    - superscript: EXP

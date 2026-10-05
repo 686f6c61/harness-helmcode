@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for commands.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/commands.md
+/human-commands:
+  en: d13f9434ded884e3
+  es: c9de01db625dac1b
+/human-commands/input-metadata:
+  en: 9c7fd38926610b58
+  es: 129eb783907466cc
+/human-commands/definition:
+  en: 8d1944548766d286
+  es: d2f4f3c8b86cd968
+/human-commands/invocation-and-result:
+  en: c60c29cb7135ac76
+  es: 64c12c5131d9da12
+/human-commands/discovery-and-parsing-views:
+  en: a3bcb9354133cf68
+  es: 36e1cce585fb92ed

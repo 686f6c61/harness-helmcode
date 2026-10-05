@@ -1,0 +1,19 @@
+# Bilingual-pair consistency record for lsp.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/lsp.md
+/lsp-navigation:
+  en: a7483e85130cfba2
+  es: c3e52bd26b02aa29
+/lsp-navigation/operations-and-coordinates:
+  en: 42204b23027154f4
+  es: c82eb45240e13b8a
+/lsp-navigation/request:
+  en: 90429192a7758437
+  es: a586568b397c2ecb
+/lsp-navigation/result:
+  en: d260facb7ad22440
+  es: 782befafd1d47470
+/lsp-navigation/provider-and-service:
+  en: 754b4f1a0c80e332
+  es: b4381cd8d5ec1e62

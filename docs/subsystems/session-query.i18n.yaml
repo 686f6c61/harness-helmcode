@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for session-query.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/session-query.md
+/session-query:
+  en: 88273891b631d216
+  es: f5e0fa76f82e1d54
+/session-query/logical-records:
+  en: 839a70b2761c16f1
+  es: 7e4c1119b0aeda3c
+/session-query/provider-independent-filters-and-documents:
+  en: a1818c567b28613c
+  es: 7468ea1422da1fb2
+/session-query/full-text-search-pages:
+  en: 192dc8ec7f3a9d28
+  es: 3ae46cd1436f1ed9
+/session-query/session-lineage:
+  en: c4b3e9e77a1b07d8
+  es: 96dbfd588d1707c8
+/session-query/bounded-event-reads:
+  en: 2f4a5fa959be3554
+  es: a531f02a8cdde5d6
+/session-query/event-relationships:
+  en: 2ec376e3a10ee5fa
+  es: 09531046e7deaac1
+/session-query/errors:
+  en: 34e775125232d999
+  es: 4ec02c35d75d5173

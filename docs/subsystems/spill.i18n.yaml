@@ -1,0 +1,16 @@
+# Bilingual-pair consistency record for spill.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/spill.md
+/spill-storage:
+  en: ccc694c9f42c6b10
+  es: 6124c8ee738c1d4e
+/spill-storage/the-save-request:
+  en: 05dd1d013c45ee55
+  es: 7b4e08d0971f52b2
+/spill-storage/the-result:
+  en: e806be024ff6281a
+  es: 228cfaa62efd34bd
+/spill-storage/the-service:
+  en: d75a7c8d2c508cf4
+  es: 0b915e1e85986efe

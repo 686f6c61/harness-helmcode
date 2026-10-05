@@ -1,0 +1,9 @@
+- button "Volver a la lista de plugins": Lista de plugins
+- switch "Activar @fixture/missing-bundle" [checked]
+- heading "@fixture/missing-bundle" [level=3]
+- text: Error
+- paragraph:
+  - code: "@fixture/missing-bundle"
+- status: "Motivo: dsh: cannot resolve profile bundle \"@fixture/missing-bundle\" from the dsh installation or {{home}}/profiles/scaffold; run 'dsh plugin --profile scaffold install' if its dependency is not installed"
+- heading "Componentes incluidos" [level=4]
+- paragraph: Este paquete de plugins no contiene ningún componente.

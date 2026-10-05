@@ -1,0 +1,13 @@
+# Bilingual-pair consistency record for token-meter.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/subsystems/token-meter.md
+/token-meter:
+  en: 71bf205d865fe95f
+  es: b83fb38aded43479
+/token-meter/tokenmeasurement:
+  en: 34853869e90adf31
+  es: b1660d330b6f4753
+/token-meter/tokensurfacenode:
+  en: e445d12b10f651d0
+  es: d887735d78cbead4

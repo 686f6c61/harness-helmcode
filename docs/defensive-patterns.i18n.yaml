@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for defensive-patterns.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/defensive-patterns.md
+/defensive-patterns:
+  en: 28a4b98e9976f082
+  es: d281df20fcee1e85
+/defensive-patterns/report-orthogonal-outcomes-independently:
+  en: 09cdbaa7cf763dc9
+  es: 72f8b6345621ec89
+/defensive-patterns/honor-public-contracts-on-both-sides:
+  en: 157f966db7329171
+  es: 774b172447a3b9e1
+/defensive-patterns/async-state-is-not-synchronous-state:
+  en: 33085f2b58bab16c
+  es: 0f8bf87771ca2497
+/defensive-patterns/dispose-must-reach-quiescence-not-just-request-it:
+  en: 5c906be504b88a65
+  es: c0f19af9db8871f5
+/defensive-patterns/contain-callback-exceptions-in-the-dispatcher:
+  en: ae1788e76190db2c
+  es: e446c1d092e3a32d
+/defensive-patterns/never-hand-untrusted-output-the-ambient-environment-or-predictable-paths:
+  en: 09ad9d6433026468
+  es: c1c93737fa076fa0
+/defensive-patterns/unlink-link-shaped-paths:
+  en: 644e6b1a9bd7b7d7
+  es: c9363fa20334f089

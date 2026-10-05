@@ -1,0 +1,25 @@
+# Bilingual-pair consistency record for extension-cookbook.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/cookbook/extension-cookbook.md
+/cookbook-extension-plugin-shapes:
+  en: 45d4cc49f5c3be2f
+  es: cd5cd005693a6925
+/cookbook-extension-plugin-shapes/a-tool-plugin:
+  en: 39704ef102f2f2f7
+  es: 6ab3be1ef92a0c73
+/cookbook-extension-plugin-shapes/a-hook-plugin-permission-gate-example:
+  en: 9e67a75370812101
+  es: 94c2fb2ff6f5abe9
+/cookbook-extension-plugin-shapes/a-ui-plugin:
+  en: 0084c11d8d57beba
+  es: 3eefff144f4cf2f7
+/cookbook-extension-plugin-shapes/an-external-protocol-driver:
+  en: 913529c15388d721
+  es: 0abae6a90f687fbd
+/cookbook-extension-plugin-shapes/runnable-wirings:
+  en: f0a28d07c0bb4d1b
+  es: 65aacbf19e3b8411
+/cookbook-extension-plugin-shapes/the-feature-mechanism-map:
+  en: d5326a629ffd3b0b
+  es: 5698f04cadcd0769

@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for 2026-09-14-image-offload.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Spanish blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write docs/persistence-changes/2026-09-14-image-offload.md
+/:
+  en: 3d5a424ae7d7e46b
+  es: 6ad47d423415423f
+/2026-09-14-image-offload:
+  en: 40fe4078b9c42d94
+  es: 7ab5dc68e9f10d89
+/2026-09-14-image-offload/summary:
+  en: 798e2d62e41e244c
+  es: c3bb22076541d9bd
+/2026-09-14-image-offload/table-of-contents:
+  en: 6cf314a069ceb451
+  es: dabbc0fcbc05c776
+/2026-09-14-image-offload/declaration:
+  en: 6907136f28e48c90
+  es: 19b18a160ca02442
+/2026-09-14-image-offload/compatibility:
+  en: 746db8940f232b0a
+  es: 1a01e412f27b8bc3
+/2026-09-14-image-offload/verification:
+  en: e9e881607a71fba6
+  es: 9c8f380d28f7f427
+/2026-09-14-image-offload/dev-note:
+  en: b75c8458928b72b9
+  es: 79ce27846f061b12
