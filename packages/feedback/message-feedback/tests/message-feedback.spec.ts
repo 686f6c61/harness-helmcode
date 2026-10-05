@@ -315,6 +315,27 @@ describe('MessageFeedbackService public contract', () => {
 })
 
 describe('MessageFeedbackService item concurrency', () => {
+  it('keeps the mutation result when a committed observer throws, warning once', async () => {
+    const { ctx, persistence } = await harness()
+    const fixture = messageFixture('observer-fails')
+    persistence.persist(fixture.session)
+    const messageId = fixture.assistantMessageIds[0]
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    ctx.on('feedback/committed', () => { throw new Error('observer exploded') })
+
+    const created = expectItem(await ctx.messageFeedback.put({
+      sessionId: fixture.session.id,
+      messageId,
+      rating: 'positive',
+      note: 'kept prose',
+      ifVersion: null,
+    }))
+    expect(created.rating).toBe('positive')
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn.mock.calls[0]?.[0]).toContain('committed feedback observer failed')
+    expect(warn.mock.calls[0]?.[1]).toBeInstanceOf(Error)
+  })
+
   it('allows only one of two concurrent creates for the same message', async () => {
     const { ctx, persistence } = await harness()
     const fixture = messageFixture('same-item-race')

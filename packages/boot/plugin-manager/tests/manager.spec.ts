@@ -1400,3 +1400,21 @@ it.each([false, true])('rechecks installed bundle peers before accepting a disab
   }
   expect(readProfileManifest('test', dir).dsh?.profile?.bundles).toEqual(['core', 'extra'])
 })
+
+it('delegates registry discovery to the shared helper with defaults and explicit paging', async () => {
+  const fetchMock = vi.fn(async (_input: URL | RequestInfo, _init?: RequestInit) => new Response(JSON.stringify({
+    objects: [{ package: { name: 'helmcode-probe', version: '1.2.0', description: 'probe hit' } }],
+  }), { status: 200, headers: { 'content-type': 'application/json' } }))
+  vi.stubGlobal('fetch', fetchMock)
+  const { manager } = await fixture()
+  await expect(manager.searchRegistryPackages('probe', 5)).resolves.toEqual([
+    { name: 'helmcode-probe', version: '1.2.0', description: 'probe hit' },
+  ])
+  await manager.searchRegistryPackages()
+  const urls = fetchMock.mock.calls.map(call => new URL(typeof call[0] === 'string' ? call[0] : call[0] instanceof URL ? call[0].href : call[0].url))
+  expect(urls.map(url => `${url.searchParams.get('text')}|${url.searchParams.get('size')}`)).toEqual([
+    'probe|5',
+    'keywords:dsh-plugin|20',
+  ])
+  vi.unstubAllGlobals()
+})

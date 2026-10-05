@@ -1201,6 +1201,10 @@ describe('loadReplayScript', () => {
     writeFileSync(overrideFile, JSON.stringify(override), 'utf8')
 
     expect(loadReplayScript({ file: overrideFile, overrideFile })).toEqual(override)
+
+    const withReadyFile: ReplayEntry[] = [{ kind: 'hang', readyFile: join(dir, 'hang.ready') }]
+    writeFileSync(overrideFile, JSON.stringify(withReadyFile), 'utf8')
+    expect(loadReplayScript({ file: overrideFile, overrideFile })).toEqual(withReadyFile)
   })
 
   it('falls back to the JSONL when the override path is set but absent', () => {
