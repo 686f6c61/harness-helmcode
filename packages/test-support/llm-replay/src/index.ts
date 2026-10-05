@@ -721,7 +721,8 @@ function readReplayEntry(value: unknown, file: string, location: string): Replay
     }
     case 'hang': {
       const readyFile = value['readyFile']
-      const keys = readyFile === undefined ? ['kind'] : ['kind', 'readyFile']
+      const keys: string[] = ['kind']
+      if (readyFile !== undefined) keys.push('readyFile')
       if (!hasExactKeys(value, keys)) invalidOverride(file, location, 'has invalid hang-entry fields')
       if (readyFile !== undefined && (typeof readyFile !== 'string' || readyFile.length === 0)) {
         invalidOverride(file, location, 'readyFile must be a non-empty string')

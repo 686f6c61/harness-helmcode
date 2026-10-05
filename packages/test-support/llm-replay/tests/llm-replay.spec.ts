@@ -1288,6 +1288,22 @@ describe('loadReplayScript', () => {
     }
   })
 
+  it('round-trips a throw entry with the accepted flag through the override reader', () => {
+    const overrideFile = join(dir, 'replay.override.json')
+    const override: ReplayEntry[] = [{
+      kind: 'throw', chunks: [], message: 'quota', code: 'RATE', accepted: true,
+    }]
+    writeFileSync(overrideFile, JSON.stringify(override), 'utf8')
+    expect(loadReplayScript({ file: overrideFile, overrideFile })).toEqual(override)
+  })
+
+  it('round-trips a hang entry with a readyFile through the override reader', () => {
+    const overrideFile = join(dir, 'replay.override.json')
+    const override: ReplayEntry[] = [{ kind: 'hang', readyFile: join(dir, 'hang.ready') }]
+    writeFileSync(overrideFile, JSON.stringify(override), 'utf8')
+    expect(loadReplayScript({ file: overrideFile, overrideFile })).toEqual(override)
+  })
+
   it('rejects duplicate patch indexes instead of silently taking the last one', () => {
     writeFileSync(file, replaySessionJsonl([TEXT_CHUNKS]), 'utf8')
     const overrideFile = join(dir, 'replay.override.json')
