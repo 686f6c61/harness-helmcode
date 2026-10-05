@@ -105,8 +105,11 @@ describe('DuckDuckGo HTML parsing', () => {
       '<a class=\'result-link\' href="https://open.test>never closed quote</a>',
       '<a class=\'result-link\' href="">empty href</a>',
       '<a class=\'result-link\' href="https://kept.test">closed</a><td class=\'result-snippet\'>kept</td>',
+      // The page ends with an anchor that never closes: its chunk has no </a>.
+      "<a class='result-link' href=\"https://cut.test\">no close",
     ].join('')
-    expect(parseResults(page)).toEqual([
+    const parsed = parseResults(page)
+    expect(parsed).toEqual([
       { url: 'https://kept.test', title: 'closed', snippet: 'kept' },
     ])
   })
