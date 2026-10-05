@@ -77,7 +77,6 @@ export class HarnessSdkJsonRpcServer {
   private model = 'deepseek-official'
   private reasoningEffort: ReturnType<typeof ReasoningEffortId> | undefined
   private maxTokens: number | undefined
-  private llmFiber: { dispose(): Promise<void> } | undefined
   private readonly sessions = new Map<string, SessionRecord>()
   private readonly sessionCreations = new Map<string, Promise<SessionRecord>>()
   private readonly disposers: (() => void)[] = []
@@ -223,11 +222,9 @@ export class HarnessSdkJsonRpcServer {
         failures.push(error)
       }
     }
-    const teardownResults = await Promise.allSettled([
-      ...records.map(rec => Promise.resolve().then(() => rec.handle.dispose())),
-      ...(this.llmFiber === undefined ? [] : [Promise.resolve().then(() => this.llmFiber?.dispose())]),
-    ])
-    this.llmFiber = undefined
+    const teardownResults = await Promise.allSettled(
+      records.map(rec => Promise.resolve().then(() => rec.handle.dispose())),
+    )
     failures.push(...teardownResults
       .filter((result): result is PromiseRejectedResult => result.status === 'rejected')
       .map(result => result.reason as unknown))
