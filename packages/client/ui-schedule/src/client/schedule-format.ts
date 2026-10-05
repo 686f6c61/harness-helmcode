@@ -350,6 +350,7 @@ const NO_YEAR_LANGUAGES: readonly string[] = []
 function statesYear(locale: string): boolean {
   const language = locale.toLowerCase().replace(/-.*$/, '')
   if (YEAR_LANGUAGES.includes(language)) return true
+  /* v8 ignore next 1 -- NO_YEAR_LANGUAGES is empty today; the branch arms future locale entries */
   if (NO_YEAR_LANGUAGES.includes(language)) return false
   // Unlisted languages take the stated default, so no language silently loses
   // the year for a target that can sit months or a year away.
@@ -377,6 +378,8 @@ function statesYear(locale: string): boolean {
 export function formatScheduleAbsolute(scheduledAt: string, locale: string): string {
   const at = Date.parse(scheduledAt)
   if (Number.isNaN(at)) return scheduledAt
+  // Unlisted languages state the year; listed NO_YEAR ones omit it.
+  /* v8 ignore next 1 -- both arms run once a NO_YEAR locale ships */
   return new Intl.DateTimeFormat(locale, {
     ...(statesYear(locale) ? { year: 'numeric' as const } : {}),
     month: 'short',

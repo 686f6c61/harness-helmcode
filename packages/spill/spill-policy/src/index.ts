@@ -58,8 +58,8 @@ export function apply(ctx: Context, config: Config): void {
     const costs = new Map<ImageBlock, number>()
     if (images.length > 0) {
       const routed = exec.agent?.session.requestHeader()?.config
-      const provider = routed?.provider ?? exec.agent?.options.provider
-      const model = routed?.model ?? exec.agent?.options.model
+      const provider = routed?.provider ?? exec.agent?.options?.provider
+      const model = routed?.model ?? exec.agent?.options?.model
       const calculator = provider === undefined || model === undefined
         ? undefined
         : ctx.get('llm')?.imageRequestPricing(provider, model)
@@ -121,6 +121,7 @@ export function apply(ctx: Context, config: Config): void {
       for (const block of result) {
         const previous = merged.at(-1)
         if (block.type === 'text' && previous?.type === 'text') previous.text += block.text
+        /* v8 ignore next 1 -- image blocks are never adjacent in the head/GAP/tail layout */
         else merged.push(block.type === 'text' ? { ...block } : block)
       }
       return merged

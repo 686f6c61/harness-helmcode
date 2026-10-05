@@ -621,7 +621,6 @@ describe('disposal (HMR safety)', () => {
   })
 })
 
-
 describe('image pricing and description', () => {
   /** One described image as a model input. */
   const image: ImageBlock = {
@@ -665,6 +664,62 @@ describe('image pricing and description', () => {
     async execute(): Promise<ContentBlock[]> {
       return [{ type: 'text', text: 'look at this' }, image, { type: 'text', text: tail }]
     },
+  })
+
+  it('answers the no-calculator refusal when the routed header names no model', async () => {
+    const { ctx } = await setup({ maxInlineTokens: 8 }, true, (ctx) => {
+      ctx.provide('attachments', { imageHostPath: () => '/host/objects/cc/object.png' })
+      ctx.provide('fs', { processPathFromHostPath: (p: string) => p.startsWith('/') ? p : undefined })
+      ctx.provide('llm', {
+        imageRequestPricing: () => ({
+          priceImages: (images: ImageBlock[]) => images.map(() => ({ visualTokens: 900, text: 'a pictured chart' })),
+        }),
+      })
+    })
+    const warn = vi.spyOn(ctx.logger, 'warn').mockImplementation(() => {})
+    const headerless = {
+      name: 'bash',
+      callId: ToolCallId('probe-call'),
+      agent: {
+        session: { header: { id: SessionId('s1') }, requestHeader: () => ({ config: {} }) },
+      },
+    }
+    const decision = await ctx.waterfall(
+      'tools/post-execute',
+      headerless as never,
+      { content: [{ type: 'text', text: 'look at this' }, image], isError: false } as ToolExecutionResult,
+      async (): Promise<PostToolDecision> => ({ kind: 'accept', content: [{ type: 'text', text: 'look at this' }, image] }),
+    )
+    expect(warn.mock.calls[0]?.[0]).toContain('no image token calculator')
+    expect(decision).toEqual({ kind: 'accept', content: [{ type: 'text', text: 'look at this' }, image] })
+  })
+
+  it('keeps a cheap image whole in the retained preview while spilling the tail', async () => {
+    const { ctx } = await setup({ maxInlineTokens: 64 }, true, (ctx) => {
+      ctx.provide('attachments', { imageHostPath: () => '/host/objects/cc/object.png' })
+      ctx.provide('fs', { processPathFromHostPath: (p: string) => p.startsWith('/') ? p : undefined })
+      ctx.provide('llm', {
+        imageRequestPricing: () => ({
+          priceImages: (images: ImageBlock[]) => images.map(() => ({ visualTokens: 5, text: 'a pictured chart' })),
+        }),
+      })
+    })
+    const parented = {
+      name: 'bash',
+      callId: ToolCallId('probe-call'),
+      agent: {
+        session: { header: { id: SessionId('s1') }, requestHeader: () => ({ config: { provider: 'probe-p', model: 'probe-m' } }) },
+      },
+      parent: { token: 'ptc-parent' as never },
+    }
+    const decision = await ctx.waterfall(
+      'tools/post-execute',
+      parented as never,
+      { content: [image, { type: 'text', text: 'z'.repeat(400) }], isError: false } as ToolExecutionResult,
+      async (): Promise<PostToolDecision> => ({ kind: 'accept' }),
+    )
+    const content = (decision as { content?: ContentBlock[] }).content ?? []
+    expect(textOf(content)).toContain('Full formatted result stored at')
   })
 
   it('prices routed images, spills their full description, and drops them from the preview', async () => {
