@@ -52,6 +52,9 @@ export function restoreReleasedV5Artifact(artifact: SessionFormatArtifact, known
     } catch (error: unknown) {
       // Retired content must fail as a migration refusal (before any
       // publication), never as silent corruption of a migrated artifact.
+      // Every V4 content admission throws Error subclasses; String() guards
+      // exotic non-Error rejections only.
+      /* v8 ignore next 1 -- content admission always rejects with Error instances */
       const detail = error instanceof Error ? error.message : String(error)
       throw new SessionFormatUnsupportedMigrationError(
         `format v5 refuses released content: ${detail}`, { cause: error })

@@ -10,7 +10,7 @@ import { ToolCallId } from '@deepseek-ai/dsh-llm'
 import type { ToolExecutionResult } from '@deepseek-ai/dsh-tools'
 import SystemPrompt from '@deepseek-ai/dsh-system-prompt'
 import ToolRuntime from '@deepseek-ai/dsh-tools'
-import { githubRequest } from '../src/api.ts'
+import { formatIssue, githubRequest } from '../src/api.ts'
 import * as tool from '../src/index.ts'
 
 const homes: string[] = []
@@ -174,4 +174,98 @@ describe('github request plumbing', () => {
     await expect(githubRequest({ token: 't', baseURL: 'https://api.github.test' }, 'GET', '/rate_limit'))
       .rejects.toThrow('GitHub request failed')
   })
+})
+
+describe('formatting edges and argument validation', () => {
+  it('renders entries without author, update time, or body, and keeps short bodies whole', () => {
+    const bare = { number: 3, title: 'Bare', state: 'closed', html_url: 'https://github.test/o/r/issues/3' }
+    const rendered = formatIssue(bare)
+    expect(rendered.split('\n')).toEqual([
+      '#3 [closed] Bare',
+      'issue',
+      'https://github.test/o/r/issues/3',
+    ])
+    const withBody = formatIssue({ ...bare, body: 'short body' })
+    expect(withBody.split('\n').at(-1)).toBe('short body')
+  })
+
+  it('pluralizes the match count', async () => {
+    const fetchMock = vi.fn(async () => jsonResponse({ total_count: 5, items: [ISSUE, { ...ISSUE, number: 8 }, { ...ISSUE, number: 9 }] }))
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = await setup({ token: 'tok-1' })
+    const message = messageOf(await call(ctx, { action: 'issue-search', query: 'many' }))
+    expect(message).toContain('5 total matches, showing 3')
+  })
+
+  it('reports a blank search query without a network call', async () => {
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = await setup({ token: 'tok-1' })
+    expect(messageOf(await call(ctx, { action: 'issue-search', query: '   ' })))
+      .toBe('github: "issue-search" requires a query.')
+    expect(messageOf(await call(ctx, { action: 'pr-search' })))
+      .toBe('github: "pr-search" requires a query.')
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('uses the default status message when an API error body carries no message', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({}, { status: 422 })))
+    const ctx = await setup({ token: 'tok-1' })
+    expect(messageOf(await call(ctx, { action: 'issue-get', owner: 'o', repo: 'r', number: 1 })))
+      .toBe('github: GitHub API error (HTTP 422)')
+  })
+
+  it('validates comment targets and body text once writes are enabled', async () => {
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = await setup({ token: 'tok-1', allowWrites: true })
+    expect(messageOf(await call(ctx, { action: 'issue-comment', owner: 'o', number: 1 })))
+      .toBe('github: "issue-comment" requires a repository name.')
+    expect(messageOf(await call(ctx, { action: 'issue-comment', owner: 'o', repo: 'r', number: 1, body: '   ' })))
+      .toBe('github: "issue-comment" requires body text.')
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it('requires a repository for pr-list', async () => {
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+    const ctx = await setup({ token: 'tok-1' })
+    expect(messageOf(await call(ctx, { action: 'pr-list', owner: 'o' })))
+      .toBe('github: "pr-list" requires a repository name.')
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+})
+
+it('tolerates a search reply without an items array', async () => {
+  vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({ total_count: 0 })))
+  const ctx = await setup({ token: 'tok-1' })
+  expect(messageOf(await call(ctx, { action: 'issue-search', query: 'x' }))).toContain('No matching results.')
+})
+
+it('defaults the pr-list state to open and uses the non-Error error text', async () => {
+  const fetchMock = vi.fn(async (_input: URL | RequestInfo, _init?: RequestInit) => jsonResponse([ISSUE]))
+  vi.stubGlobal('fetch', fetchMock)
+  const ctx = await setup({ token: 'tok-1' })
+  const message = messageOf(await call(ctx, { action: 'pr-list', owner: 'o', repo: 'r' }))
+  expect(message).toContain('#7 [open] Blinking cursor')
+  expect(message).not.toContain('total match')
+  const [rawUrl] = fetchMock.mock.calls[0] ?? []
+  if (!(rawUrl instanceof URL)) throw new TypeError('expected a URL request')
+  expect(rawUrl.searchParams.get('state')).toBe('open')
+
+  // A thrown string (never an Error) still lands in the message through String().
+  vi.stubGlobal('fetch', vi.fn(async () => { throw 'gateway exploded' }))
+  expect(messageOf(await call(ctx, { action: 'issue-get', owner: 'o', repo: 'r', number: 2 })))
+    .toBe('github: GitHub request failed: gateway exploded')
+})
+
+it('truncates bodies beyond 800 characters and records the raw input on the card', async () => {
+  const longBody = 'b'.repeat(1200)
+  vi.stubGlobal('fetch', vi.fn(async () => jsonResponse({ ...ISSUE, body: longBody })))
+  const ctx = await setup({ token: 'tok-1' })
+  const message = messageOf(await call(ctx, { action: 'issue-get', owner: 'o', repo: 'r', number: 7 }))
+  expect(message).toContain(`${'b'.repeat(800)}…`)
+  expect(message).not.toContain('b'.repeat(801))
+  expect(ctx.tools.get('github')!.presentCall?.({ action: 'issue-get', owner: 'o', repo: 'r', number: 7 }))
+    .toEqual({ card: 'generic', title: 'GitHub issue-get', kind: 'other', rawInput: { action: 'issue-get', owner: 'o', repo: 'r', number: 7 } })
 })

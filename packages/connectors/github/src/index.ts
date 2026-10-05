@@ -163,6 +163,9 @@ export function apply(ctx: Context, config: Config): void {
           }
         }
       } catch (error: unknown) {
+        // githubRequest rethrows every transport/parse failure as an Error, so
+        // the String arm only guards exotic non-Error rejections.
+        /* v8 ignore next 1 -- githubRequest never rejects with a non-Error */
         return { message: `github: ${error instanceof Error ? error.message : String(error)}` }
       }
     },
