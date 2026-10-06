@@ -39,7 +39,7 @@ describe.skipIf(MODE === 'record')('web e2e: refused New Session', () => {
         expect(await page.getByRole('alert').count()).toBe(0)
 
         await page.getByRole('button', { name: 'Nueva sesión', exact: true }).first().click()
-        const notice = page.getByRole('alert').filter({ hasText: '新建会话失败' })
+        const notice = page.getByRole('alert').filter({ hasText: 'Error al crear la sesión' })
         await notice.waitFor()
         await compareOrRefreshGolden(NOTICE_EXPECTED, await notice.ariaSnapshot(), MODE)
         expect(scaffold.ctx.sessions.list()).toEqual([])

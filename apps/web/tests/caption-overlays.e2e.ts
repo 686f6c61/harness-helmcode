@@ -24,7 +24,7 @@ it('keeps settings and expanded plugin dialogs clear of the Windows caption acro
       const reopenSidebar = page.getByRole('button', { name: 'Abrir barra lateral', exact: true })
       if (await reopenSidebar.isVisible()) await reopenSidebar.click()
       await openSettings(page, 'es')
-      const settings = page.getByRole('dialog', { name: '设置', exact: true })
+      const settings = page.getByRole('dialog', { name: 'Configuración', exact: true })
       const settingsMask = settings.locator('..').locator(':scope > [aria-hidden="true"]')
       for (const fullscreen of [false, true, false]) {
         await page.evaluate(value => document.documentElement.toggleAttribute('data-fullscreen', value), fullscreen)
@@ -46,9 +46,9 @@ it('keeps settings and expanded plugin dialogs clear of the Windows caption acro
       await page.keyboard.press('Escape')
       await menu.waitFor({ state: 'hidden' })
       expect(await settings.isVisible()).toBe(true)
-      await settings.getByRole('button', { name: '关闭', exact: true }).click()
+      await settings.getByRole('button', { name: 'Cerrar', exact: true }).click()
       if (await reopenSidebar.isVisible()) await reopenSidebar.click()
-      await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: '插件', exact: true }).click()
+      await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: 'Plugins', exact: true }).click()
       await page.locator('[data-plugin-panel]').getByRole('button', { name: 'Añadir plugin', exact: true }).click()
       const plugin = page.getByRole('dialog', { name: 'Añadir plugin', exact: true })
       await plugin.getByRole('button', { name: 'Guía de instalación de plugins y ejemplos', exact: true }).click()
@@ -63,10 +63,10 @@ it('keeps settings and expanded plugin dialogs clear of the Windows caption acro
           return box !== null && box.y >= margin && box.y + box.height <= 600 - margin
         }, { timeout: 5_000 }).toBe(true)
         expect((await plugin.locator('..').locator(':scope > [aria-hidden="true"]').boundingBox())?.y).toBe(fullscreen ? 0 : 40)
-        expect(await plugin.getByRole('button', { name: '关闭', exact: true }).isVisible()).toBe(true)
+        expect(await plugin.getByRole('button', { name: 'Cerrar', exact: true }).isVisible()).toBe(true)
         expect(await plugin.getByRole('button', { name: 'Instalar', exact: true }).isVisible()).toBe(true)
       }
-      await plugin.getByRole('button', { name: /^安装源/ }).click()
+      await plugin.getByRole('button', { name: /^Registro/ }).click()
       const registry = page.locator('[data-install-registry]')
       await registry.waitFor()
       const registryRect = await registry.boundingBox()
