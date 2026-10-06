@@ -1,6 +1,6 @@
-- textbox "筛选选项":
-  - /placeholder: 搜索模型…
-- listbox "/model 匹配项":
+- textbox "Filtrar opciones":
+  - /placeholder: Buscar modelos…
+- listbox "Coincidencias de /model":
   - group "DeepSeek":
     - text: DeepSeek
     - option "DeepSeek-V4-Flash"

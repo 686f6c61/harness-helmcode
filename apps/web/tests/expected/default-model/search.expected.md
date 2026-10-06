@@ -1,7 +1,7 @@
-- group "模型与推理等级":
-  - searchbox "搜索模型…": ACMLG
-  - button "清除搜索"
-  - menu "模型":
+- group "Modelo y nivel de razonamiento":
+  - searchbox "Buscar modelos…": ACMLG
+  - button "Borrar búsqueda"
+  - menu "Modelo":
     - group "Acme Gateway":
       - text: Acme Gateway
       - menuitemradio "Acme Large"

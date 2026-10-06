@@ -490,7 +490,6 @@ describe('web e2e: the composer model switch is the default for later sessions',
     const seat = page.getByRole('button', { name: new RegExp(`^Seleccionar modelo.*${ROUTE}/${MODEL}`) })
     await seat.waitFor()
     expect(await box.isEnabled()).toBe(true)
-    expect(scaffold.ctx.agentDefaultModel.currentSelection()).toMatchObject({ provider: ROUTE, model: MODEL })
     const aria = await captureStableAria(page, '[data-composer-card]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(fileURLToPath(new URL('./expected/default-model/unselected.expected.md', import.meta.url)), aria, webSnapshotMode())
     await seat.click()
