@@ -2,6 +2,37 @@
 
 Formato [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/). English summary below.
 
+## [0.1.3] — 2026-10-06
+
+Segunda versión pública, y la primera con toda la casa en orden: CI completamente en verde con la cobertura de calidad como barrera bloqueante, el lane de tests de la web a cero fallos, y las apps de escritorio construidas desde exactamente este estado. Nada sale de tu máquina salvo lo que provocas (LLM, búsqueda, GitHub) — igual que en 0.1.0.
+
+### Descargas
+
+- **macOS (Apple Silicon)**: `Helmcode-desktop-v0.1.3-mac-arm64.zip` — descomprime y arrastra `Helmcode.app` a Aplicaciones. El bundle va sin firmar: en la primera apertura, clic derecho → «Abrir» (o `xattr -dr com.apple.quarantine Helmcode.app`).
+- **Windows (x64)**: `Helmcode-desktop-v0.1.3-win-x64-setup.exe` — instalador NSIS sin firmar; SmartScreen avisará por no llevar firma de editor.
+- **SHA256SUMS.txt**: checksums SHA-256 de ambos ficheros. Verifica tu descarga antes de ejecutarla (`sha256sum -c SHA256SUMS.txt` o `shasum -a 256 -c SHA256SUMS.txt`).
+
+### Qué hay en este código
+
+- **La app completa**: escritorio macOS/Windows sobre el runtime del harness (agent loop, herramientas, plugins, memoria persistente, checkpoints reversibles, búsqueda web, conector GitHub), superficie web embebida, SDK y ACP. Ruta de modelos `nan-builders` (OpenAI-completions contra `api.nan.builders`), configurable desde la página Modelos con cualquier proveedor del catálogo.
+- **Zero-log verificado**: sin telemetría, sin subidas de registro de sesión, sin cuenta. El triage formal del escaneo de seguridad Mimosa (738 hallazgos estáticos) queda documentado como nota de proceso: heurísticas de taint sobre funciones declaradas del harness, duplicados en bundles y falsos positivos de credenciales i18n; ningún hallazgo corresponde a código introducido por el fork.
+
+### CI
+
+- **Cobertura de calidad bloqueante**: el job particionado de cobertura pasa de consultivo a bloqueante con la brecha cerrada (30 ficheros por debajo de la barra → 0). Última corrida: las 6 tareas en verde.
+- **Lane de consumers de la web a cero fallos**: de ~131 pruebas rotas (superficies que el fork rediseñó o retiró) a 156 ficheros / 568 tests en verde, reescritura escenario a escenario contra la UI actual y retiro justificado de las specs que cubrían superficies eliminadas (adaptador `llm-deepseek`, onboarding de cuenta, telemetría de feedback).
+- **Worker preview arreglado**: el pack de la imagen vfs fallaba por `node:querystring` en la búsqueda de plugins (ahora `URLSearchParams`, web-seguro) y el stub de pi-ai del worker no cubría los símbolos que la ruta NaN lee al montar; el preview arranca y las rutas de petición siguen fallando loud.
+- **Smokes real-host sobre la ruta del fork**: los tres smokes keyless del CLI y el escenario de reinicio del servidor redirigen la ruta nan-builders a su mock OpenAI-completions mediante profile patches del CLI; el mock de pruebas habla el dialecto que la ruta habla de verdad.
+- **Flake de timing**: ventanas de espera de 20 ms → 250 ms en el harness de snapshots bajo carga instrumentada.
+- **Higiene**: baseline de `no-unknown-casts` resincronizada (1408 aserciones registradas en 541 ficheros), exclusiones de cobertura y mapeos de `tsconfig.base` sin entradas muertas, y el golden del chip de Plan en español commiteado.
+
+### English
+
+Second public release, first with the house in order: CI fully green with partitioned quality coverage as a blocking gate, the web consumer test lane at zero failures (156 files / 568 tests), and both desktop apps built from exactly this state. Zero-log unchanged — nothing leaves your machine except what you provoke (LLM, search, GitHub). Downloads: unsigned macOS (Apple Silicon) `.app` zip and Windows NSIS installer, both with SHA256 checksums. Engineering highlights: the vfs worker preview pack is fixed (`node:querystring` → `URLSearchParams`; the pi-ai worker stub now covers every symbol the NaN route reads at mount), real-host keyless smokes drive the fork's OpenAI-completions route through CLI profile patches, and the Mimosa static-scan triage (738 findings) is documented as a process note.
+
+[0.1.3]: https://github.com/686f6c61/harness-helmcode/releases/tag/desktop-v0.1.3
+[0.1.0]: https://github.com/686f6c61/harness-helmcode/releases/tag/v0.1.0
+
 ## [0.1.0] — 2026-10-04
 
 Primera versión pública. Fork del DeepSeek Harness reconstruido zero-log: instalas y usas, y nada sale de tu máquina salvo lo que provocas (LLM, búsqueda, GitHub).
