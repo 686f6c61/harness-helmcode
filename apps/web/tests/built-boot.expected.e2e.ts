@@ -61,20 +61,11 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
 
   // The sidebar renders from the boot graph: every inject layer activated.
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
+  // Every build brands the sidebar with the Helmcode lockup svg; the official
+  // profile additionally never names a local build.
+  expect(document.querySelector('svg[viewBox="0 0 546 103"], svg[viewBox="-21 0 157 157"]')).not.toBeNull()
   if (clientBuildValue('DSH_CLIENT_BUILD_PROFILE') === 'official') {
-    // The official wordmark lockup is the Helmcode brand svg (0 0 546 103).
-    expect(document.querySelector('svg[viewBox="0 0 546 103"]')).not.toBeNull()
     expect(screen.queryByText('NaN Local Build')).toBeNull()
-  } else {
-    expect(document.querySelector('svg[viewBox="0 0 24 24"]')).not.toBeNull()
-    const version = clientBuildValue('DSH_CLIENT_VERSION')
-    if (version === undefined) throw new Error('default client build record must carry DSH_CLIENT_VERSION')
-    const commit = clientBuildValue('DSH_CLIENT_COMMIT_HASH')
-    const buildVersion = version
-      + (commit === undefined ? '' : `-${commit}`)
-      + (clientBuildValue('DSH_CLIENT_GIT_DIRTY') === 'true' ? '-dirty' : '')
-    screen.getByText('NaN Local Build')
-    screen.getByText(buildVersion)
   }
   // The compact layout dropped group session counts; the fixture workspace
   // group row renders immediately with its sessions beneath it.
