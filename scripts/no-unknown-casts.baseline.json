@@ -343,6 +343,9 @@
   "packages/boot/plugin-manager/tests/operations.spec.ts": {
     "657d57900ec8cdcfa9a4b11544ef4799d3a60c43c49e20f7aea13d3522ddbbee": 2
   },
+  "packages/boot/plugin-manager/tests/registry-search.spec.ts": {
+    "af448f6667eca1ad16d75f1409652e917edf6754fdbea7f7714e01120babd3ad": 1
+  },
   "packages/boot/plugin-manager/tests/tools.spec.ts": {
     "29e5ec01ee79a9c66e7c5755f8c629c193db226dc08b29f16b5967957ad8602c": 1,
     "4dd1f265ec710503bb27f057a582099a1e9d8b5db80fb45f148e32fd2afb5325": 2
@@ -817,6 +820,9 @@
   "packages/compaction/compaction-basic/tests/manual-compaction.spec.ts": {
     "9dae2342b022f2c9c7f61de694191cf5e0be290723a4e1235c603a7a78c6d4ca": 1
   },
+  "packages/compaction/compaction-image-offload/tests/offload.spec.ts": {
+    "4dd1f265ec710503bb27f057a582099a1e9d8b5db80fb45f148e32fd2afb5325": 1
+  },
   "packages/compaction/compaction-tool-result-pruner/tests/loader-composition.spec.ts": {
     "cf608c9b27ee8323dcd5ca6261251861abf5243d4f61896effb2e7e765d14759": 1
   },
@@ -1170,6 +1176,11 @@
   },
   "packages/experimental/ptc-runtime-python/src/index.ts": {
     "b121cee14635b00f7891217013e4682493cf96f676710be60722fdf8b862aea3": 1
+  },
+  "packages/experimental/tool-agent-team/tests/team-tools.spec.ts": {
+    "1b3c0e22c32fc84f2cee5f7048f8f6b9e60a78bcce49417c6f252470127db4ed": 2,
+    "5bc41e4d99c723fc34faad3b447f3a43521659902e73c45927e68cebb86de771": 1,
+    "b0c54c801b72766b62fac2ae7c8389e1558c5fce1b39bd6443cd7652b910b1d9": 1
   },
   "packages/experimental/webworker-packer/src/preview.ts": {
     "cdd46c8ceda6d5707bc2abfba329351ba06bcc030b314a3c799d72a4971bd5a4": 1
@@ -1782,7 +1793,11 @@
     "a1bc71cd51432754ad8ccc5a1d1cb7f764e8e423d46f685bee8715b79bd2df04": 1
   },
   "packages/spill/spill-policy/tests/spill-policy.spec.ts": {
-    "454b667cdac6de305d79d51ef853272212a80166952a84385c7c915f595ae0a6": 1
+    "139755dcdf8fe229b50de1bc88473a148a1efc9708b877e4f1f9a5fb550ea3c6": 1,
+    "374f53738e4a8b8a99efa92e3598a8d7385c710355c6fb913672e78cf2a7e6ce": 1,
+    "454b667cdac6de305d79d51ef853272212a80166952a84385c7c915f595ae0a6": 1,
+    "4ba52ff022cf5288932df8c37725aa57de5c40cdcc24502734b7de9d909d74a6": 1,
+    "726a4848ca7bcfd29c9b38fc374c5b7f6f3d332b4feb6baccb9e719f9c7a9b6a": 1
   },
   "packages/ssh/ssh/src/helper-processes.ts": {
     "04bc8a44533574365dfedf563e2356458bcf95f990a00906938c977c1d683356": 1
