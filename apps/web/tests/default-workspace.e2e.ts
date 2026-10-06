@@ -86,7 +86,7 @@ describe.skipIf(MODE === 'record')('web e2e: default Workspace', () => {
       try {
         await page.goto(scaffold.authenticatedUrl)
         const input = page.locator('[data-composer-input][contenteditable="true"]').first()
-        const notice = page.getByRole('alert').filter({ hasText: '无法创建默认工作区' })
+        const notice = page.getByRole('alert').filter({ hasText: 'No se pudo crear el espacio de trabajo predeterminado' })
         await notice.waitFor()
         expect(scaffold.ctx.workspaceRegistry.list()).toEqual([])
         expect(scaffold.ctx.sessions.list()).toEqual([])

@@ -88,13 +88,13 @@ describe('web e2e: plugin configuration pages', () => {
     const panel = await openPlugins()
 
     // Every page the shipped web composition exposes: the shell executor, the
-    // agent loop, subagent selection, and the DeepSeek search provider, after
-    // the official bundles the installation ships switched off.
-    await panel.getByRole('button', { name: 'Ver Búsqueda web', exact: true }).waitFor({ timeout: 20_000 })
+    // agent loop, and subagent selection, after the official bundles the
+    // installation ships switched off. The fork's composition has no
+    // web-search page: that provider left with its DeepSeek backend.
     const official = panel.locator('[data-plugin-group="official"]')
     expect(await official.locator('[data-plugin-package]').count()).toBe(OPTIONAL_BUNDLES.length)
-    expect(await official.locator('[data-plugin-item]').count()).toBe(4)
-    for (const title of ['Terminal', 'Bucle del Agent', 'Subagentes', 'Búsqueda web']) {
+    expect(await official.locator('[data-plugin-item]').count()).toBe(3)
+    for (const title of ['Terminal', 'Bucle del Agent', 'Subagente']) {
       expect(await official.getByRole('button', { name: `Ver ${title}`, exact: true }).count()).toBe(1)
     }
     // A card carries the one-liner; the fields wait for the page.
@@ -108,7 +108,7 @@ describe('web e2e: plugin configuration pages', () => {
 
   it('saves subagent limits and resets them to the deployment defaults', async () => {
     const panel = await openPlugins()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     const depth = panel.getByLabel('Profundidad máxima de recursión', { exact: true })
     const capacity = panel.getByLabel('Límite de paralelismo de subagentes', { exact: true })
     expect(await depth.inputValue()).toBe('1')
@@ -120,7 +120,7 @@ describe('web e2e: plugin configuration pages', () => {
     await expect.poll(settingsDocument).toContain('maxActiveSubagents: 12')
     await expect.poll(settingsDocument).toContain('maxDepth: 2')
     await openPlugins()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     const snapshot = await captureStableAria(page, '[data-plugin-panel]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(join(SNAPSHOT_DIR, 'subagent.expected.md'), snapshot, MODE)
     const controlHeight = await depth.evaluate(element => element.getBoundingClientRect().height)
@@ -133,7 +133,7 @@ describe('web e2e: plugin configuration pages', () => {
     await panel.getByRole('button', { name: 'Guardar', exact: true }).click()
     await expect.poll(() => panel.getByRole('button', { name: 'Guardar', exact: true }).isDisabled()).toBe(true)
     await openPlugins()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     expect(await depth.inputValue()).toBe('1')
     expect(await capacity.inputValue()).toBe('8')
     await panel.getByRole('button', { name: 'Volver a la lista de plugins', exact: true }).click()
@@ -141,7 +141,7 @@ describe('web e2e: plugin configuration pages', () => {
 
   it('opens field explanations with the keyboard and retains unsaved edits', async () => {
     const panel = await openPlugins()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     const depth = panel.getByLabel('Profundidad máxima de recursión', { exact: true })
     await depth.fill('2')
     const depthHelp = panel.getByRole('button', { name: 'Acerca de la profundidad máxima de recursión', exact: true })
@@ -161,14 +161,14 @@ describe('web e2e: plugin configuration pages', () => {
     const capacityRules = panel.getByRole('region', { name: 'Acerca del límite de paralelismo de subagentes', exact: true })
     expect(await capacityRules.getByText('Total de subagentes activos bajo el mismo agente principal, en todos los niveles de recursión. El agente principal no se cuenta. Las nuevas solicitudes de inicio se rechazan cuando se alcanza el límite.', { exact: true }).count()).toBe(1)
     await panel.getByRole('button', { name: 'Volver a la lista de plugins', exact: true }).click()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     expect(await depth.inputValue()).toBe('1')
   })
 
   it('saves limits and the model allowlist together from the shared card', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-plugin-config-subagent-model-selection'))
     const panel = await openPlugins()
-    await openPage(panel, 'Subagentes')
+    await openPage(panel, 'Subagente')
     const toggle = panel.getByRole('switch', { name: 'Permitir que los agentes elijan modelos para los subagentes' })
 
     await panel.getByLabel('Profundidad máxima de recursión', { exact: true }).fill('2')
@@ -314,9 +314,10 @@ describe('web e2e: plugin configuration pages', () => {
     // The page's own view of the row follows the Host's change event, which
     // can land after the browser half mounted; the golden holds the settled page.
     await row.getByText('En ejecución', { exact: true }).waitFor({ timeout: 10_000 })
-    expect(await bundlePage.getByRole('button', { name: 'Acción del fixture' }).count()).toBe(1)
-    expect(await bundlePage.locator('[data-live-badge="bundle"]').textContent()).toBe('Insignia del fixture')
-    expect(await bundlePage.getByRole('region', { name: 'Sección del fixture' }).getByText('Contenido de sección del fixture').count()).toBe(1)
+    // The fork's fixture contributes its raw English strings.
+    expect(await bundlePage.getByRole('button', { name: 'Fixture action' }).count()).toBe(1)
+    expect(await bundlePage.locator('[data-live-badge="bundle"]').textContent()).toBe('Fixture badge')
+    expect(await bundlePage.getByRole('region', { name: 'Fixture section' }).getByText('Section content from the fixture').count()).toBe(1)
     const bundleSnapshot = await captureStableAria(page, '[data-plugin-panel]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(BUNDLE_EXPECTED, bundleSnapshot, MODE)
     await configure.click()
@@ -324,14 +325,14 @@ describe('web e2e: plugin configuration pages', () => {
     const rowPage = panel.locator('[data-plugin-row-detail="@fixture/live-client#fixture-live-client"]')
     await rowPage.waitFor({ timeout: 10_000 })
     expect(await rowPage.getByRole('heading', { level: 3 }).textContent()).toBe('@fixture/live-client')
-    expect(await rowPage.getByText('Un ajuste de ejemplo', { exact: true }).count()).toBe(1)
+    expect(await rowPage.getByText('An example setting', { exact: true }).count()).toBe(1)
     // The same entries render for the row's page, told it is about the row.
     expect(await rowPage.locator('[data-live-action="row"]').count()).toBe(1)
     expect(await rowPage.locator('[data-live-badge="row"]').count()).toBe(1)
     expect(await rowPage.locator('[data-live-section="row"]').count()).toBe(1)
-    const form = rowPage.getByRole('form', { name: 'Configuración del plugin dinámico' })
-    await form.getByLabel('Saludo').fill('hola')
-    await form.getByRole('button', { name: 'Guardar' }).click()
+    const form = rowPage.getByRole('form', { name: 'Live plugin configuration' })
+    await form.getByLabel('Greeting').fill('hola')
+    await form.getByRole('button', { name: 'Save' }).click()
     await expect.poll(() => page.evaluate(() => document.documentElement.dataset.liveSaves), { timeout: 5_000 }).toBe('1')
 
     const snapshot = await captureStableAria(page, '[data-plugin-panel]', scaffold.workspaceCwd)

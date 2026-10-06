@@ -1,16 +1,16 @@
-- dialog "已安装":
-  - button "关闭"
-  - status: 已安装
+- dialog "Instalado":
+  - button "Cerrar"
+  - status: Instalado
   - paragraph: mirrored-package
-  - paragraph: 版本 2.0.0
-  - button "收起安装详情" [expanded]
-  - paragraph: 安装位置：{{cwd}}/.dsh-home/profiles/scaffold
-  - paragraph: 第 1 次 · 中国大陆镜像源
-  - text: 失败 $ pnpm add mirrored-package --registry=https://registry.npmmirror.com/ 退出码 1
-  - button "复制"
+  - paragraph: Versión 2.0.0
+  - button "Ocultar detalles de la instalación" [expanded]
+  - paragraph: "Ubicación de instalación: {{cwd}}/.dsh-home/profiles/scaffold"
+  - paragraph: Intento 1 · Espejo npmmirror
+  - text: Falló $ pnpm add mirrored-package --registry=https://registry.npmmirror.com/ código de salida 1
+  - button "Copiar"
   - text: "ERR_PNPM_META_FETCH_FAIL GET https://registry.npmmirror.com/mirrored-package: socket hang up"
-  - paragraph: 第 2 次 · npm 官方源
-  - text: 已完成 $ pnpm add mirrored-package
-  - button "复制"
+  - paragraph: Intento 2 · Registro oficial de npm
+  - text: Completado $ pnpm add mirrored-package
+  - button "Copiar"
   - text: Installed from the registry pnpm names
-  - button "立即启用"
+  - button "Activar ahora"

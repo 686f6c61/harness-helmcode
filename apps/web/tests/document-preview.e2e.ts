@@ -887,9 +887,9 @@ else process.exit(1);
     await writeFile(join(cwd, 'local.js'), 'document.getElementById("local-result").textContent="LOCAL_JS_REFRESHED";')
     await expect.poll(() => html.locator('#local-result').innerText()).toBe('LOCAL_JS_REFRESHED')
     expect(await iframe.getAttribute('src')).not.toBe(beforeScriptSave)
-    await page.getByRole('tab', { name: /Trajectory/ }).click()
+    await page.getByRole('tab', { name: /Lineage/ }).click()
     await scaffold.ctx.settings.update('ui-settings', { enabled: false })
-    await expect.poll(() => page.getByRole('tab', { name: /Trajectory/ }).count()).toBe(0)
+    await expect.poll(() => page.getByRole('tab', { name: /Lineage/ }).count()).toBe(0)
     await expect.poll(() => iframe.getAttribute('sandbox')).toBe('')
     expect(await page.getByText('LIGHTHOUSE', { exact: true }).count()).toBeGreaterThan(0)
     await scaffold.ctx.settings.update('ui-settings', { enabled: true })
@@ -1254,7 +1254,7 @@ else process.exit(1);
     ].join('\n'))
 
     const officeMenus: number[] = []
-    const configurationGuide = 'Read failed: Office previews are unavailable. Enable the document preview service on the computer running DeepSeek Harness.'
+    const configurationGuide = 'Read failed: Office previews are unavailable. Enable the document preview service on the computer running NaN Harness.'
     for (const extension of ['doc', 'docx', 'ppt', 'pptx']) {
       await openFile(`unavailable.${extension}`)
       expect(await preview.locator('[data-document-viewer-menu]').count()).toBe(0)

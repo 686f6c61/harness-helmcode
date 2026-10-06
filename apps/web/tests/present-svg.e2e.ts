@@ -125,7 +125,7 @@ describe('web e2e: requested SVG is explicitly delivered', () => {
     // Changed-file cards wait for a separate summary request after the presentation events arrive.
     await changes.waitFor({ state: 'visible' })
     expect(await changes.count()).toBe(1)
-    expect(await changes.getByText(`已编辑 ${FILE}`, { exact: true }).count()).toBe(1)
+    expect(await changes.getByText(`Se editó ${FILE}`, { exact: true }).count()).toBe(1)
     expect(await changes.getByRole('list').count()).toBe(0)
     expect(await changes.locator('svg').evaluate(icon => icon.innerHTML))
       .toBe(await card.locator('svg').evaluate(icon => icon.innerHTML))
@@ -166,7 +166,7 @@ describe('web e2e: requested SVG is explicitly delivered', () => {
   })
 
   it('opens the single edited file from its compact card', async () => {
-    await page.locator('[data-changed-files]').getByRole('button', { name: `查看 ${FILE} 的改动` }).click()
+    await page.locator('[data-changed-files]').getByRole('button', { name: `Ver cambios en ${FILE}` }).click()
     const review = page.locator('[data-changes-review]')
     await review.waitFor({ state: 'visible' })
     expect(await review.getByRole('button', { name: 'Elegir el archivo a revisar' }).innerText()).toContain(FILE)

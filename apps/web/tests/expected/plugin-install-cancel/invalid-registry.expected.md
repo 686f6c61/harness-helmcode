@@ -1,10 +1,10 @@
-- radio "自定义地址" [checked]
-- text: 自定义地址
-- textbox "自定义地址" [invalid]:
+- radio "Dirección personalizada" [checked]
+- text: Dirección personalizada
+- textbox "Dirección personalizada" [invalid]:
   - /placeholder: https://npm.example.com/
   - text: invalid-registry
-- alert: 请输入以 http:// 或 https:// 开头的地址
-- text: 填写内网或私有 npm 源地址，以 http:// 或 https:// 开头。若为需要登录的源，请把凭据放在本机的 ~/.npmrc 里。
+- alert: Introduce una dirección que empiece por http:// o https://
+- text: Introduce la dirección de un registro npm interno o privado que empiece por http:// o https://. Si requiere iniciar sesión, guarda las credenciales en ~/.npmrc de este equipo.
 
 {
   "registry": [

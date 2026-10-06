@@ -1,11 +1,11 @@
-- dialog "添加插件":
-  - heading "添加插件" [level=2]
-  - button "关闭"
-  - paragraph: 输入插件的包名、GitHub 仓库地址或本地目录路径。
-  - textbox "包名或地址":
-    - /placeholder: 例如 dsh-plugin-whale-pet
+- dialog "Añadir plugin":
+  - heading "Añadir plugin" [level=2]
+  - button "Cerrar"
+  - paragraph: Introduce el nombre del paquete del plugin, la dirección del repositorio de GitHub o la ruta del directorio local.
+  - textbox "Nombre del paquete o dirección":
+    - /placeholder: Por ejemplo dsh-plugin-nan-pet
     - text: slow-package
-  - button "插件安装引导和示例"
-  - button "安装源 默认安装源"
-  - note: 请确认插件来源可信。插件在本机以你的权限运行，来源不明的插件可能损坏 DeepSeek Harness，或读取和泄露你的数据。 插件安装后，暂不支持自动更新。若需升级，请先卸载再安装新版，后续版本会持续改善升级体验。
-  - button "安装"
+  - button "Guía de instalación de plugins y ejemplos"
+  - button "Registro Registro predeterminado"
+  - note: Confirma que el origen del plugin sea de confianza. Los plugins se ejecutan en tu equipo con tus permisos; un plugin de origen desconocido puede dañar NaN Harness o leer y filtrar tus datos. Por ahora, los plugins instalados no se actualizan automáticamente. Para actualizar un plugin, desinstálalo e instala la nueva versión. Las próximas versiones seguirán mejorando la experiencia de actualización.
+  - button "Instalar"

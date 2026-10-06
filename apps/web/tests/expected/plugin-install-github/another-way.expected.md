@@ -1,14 +1,14 @@
-- dialog "添加插件":
-  - heading "添加插件" [level=2]
-  - button "关闭"
-  - textbox "插件包名":
-    - /placeholder: 例如 dsh-plugin-whale-pet
-  - button "收起引导" [expanded]
-  - button "安装源 中国大陆镜像源"
+- dialog "Añadir plugin":
+  - heading "Añadir plugin" [level=2]
+  - button "Cerrar"
+  - textbox "Nombre del paquete del plugin":
+    - /placeholder: Por ejemplo dsh-plugin-nan-pet
+  - button "Contraer la guía" [expanded]
+  - button "Registro Espejo npmmirror"
   - list:
     - listitem:
-      - text: 填入插件 npm 包名 插件包名即 npm 包名（如 dsh-xxx 或 @作者/插件名），社区插件的 README 安装命令中 dsh plugin add 或 pnpm add 之后的部分。 示例：
-      - code: dsh-plugin-whale-pet
-      - button "填入示例 dsh-plugin-whale-pet": 填入示例
-  - note: 请确认插件来源可信。插件在本机以你的权限运行，来源不明的插件可能损坏 DeepSeek Harness，或读取和泄露你的数据。 插件安装后，暂不支持自动更新。若需升级，请先卸载再安装新版，后续版本会持续改善升级体验。
-  - button "安装" [disabled]
+      - text: "Introduce el nombre del paquete npm del plugin El nombre del paquete del plugin es el nombre del paquete npm (como dsh-xxx o @autor/nombre-del-plugin): la parte que sigue a dsh plugin add o pnpm add en el comando de instalación del README de un plugin de la comunidad. Ejemplo:"
+      - code: dsh-plugin-nan-pet
+      - button "Usar el ejemplo dsh-plugin-nan-pet": Usar ejemplo
+  - note: Confirma que el origen del plugin sea de confianza. Los plugins se ejecutan en tu equipo con tus permisos; un plugin de origen desconocido puede dañar NaN Harness o leer y filtrar tus datos. Por ahora, los plugins instalados no se actualizan automáticamente. Para actualizar un plugin, desinstálalo e instala la nueva versión. Las próximas versiones seguirán mejorando la experiencia de actualización.
+  - button "Instalar" [disabled]

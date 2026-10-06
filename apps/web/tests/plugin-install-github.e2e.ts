@@ -57,13 +57,13 @@ it.each(['network', 'timeout'] as const)('offers a mirror after a GitHub %s, the
   const tripwire = watchConsole(page)
   await page.goto(scaffold.authenticatedUrl)
   await page.waitForSelector('[class*="frame"]')
-  if (await page.getByRole('dialog', { name: '设置' }).count() > 0) await page.keyboard.press('Escape')
-  await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: '插件', exact: true }).click()
+  if (await page.getByRole('dialog', { name: 'Configuración' }).count() > 0) await page.keyboard.press('Escape')
+  await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: 'Plugins', exact: true }).click()
   await page.getByRole('button', { name: 'Añadir plugin', exact: true }).click()
   const spec = 'https://github.com/example/dsh-plugin.git'
   const title = failure === 'timeout' ? 'Se agotó el tiempo de conexión con GitHub' : 'No se puede acceder a GitHub'
   let dialog = page.getByRole('dialog', { name: 'Añadir plugin', exact: true })
-  await dialog.getByRole('button', { name: '安装源 npm 官方源', exact: true }).waitFor()
+  await dialog.getByRole('button', { name: 'Registro Registro oficial de npm', exact: true }).waitFor()
   await dialog.getByRole('textbox', { name: 'Nombre del paquete o dirección' }).fill(spec)
   expect(await page.getByText(title, { exact: true }).count()).toBe(0)
   await dialog.getByRole('button', { name: 'Instalar', exact: true }).click()
@@ -87,7 +87,7 @@ it.each(['network', 'timeout'] as const)('offers a mirror after a GitHub %s, the
   expect(await input.inputValue()).toBe('')
   expect(await input.evaluate(element => element === document.activeElement)).toBe(true)
   expect(await dialog.getByRole('button', { name: 'Instalar', exact: true }).isDisabled()).toBe(true)
-  await dialog.getByRole('button', { name: '安装源 中国大陆镜像源', exact: true }).waitFor()
+  await dialog.getByRole('button', { name: 'Registro Espejo npmmirror', exact: true }).waitFor()
   await compareOrRefreshGolden(
     fileURLToPath(new URL('./expected/plugin-install-github/mirror.expected.md', import.meta.url)),
     await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd), webSnapshotMode(),

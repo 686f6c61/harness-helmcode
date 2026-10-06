@@ -1,0 +1,6 @@
+- dialog "¿Restablecer todos los atajos predeterminados?":
+  - heading "¿Restablecer todos los atajos predeterminados?" [level=2]
+  - button "Confirmación de cierre"
+  - paragraph: Restablece los atajos predeterminados de esta plataforma. Todos los atajos modificados o quitados se restaurarán. Otras plataformas no se ven afectadas.
+  - button "Cancelar"
+  - button "Restablecer valor predeterminado"

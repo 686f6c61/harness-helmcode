@@ -477,6 +477,7 @@ function assertLeanChildRecord(agent: Agent, mode: 'one-shot' | 'continuable'): 
 const EXPECTED_TOOLS = [
   'ask_user_question',
   'bash',
+  'checkpoint',
   'create_goal',
   'edit',
   'exit_plan_mode',
@@ -486,6 +487,7 @@ const EXPECTED_TOOLS = [
   'job_list',
   'job_output',
   'list_agents',
+  'memory',
   'present',
   'read',
   'read_image',
@@ -526,14 +528,16 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
   scaffold = await launchWebScaffold({ deepSeekMissingCredential: true })
   const ctx = scaffold.ctx
   expect(ctx.llm.listProviders().some(provider => provider.id === 'deepseek-messages')).toBe(false)
-  expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'deepseek-official', model: 'deepseek-flash' })
+  expect(ctx.agentDefaultModel.currentSelection()).toEqual({ provider: 'nan-builders', model: 'deepseek-v4-flash' })
   const index = await fetch(`http://127.0.0.1:${String(ctx.webServer.port)}`, {
     headers: { 'accept-encoding': 'gzip' },
   })
   expect(index.headers.get('content-encoding')).toBe('gzip')
   expect(index.headers.get('vary')).toContain('Accept-Encoding')
   await index.body?.cancel()
-  expect(ctx.llm.providerRetryPolicy('deepseek-official')).toMatchInlineSnapshot(`
+  // The built-in route's retry policy: the pi-ai composition default, which a
+  // provider-scoped settings update overrides (covered per provider below).
+  expect(ctx.llm.providerRetryPolicy('nan-builders')).toMatchInlineSnapshot(`
     {
       "initialDelayMs": 500,
       "jitterRatio": 0.1,
@@ -547,17 +551,6 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
         "TIMEOUT",
         "TRANSPORT",
       ],
-    }
-  `)
-  await ctx.settings.update('llm-deepseek', {
-    retryPolicy: { mode: 'always', maxRetries: 5 },
-  })
-  expect(ctx.llm.providerRetryPolicy('deepseek-official')).toMatchInlineSnapshot(`
-    {
-      "initialDelayMs": 500,
-      "jitterRatio": 0.1,
-      "maxDelayMs": 10000,
-      "mode": "always",
     }
   `)
   await ctx.settings.update('llm-pi-ai', {
@@ -591,11 +584,9 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
     }
   `)
   // The catalog belongs to an AGENT, not to the process: every model-facing row
-  // now lives in a preset mounted under one session's scope, so the global
-  // layer holds nothing and a caller must name the agent to see anything. This
-  // composes from the deployment default — what a session that names no preset
-  // gets — which is the shape this test has always been about.
-  expect(ctx.tools.schemas().map(schema => schema.name)).toEqual([])
+  // now lives in a preset mounted under one session's scope, and the fork's
+  // composition mounts only its memory and checkpoint rows at the global layer.
+  expect(ctx.tools.schemas().map(schema => schema.name).sort()).toEqual(['checkpoint', 'memory'])
   const handle = await ctx.agents.create({
     sessionId: SessionId('shipped-composition'),
     setup: agentCtx => ctx.agentPresets.mount(agentCtx).then(() => undefined),
@@ -637,7 +628,7 @@ it('assembles the shipped Web transport, catalog, guidance, and defaults', async
   const commandHandle = await scaffold.ctx.agents.create({
     sessionId: SessionId('shipped-command-catalog'),
     meta: { cwd: scaffold.workspaceCwd },
-    agentOptions: { provider: 'deepseek-official', model: 'deepseek-v4-flash' },
+    agentOptions: { provider: 'nan-builders', model: 'deepseek-v4-flash' },
   })
   try {
     expect(scaffold.ctx.commands.list(commandHandle.agent)).toContainEqual({

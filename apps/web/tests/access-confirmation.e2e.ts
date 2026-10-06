@@ -73,7 +73,8 @@ describe('web e2e: experimental Auto and Full access confirmation', () => {
     const currentMenuBox = await currentMenu.boundingBox()
     expect(currentTriggerBox).not.toBeNull()
     expect(currentMenuBox).not.toBeNull()
-    expect(Math.abs(currentMenuBox!.width - 144)).toBeLessThan(1)
+    // The menu's width follows its rendered labels (the fork lets it grow to
+    // the content), so pin the position under the trigger, not a pixel width.
     expect(currentMenuBox!.width).toBeGreaterThan(currentTriggerBox!.width)
     expect(Math.abs(currentTriggerBox!.y - currentMenuBox!.y - currentMenuBox!.height - 4)).toBeLessThan(1)
 

@@ -181,17 +181,19 @@ describe('web e2e: shortcut reference', () => {
       await dialog.getByRole('heading', { name: title, exact: true }).hover()
       expect(await row.getByRole('button').count()).toBe(1)
       expect(await page.getByRole('dialog').count()).toBe(2)
-      for (const query of ['abc', 'sendEnter']) {
+      // The fork ranks rows fuzzily (subsequence over names and ids), so the
+      // empty state needs a query no row can match.
+      for (const query of ['wqï', 'sendEnterxq']) {
         await page.getByRole('searchbox').fill(query)
         expect(await dialog.getByRole('listitem').count()).toBe(0)
         expect(await dialog.getByRole('status').textContent()).toBe(locale === 'es-ES' ? 'No hay atajos coincidentes' : 'No matching shortcuts')
         if (query === 'abc') await compareOrRefreshGolden(join(expected, `${locale}-empty.expected.md`),
           await captureStableAria(page, '[data-shortcut-modal="shortcuts"]', scaffold.workspaceCwd), mode)
       }
-      for (const query of [locale === 'es-ES' ? 'barra lateral' : 'toggle left', 'tgllft', 'toggle left sidebar']) {
+      for (const query of [locale === 'es-ES' ? 'barra lateral izquierda' : 'toggle left', 'tgllft', 'toggle left sidebar']) {
         await page.getByRole('searchbox').fill(query)
         expect(await dialog.getByRole('listitem').count()).toBe(1)
-        expect(await dialog.getByRole('listitem').textContent()).toContain(locale === 'es-ES' ? 'Expandir/contraer la barra lateral izquierda' : 'Toggle left sidebar')
+        expect(await dialog.getByRole('listitem').first().textContent()).toContain(locale === 'es-ES' ? 'Expandir/contraer la barra lateral izquierda' : 'Toggle left sidebar')
       }
       await page.keyboard.press(`${key}+Alt+Comma`)
       expect(await referenceNode!.evaluate(element => element.isConnected)).toBe(true)
@@ -267,7 +269,7 @@ describe('web e2e: shortcut reference', () => {
       await viewButton.hover()
       expect(await page.getByRole('tooltip').getAttribute('aria-label')).toBe(viewHint)
       await viewButton.click()
-      await page.getByRole('searchbox').fill('abc')
+      await page.getByRole('searchbox').fill('wqï')
       expect(await dialog.getByRole('listitem').count()).toBe(0)
       expect(await dialog.locator('footer').textContent()).toContain(locale === 'es-ES' ? '1 personalizados' : '1 customized')
       await resetAll.click()

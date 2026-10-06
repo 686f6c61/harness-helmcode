@@ -63,14 +63,14 @@ it.each(['https://registry.npmjs.org/', MIRROR])('selects the fastest responding
       const tripwire = watchConsole(page)
       await page.goto(scaffold.authenticatedUrl)
       await page.waitForSelector('[class*="frame"]')
-      if (await page.getByRole('dialog', { name: '设置' }).count() > 0) await page.keyboard.press('Escape')
-      await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: '插件', exact: true }).click()
+      if (await page.getByRole('dialog', { name: 'Configuración' }).count() > 0) await page.keyboard.press('Escape')
+      await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: 'Plugins', exact: true }).click()
       const panel = page.locator('[data-plugin-panel]')
       await panel.getByRole('button', { name: 'Añadir plugin', exact: true }).click()
       const dialog = page.getByRole('dialog')
       // Folded, the registry control names pnpm's own registry; unfolded, its options float from it and offer the configured
       // mirror and a typed address.
-      const registryToggle = dialog.getByRole('button', { name: winner === MIRROR ? '安装源 中国大陆镜像源' : '安装源 npm 官方源', exact: true })
+      const registryToggle = dialog.getByRole('button', { name: winner === MIRROR ? 'Registro Espejo npmmirror' : 'Registro Registro oficial de npm', exact: true })
       await registryToggle.waitFor()
       expect(await page.getByRole('radio').count()).toBe(0)
       await registryToggle.click()
@@ -90,7 +90,7 @@ it.each(['https://registry.npmjs.org/', MIRROR])('selects the fastest responding
         await mirror.click()
       }
       expect(await options.getByRole('radio').count()).toBe(3)
-      await dialog.getByRole('button', { name: '安装源 中国大陆镜像源', exact: true }).waitFor()
+      await dialog.getByRole('button', { name: 'Registro Espejo npmmirror', exact: true }).waitFor()
       await dialog.getByRole('textbox', { name: 'Nombre del paquete o dirección' }).fill('mirrored-package')
       const picker = (await captureStableAria(page, '[data-install-registry]', scaffold.workspaceCwd))
         .split(process.execPath).join('{{node}}')
@@ -100,12 +100,12 @@ it.each(['https://registry.npmjs.org/', MIRROR])('selects the fastest responding
       expect(await dialog.locator('[data-install-registry]').count()).toBe(0)
       await page.keyboard.press('Escape')
       await options.waitFor({ state: 'detached' })
-      await dialog.getByRole('button', { name: '安装源 中国大陆镜像源', exact: true }).waitFor()
+      await dialog.getByRole('button', { name: 'Registro Espejo npmmirror', exact: true }).waitFor()
       await dialog.getByRole('button', { name: 'Instalar', exact: true }).click()
       // The check asked the mirror first, which answered; the run that lost the mirror sent the install on to
       // the registry after it, which finished it. Each run shows behind the details with the registry it asked.
       await dialog.getByRole('button', { name: 'Activar ahora', exact: true }).waitFor({ timeout: 20_000 })
-      await dialog.getByText('版本 2.0.0', { exact: true }).waitFor()
+      await dialog.getByText('Versión 2.0.0', { exact: true }).waitFor()
       const lookups = (await readFile(join(profile, '.registry-lookups'), 'utf8')).trim().split('\n')
         .map(line => JSON.parse(line) as string[])
       // The inspection asked the mirror first, and each install attempt checked the named package's
@@ -115,8 +115,8 @@ it.each(['https://registry.npmjs.org/', MIRROR])('selects the fastest responding
       ])
       await dialog.getByRole('button', { name: 'Ver detalles de la instalación', exact: true }).click()
       await dialog.getByText('Installed from the registry pnpm names', { exact: true }).waitFor()
-      await dialog.getByText('第 1 次 · 中国大陆镜像源', { exact: true }).waitFor()
-      await dialog.getByText('第 2 次 · npm 官方源', { exact: true }).waitFor()
+      await dialog.getByText('Intento 1 · Espejo npmmirror', { exact: true }).waitFor()
+      await dialog.getByText('Intento 2 · Registro oficial de npm', { exact: true }).waitFor()
       expect(JSON.parse(await readFile(manifestPath, 'utf8'))).toMatchObject({ dependencies: { 'mirrored-package': '2.0.0' } })
       const installed = (await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd))
         .split(process.execPath).join('{{node}}')
@@ -125,7 +125,7 @@ it.each(['https://registry.npmjs.org/', MIRROR])('selects the fastest responding
       // The dialog opened again starts from the registry picked for the last install.
       await dialog.getByRole('button', { name: 'Activar ahora', exact: true }).click()
       await panel.getByRole('button', { name: 'Añadir plugin', exact: true }).click()
-      await page.getByRole('dialog').getByRole('button', { name: '安装源 中国大陆镜像源', exact: true }).waitFor()
+      await page.getByRole('dialog').getByRole('button', { name: 'Registro Espejo npmmirror', exact: true }).waitFor()
       expect(tripwire.pageErrors).toEqual([])
     } finally { await browser.close() }
   } finally {

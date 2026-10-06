@@ -1,6 +1,6 @@
-- dialog "无法访问 GitHub":
-  - heading "无法访问 GitHub" [level=2]
-  - button "关闭"
-  - paragraph: 请尝试其他安装来源。
-  - button "取消"
-  - button "试试其他方式"
+- dialog "No se puede acceder a GitHub":
+  - heading "No se puede acceder a GitHub" [level=2]
+  - button "Cerrar"
+  - paragraph: Prueba con otra fuente de instalación.
+  - button "Cancelar"
+  - button "Probar otra forma"
