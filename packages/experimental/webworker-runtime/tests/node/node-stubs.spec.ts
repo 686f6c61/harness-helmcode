@@ -49,9 +49,13 @@ const CALLED: [string, Record<string, unknown>, readonly string[]][] = [
   ['execa', execa, ['execa']],
   ['got', got.default, ['post']],
   ['@deepseek-ai/pi-ai', piAi, [
-    'createProvider', 'createModels', 'openAICompletionsApi', 'openAIResponsesApi', 'anthropicMessagesApi',
-    'isContextOverflow', 'getSupportedThinkingLevels',
+    'createProvider', 'createModels', 'isContextOverflow', 'getSupportedThinkingLevels',
   ]],
+]
+
+/** Wire-protocol factories that mount fine and refuse on the request path. */
+const WIRES: [string, Record<string, unknown>, readonly string[]][] = [
+  ['@deepseek-ai/pi-ai', piAi, ['openAICompletionsApi', 'openAIResponsesApi', 'anthropicMessagesApi']],
 ]
 
 /** Classes that refuse when constructed. */
@@ -81,6 +85,18 @@ describe('not-implemented stubs', () => {
         const value = namespace[member]
         expect(typeof value, member).toBe('function')
         expect(() => (value as () => unknown)(), member).toThrow(new RegExp(`${member}\\b.*not available in the worker host`))
+      }
+    })
+  }
+
+  for (const [module, namespace, members] of WIRES) {
+    it(`${module} mounts its wire factories and refuses on the request path`, () => {
+      quiet()
+      for (const member of members) {
+        const factory = namespace[member]
+        expect(typeof factory, member).toBe('function')
+        const api = (factory as () => { stream: () => unknown })()
+        expect(() => api.stream(), member).toThrow(new RegExp(`${member}\\b.*not available in the worker host`))
       }
     })
   }
