@@ -149,7 +149,7 @@ describe.skipIf(webSnapshotMode() === 'record').each([
       const composer = page.locator('[data-composer-input]').first()
       const surface = entry === 'button'
         ? page.getByRole('group', { name: 'Modelo y nivel de razonamiento', exact: true })
-        : page.locator('[aria-label="/model 选项"]')
+        : page.locator('[aria-label="Opciones de /model"]')
       const viewport = entry === 'button'
         ? surface.getByRole('menu', { name: 'Modelo', exact: true })
         : surface.getByRole('listbox')
@@ -158,11 +158,11 @@ describe.skipIf(webSnapshotMode() === 'record').each([
         : page.getByRole('textbox', { name: 'Filtrar opciones', exact: true })
       const open = async (): Promise<void> => {
         if (entry === 'button') {
-          await page.getByRole('button', { name: /^选择模型/ }).click()
-          await page.getByRole('menuitem', { name: /^模型/ }).click()
+          await page.getByRole('button', { name: /^Seleccionar modelo/ }).click()
+          await page.getByRole('menuitem', { name: /^Modelo/ }).click()
         } else {
           await page.getByRole('button', { name: 'Añadir archivos o ejecutar comandos', exact: true }).click()
-          await page.getByRole('option', { name: /^模型/ }).click()
+          await page.getByRole('option', { name: /^Modelo/ }).click()
         }
         await expect.poll(() => readGroups(viewport)).toEqual(EXPECTED_GROUPS)
         await expect.poll(() => search.evaluate(node => node === node.ownerDocument.activeElement)).toBe(true)
