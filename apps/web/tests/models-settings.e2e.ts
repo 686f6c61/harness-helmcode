@@ -103,7 +103,9 @@ describe('web e2e: Models settings page configures a dormant provider', () => {
   it('refuses a key no HTTP header can carry before anything is written', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-models-illegal-key'))
     const dialog = page.getByRole('dialog', { name: 'Configuración' })
-    const key = dialog.getByLabel('Clave de API')
+    // Exact: the shipped NaN Builders row carries a 'Falta la clave de API'
+    // status image whose label contains this field's name as a substring.
+    const key = dialog.getByLabel('Clave de API', { exact: true })
     const save = dialog.getByRole('button', { name: 'Guardar', exact: true })
 
     // A key no HTTP header can carry would save cleanly and fail the first
@@ -128,7 +130,9 @@ describe('web e2e: Models settings page configures a dormant provider', () => {
     await row.waitFor({ timeout: 10_000 })
     await dialog.getByText('minimax-cn guardado.', { exact: true }).waitFor({ timeout: 10_000 })
     expect(await dialog.getByRole('img', { name: 'Clave de API configurada' }).count()).toBe(0)
-    expect(await dialog.getByRole('img', { name: 'Falta la clave de API' }).count()).toBe(0)
+    // The shipped NaN Builders row keeps its missing-key dot: a blank key is
+    // provider-native auth for minimax-cn only, never for the built-in route.
+    expect(await dialog.getByRole('img', { name: 'Falta la clave de API' }).count()).toBe(1)
     const document = await readFile(join(scaffold.harnessHome, 'profiles', 'scaffold', 'cordis.patch.yml'), 'utf8')
     expect(document).toContain('minimax-cn: {}')
     expect(document).not.toContain('MINIMAX_CN_API_KEY')

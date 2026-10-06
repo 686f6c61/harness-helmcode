@@ -1,62 +1,66 @@
-- dialog "设置":
+- dialog "Configuración":
   - navigation:
-    - text: 设置
-    - button "通用设置"
-    - button "模型"
-    - button "内置插件"
-    - button "Agent 预设"
-  - button "打开配置文件"
-  - button "关闭"
-  - heading "模型" [level=2]
-  - paragraph: 填入各提供商的 API 密钥即可使用其模型。
+    - text: Configuración
+    - button "General"
+    - button "Modelos"
+    - button "Plugins integrados"
+    - button "Presets de agente"
+  - button "Abrir archivo de configuración"
+  - button "Cerrar"
+  - heading "Modelos" [level=2]
+  - paragraph: Introduce las claves de API de cada proveedor para usar sus modelos.
   - list:
     - listitem:
+      - text: NaN Builders Personalizado
+      - img "Falta la clave de API"
+      - button "Editar NaN Builders (nan-builders)": Editar
+    - listitem:
       - text: minimax-cn
-      - img "API 密钥已配置"
-      - button "编辑 minimax-cn": 编辑
-      - button "删除 minimax-cn": 删除
+      - img "Clave de API configurada"
+      - button "Editar minimax-cn": Editar
+      - button "Eliminar minimax-cn": Eliminar
     - listitem:
       - text: openai
-      - button "编辑 openai": 编辑
-      - button "删除 openai": 删除
-      - text: openai API 密钥
-      - textbox "API 密钥":
-        - /placeholder: 输入 API 密钥，或留空使用环境认证
+      - button "Editar openai": Editar
+      - button "Eliminar openai": Eliminar
+      - text: openai Clave de API
+      - textbox "Clave de API":
+        - /placeholder: Introduce una clave de API, o déjalo en blanco para usar la autenticación del entorno
       - group:
-        - text: 自定义设置 API 地址
-        - textbox "API 地址":
-          - /placeholder: 提供商默认
-        - region "模型目录":
-          - text: 模型目录 已自定义模型目录
-          - button "恢复默认模型"
-          - button "获取可用模型"
-          - textbox "模型 ID 1":
-            - /placeholder: 模型 ID
+        - text: Configuración personalizada URL base
+        - textbox "URL base":
+          - /placeholder: Predeterminado del proveedor
+        - region "Catálogo de modelos":
+          - text: Catálogo de modelos Catálogo de modelos personalizado
+          - button "Restablecer valores predeterminados"
+          - button "Obtener modelos disponibles"
+          - textbox "ID de modelo 1":
+            - /placeholder: ID de modelo
             - text: gpt-6-astra
-          - textbox "显示名称 1":
-            - /placeholder: 显示名称
+          - textbox "Nombre para mostrar 1":
+            - /placeholder: Nombre para mostrar
             - text: GPT-6 Astra
-          - button "模型选项 1" [expanded]
-          - button "删除模型 1"
-          - text: 上下文窗口
-          - textbox "上下文窗口 1":
+          - button "Opciones del modelo 1" [expanded]
+          - button "Eliminar modelo 1"
+          - text: Ventana de contexto
+          - textbox "Ventana de contexto 1":
             - /placeholder: 256K
             - text: 272K
-          - text: 最大输出 token 数
-          - textbox "最大输出 token 数 1":
+          - text: Máximo de tokens de salida
+          - textbox "Máximo de tokens de salida 1":
             - /placeholder: 32K
             - text: 128K
-          - group "输入类型 1":
-            - text: 输入类型
-            - checkbox "文本" [checked]
-            - text: 文本
-            - checkbox "图片" [checked]
-            - text: 图片
-          - button "添加模型"
-      - button "取消"
-      - button "保存"
+          - group "Tipos de entrada 1":
+            - text: Tipos de entrada
+            - checkbox "Texto" [checked]
+            - text: Texto
+            - checkbox "Imagen" [checked]
+            - text: Imagen
+          - button "Añadir modelo"
+      - button "Cancelar"
+      - button "Guardar"
     - listitem:
-      - text: Acme 网关 自定义
-      - button "编辑 Acme 网关 (acme-gateway)": 编辑
-      - button "删除 Acme 网关 (acme-gateway)": 删除
-  - button "添加模型提供商"
+      - text: Acme Pasarela Personalizado
+      - button "Editar Acme Pasarela (acme-gateway)": Editar
+      - button "Eliminar Acme Pasarela (acme-gateway)": Eliminar
+  - button "Añadir proveedor de modelos"
