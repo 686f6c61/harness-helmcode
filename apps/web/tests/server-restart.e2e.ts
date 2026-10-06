@@ -16,7 +16,7 @@ class RestartableServer {
   private output = ''
   readonly startupBlocked = Promise.withResolvers<undefined>()
 
-  constructor(private readonly world: string, private readonly modelUrl: string) {}
+  constructor(private readonly world: string, private readonly modelPatch: string) {}
 
   async start(port: number, holdStartup = false): Promise<string> {
     if (this.child !== undefined) throw new Error('Server is already running')
@@ -26,14 +26,14 @@ class RestartableServer {
       join(REPO_ROOT, 'apps/cli/lib/bin.js'), '--profile', 'web',
       '--patch', fileURLToPath(new URL('./pin-browse-picker.overlay.yml', import.meta.url)),
       '--patch', fileURLToPath(new URL('./fixtures/restart-startup.overlay.yml', import.meta.url)),
+      '--patch', this.modelPatch,
       '--no-open', '--port', String(port),
     ], {
       cwd: this.world,
       env: {
         ...process.env, NODE_OPTIONS: '',
         DSH_HOME: join(this.world, 'home'), DSH_AGENTS_HOME: join(this.world, 'agents'),
-        DSH_TELEMETRY_DISABLED: '1', DEEPSEEK_API_KEY: 'keyless-server-restart-fixture',
-        DEEPSEEK_BASE_URL: this.modelUrl,
+        DSH_TELEMETRY_DISABLED: '1', NAN_BUILDERS_API_KEY: 'server-restart-fixture',
         DSH_WEB_RESTART_HOLD_STARTUP: holdStartup ? '1' : '0',
       },
       stdio: ['ignore', 'pipe', 'pipe', 'ipc'],
@@ -91,14 +91,14 @@ it.each([false, true])('keeps the same revision, Session and page across a serve
     request.resume()
     request.once('end', () => {
       response.writeHead(200, { 'content-type': 'text/event-stream' })
-      const events = [
-        { type: 'message_start', message: { id: 'restart-fixture', model: 'mock-model', usage: { input_tokens: 3, output_tokens: 0 } } },
-        { type: 'content_block_start', index: 0, content_block: { type: 'text', text: 'Persisted server restart fixture.' } },
-        { type: 'content_block_stop', index: 0 },
-        { type: 'message_delta', delta: { stop_reason: 'end_turn' }, usage: { output_tokens: 1 } },
-        { type: 'message_stop' },
+      const id = 'chatcmpl-restart-fixture'
+      const chunks = [
+        { id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: { role: 'assistant', content: '' } }] },
+        { id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: { content: 'Persisted server restart fixture.' } }] },
+        { id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: {}, finish_reason: 'stop' }] },
       ]
-      response.end(events.map(event => 'data: ' + JSON.stringify(event) + '\n\n').join(''))
+      const payload = chunks.map(chunk => `data: ${JSON.stringify(chunk)}\n\n`).join('') + 'data: [DONE]\n\n'
+      response.end(payload)
     })
   })
   onTestFinished(() => new Promise<void>((resolve, reject) => {
@@ -111,7 +111,34 @@ it.each([false, true])('keeps the same revision, Session and page across a serve
   })
   const modelAddress = model.address()
   if (modelAddress === null || typeof modelAddress === 'string') throw new Error('Model fixture did not listen')
-  const server = new RestartableServer(world, `http://127.0.0.1:${String(modelAddress.port)}`)
+  // A profile patch REPLACES the plugin config, so the nan-builders entry is
+  // restated with only its baseURL repointed at this scenario's model mock.
+  const nanPatch = join(world, 'nan-mock.yml')
+  await writeFile(nanPatch, JSON.stringify([
+    {
+      id: 'llm-pi-ai',
+      config: {
+        providers: {
+          'nan-builders': {
+            displayName: 'NaN Builders',
+            api: 'openai-completions',
+            baseURL: `http://127.0.0.1:${String(modelAddress.port)}/v1`,
+            apiKeyEnv: 'NAN_BUILDERS_API_KEY',
+            compat: { thinkingFormat: 'deepseek', supportsDeveloperRole: true },
+            models: [{
+              id: 'deepseek-v4-flash',
+              name: 'DeepSeek V4.1 Flash',
+              contextWindow: 1048576,
+              maxTokens: 32768,
+              input: ['text', 'image'],
+              reasoningEfforts: { low: 'low', medium: 'medium', high: 'high' },
+            }],
+          },
+        },
+      },
+    },
+  ]))
+  const server = new RestartableServer(world, nanPatch)
   onTestFinished(() => server.stop())
   const workspacePath = join(world, 'workspace')
   await mkdir(workspacePath)

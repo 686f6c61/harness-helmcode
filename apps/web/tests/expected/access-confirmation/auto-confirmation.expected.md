@@ -1,8 +1,8 @@
-- dialog "确认启用 Auto review（实验）？":
-  - heading "确认启用 Auto review（实验）？" [level=2]
-  - button "关闭"
-  - paragraph: Auto review 不使用沙箱。每次原生工具调用和 PTC 内层调用前，都会由与当前 agent 相同的模型进行审查；审查拒绝的调用由你批准或拒绝。此功能仍属实验性，可能误放行或误拒绝，并会消耗额外 token。
-  - checkbox "我已了解这些风险，并愿意继续"
-  - text: 我已了解这些风险，并愿意继续
-  - button "取消"
-  - button "启用 Auto review" [disabled]
+- dialog "¿Activar Auto review (experimental)?":
+  - heading "¿Activar Auto review (experimental)?" [level=2]
+  - button "Cerrar"
+  - paragraph: Auto review no usa sandbox. Antes de cada llamada a herramienta nativa y cada llamada interna de PTC, el mismo modelo que el agente actual revisa si se permite; tú apruebas o rechazas cada llamada que deniega. Esta función es experimental, puede permitir o denegar acciones por error y consume tokens adicionales.
+  - checkbox "Entiendo estos riesgos y quiero continuar"
+  - text: Entiendo estos riesgos y quiero continuar
+  - button "Cancelar"
+  - button "Activar Auto review" [disabled]

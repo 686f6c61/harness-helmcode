@@ -7,8 +7,6 @@
  * @module @deepseek-ai/dsh-plugin-manager/registry-search
  */
 
-import { stringify } from 'node:querystring'
-
 /** Default npm registry root searched for plugins. */
 export const NPM_REGISTRY_URL = 'https://registry.npmjs.org'
 
@@ -44,7 +42,9 @@ export async function searchRegistryPlugins(options: RegistrySearchOptions = {})
   const text = options.query === undefined || options.query.trim().length === 0 ? `keywords:${PLUGIN_KEYWORD}` : options.query.trim()
   const size = Math.min(Math.max(options.limit ?? 20, 1), 250)
   const url = new URL('/-/v1/search', options.registryUrl ?? NPM_REGISTRY_URL)
-  url.search = stringify({ text, size: String(size) })
+  // URLSearchParams keeps this module free of node: builtins, so the packed
+  // webworker deployment can register it in its vfs image.
+  url.search = new URLSearchParams({ text, size: String(size) }).toString()
   const response = await (options.fetchImpl ?? fetch)(url)
   if (!response.ok) throw new Error(`plugin search failed (HTTP ${String(response.status)})`)
   const body = await response.json() as {

@@ -62,7 +62,8 @@ it('boots the built plugin graph and renders a fixture session end to end', asyn
   // The sidebar renders from the boot graph: every inject layer activated.
   const tree = await screen.findByRole('tree', { name: 'Sessions' }, { timeout: 10_000 })
   if (clientBuildValue('DSH_CLIENT_BUILD_PROFILE') === 'official') {
-    expect(document.querySelector('svg[viewBox="26 0 104 24"]')).not.toBeNull()
+    // The official wordmark lockup is the Helmcode brand svg (0 0 546 103).
+    expect(document.querySelector('svg[viewBox="0 0 546 103"]')).not.toBeNull()
     expect(screen.queryByText('NaN Local Build')).toBeNull()
   } else {
     expect(document.querySelector('svg[viewBox="0 0 24 24"]')).not.toBeNull()

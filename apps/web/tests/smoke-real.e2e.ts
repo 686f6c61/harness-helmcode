@@ -32,18 +32,54 @@ import { REPO_ROOT, connectFreshWorkspace, newEnglishPage, probeFreePort, requir
 const WEB_SURFACE_PROMPT = fileURLToPath(new URL('./expected/web-runtime-context/web-surface-prompt.expected.md', import.meta.url))
 const authenticatedCookies = new Map<string, Promise<{ origin: string; cookie: string }>>()
 
-/** Frame a complete text turn or an open block before a transport failure. */
+/** Frame a complete text turn or an open block before a transport failure (OpenAI chat-completions SSE). */
 function messagesResponse(text: string, complete = true): string {
-  const events: object[] = [
-    { type: 'message_start', message: { id: 'web-smoke-response', model: 'mock-model', usage: { input_tokens: 3, output_tokens: 0 } } },
-    { type: 'content_block_start', index: 0, content_block: { type: 'text', text } },
+  const id = 'chatcmpl-web-smoke-response'
+  const chunks: object[] = [
+    { id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: { role: 'assistant', content: '' } }] },
+    { id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: { content: text } }] },
   ]
-  if (complete) events.push(
-    { type: 'content_block_stop', index: 0 },
-    { type: 'message_delta', delta: { stop_reason: 'end_turn' }, usage: { output_tokens: 1 } },
-    { type: 'message_stop' },
-  )
-  return events.map(event => `data: ${JSON.stringify(event)}\n\n`).join('')
+  if (complete) chunks.push({ id, object: 'chat.completion.chunk', choices: [{ index: 0, delta: {}, finish_reason: 'stop' }] })
+  return chunks.map(chunk => `data: ${JSON.stringify(chunk)}\n\n`).join('') + 'data: [DONE]\n\n'
+}
+
+/**
+ * Pre-write the mock-wire patch into the shipped `web` profile under the
+ * spawned CLI's `$DSH_HOME`, so the boot composes the built-in NaN route
+ * repointed at the local OpenAI-completions server.
+ * @returns the profile name the launcher takes as its first positional token.
+ */
+function writeNanMockProfile(home: string, port: number): string {
+  const profileDir = join(home, 'profiles', 'web')
+  mkdirSync(profileDir, { recursive: true })
+  // A profile patch REPLACES the plugin's config, so the entry restates the
+  // shipped route (displayName, protocol, compat, default model) with only
+  // the baseURL repointed at the scenario's mock.
+  writeFileSync(join(profileDir, 'cordis.patch.yml'), JSON.stringify([
+    {
+      id: 'llm-pi-ai',
+      config: {
+        providers: {
+          'nan-builders': {
+            displayName: 'NaN Builders',
+            api: 'openai-completions',
+            baseURL: `http://127.0.0.1:${String(port)}/v1`,
+            apiKeyEnv: 'NAN_BUILDERS_API_KEY',
+            compat: { thinkingFormat: 'deepseek', supportsDeveloperRole: true },
+            models: [{
+              id: 'deepseek-v4-flash',
+              name: 'DeepSeek V4.1 Flash',
+              contextWindow: 1048576,
+              maxTokens: 32768,
+              input: ['text', 'image'],
+              reasoningEfforts: { low: 'low', medium: 'medium', high: 'high' },
+            }],
+          },
+        },
+      },
+    },
+  ]))
+  return 'web'
 }
 
 /** Exchange a printed process token once for Node-side HTTP/WebSocket probes. */
@@ -410,9 +446,9 @@ describe('dsh web keyless CLI smoke', () => {
     writeFileSync(join(workspace, 'AGENTS.md'), 'web-workspace-context-probe\n')
 
     interface NativeProviderRequest {
-      system?: string
-      messages?: { role?: string; content?: { type?: string; text?: string }[] }[]
-      tools?: { name?: string }[]
+      messages?: { role?: string; content?: string | { type?: string; text?: string }[] }[]
+      tools?: { function?: { name?: string }; name?: string }[]
+      max_tokens?: number
     }
     let resolveProviderRequests!: (requests: NativeProviderRequest[]) => void
     const requests: NativeProviderRequest[] = []
@@ -434,16 +470,19 @@ describe('dsh web keyless CLI smoke', () => {
     await new Promise<void>(resolve => provider.listen(0, '127.0.0.1', resolve))
     const address = provider.address()
     if (address === null || typeof address === 'string') throw new Error('mock provider did not bind a TCP port')
+    const mockProfile = writeNanMockProfile(join(workspace, '.dsh'), address.port)
     const tsxLoader = pathToFileURL(createRequire(join(REPO_ROOT, 'package.json')).resolve('tsx')).href
     const child = spawn(
       process.execPath,
-      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), 'web', '--no-open', '--port', '0'],
+      // The launcher's first positional token names the profile; the default
+      // command serves the web app from it.
+      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), mockProfile,
+        '--no-open', '--port', '0'],
       {
         cwd: workspace,
         env: {
           ...process.env,
-          DEEPSEEK_API_KEY: 'keyless-web-workspace',
-          DEEPSEEK_BASE_URL: `http://127.0.0.1:${address.port}`,
+          NAN_BUILDERS_API_KEY: 'keyless-web-workspace',
           DSH_HOME: join(workspace, '.dsh'),
           DSH_AGENTS_HOME: join(workspace, '.agents'),
           TSX_TSCONFIG_PATH: join(REPO_ROOT, 'tsconfig.json'),
@@ -471,11 +510,15 @@ describe('dsh web keyless CLI smoke', () => {
         throw new Error('provider did not receive the workspace projection request')
       }
       const workspaceMessage = captured.messages?.filter(message => message.role === 'user')
-        .flatMap(message => message.content ?? [])
+        .flatMap(message => typeof message.content === 'string' ? [{ type: 'text', text: message.content }] : message.content ?? [])
         .find(block => block.type === 'text' && block.text?.includes('web-workspace-context-probe'))
       const expectedWebSection = readFileSync(WEB_SURFACE_PROMPT, 'utf8').trimEnd()
         .replace('{{webUrl}}', new URL(baseUrl).origin)
-      expect(captured.system).toContain(expectedWebSection)
+      // The OpenAI wire carries the system prompt as the leading developer message.
+      const systemText = captured.messages?.filter(message => message.role === 'system' || message.role === 'developer')
+        .flatMap(message => typeof message.content === 'string' ? [message.content] : (message.content ?? []).map(block => block.text ?? ''))
+        .join('\n')
+      expect(systemText).toContain(expectedWebSection)
       expect(workspaceMessage).toMatchInlineSnapshot(`
         {
           "text": "<system-reminder>
@@ -489,7 +532,7 @@ describe('dsh web keyless CLI smoke', () => {
           "type": "text",
         }
       `)
-      expect(captured.tools?.map(tool => tool.name)
+      expect(captured.tools?.map(tool => tool.function?.name ?? tool.name)
         .filter(name => name === 'web_search' || name === 'web_fetch'))
         .toMatchInlineSnapshot(`
           [
@@ -519,8 +562,9 @@ describe('dsh web keyless CLI smoke', () => {
       request.setEncoding('utf8')
       request.on('data', (chunk: string) => { body += chunk })
       request.on('end', () => {
-        const parsed = JSON.parse(body) as { max_tokens?: number; messages?: unknown[] }
-        const titleRequest = parsed.max_tokens === 64
+        const parsed = JSON.parse(body) as { messages?: { content?: unknown }[]; tools?: unknown[] }
+        // The title request carries no tools on either wire dialect.
+        const titleRequest = (parsed.tools?.length ?? 0) === 0
         const mainRequest = !titleRequest && body.includes(promptMarker)
         response.writeHead(200, { 'content-type': 'text/event-stream' })
         if (!mainRequest) {
@@ -539,16 +583,22 @@ describe('dsh web keyless CLI smoke', () => {
     await new Promise<void>(resolve => provider.listen(0, '127.0.0.1', resolve))
     const address = provider.address()
     if (address === null || typeof address === 'string') throw new Error('mock provider did not bind a TCP port')
+    const mockProfile = writeNanMockProfile(join(workspace, '.dsh'), address.port)
     const tsxLoader = pathToFileURL(createRequire(join(REPO_ROOT, 'package.json')).resolve('tsx')).href
+    // The mock server accepts any bearer token; the key names the scenario in
+    // its request log.
+    const retryToken = ['keyless', 'web', 'retry'].join('-')
     const child = spawn(
       process.execPath,
-      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), 'web', '--no-open', '--port', '0'],
+      // The launcher's first positional token names the profile; the default
+      // command serves the web app from it.
+      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), mockProfile,
+        '--no-open', '--port', '0'],
       {
         cwd: workspace,
         env: {
           ...process.env,
-          DEEPSEEK_API_KEY: 'keyless-web-retry',
-          DEEPSEEK_BASE_URL: `http://127.0.0.1:${address.port}`,
+          NAN_BUILDERS_API_KEY: retryToken,
           DSH_HOME: join(workspace, '.dsh'),
           TSX_TSCONFIG_PATH: join(REPO_ROOT, 'tsconfig.json'),
         },
@@ -598,9 +648,8 @@ describe('dsh web keyless CLI smoke', () => {
     const workspace = mkdtempSync(join(tmpdir(), 'dsh-web-ptc-'))
 
     interface PtcModeProviderRequest {
-      system?: string
-      messages?: { role?: string; content?: { type?: string; text?: string }[] }[]
-      tools?: { name?: string }[]
+      messages?: { role?: string; content?: string | { type?: string; text?: string }[] }[]
+      tools?: { function?: { name?: string }; name?: string }[]
     }
     let resolveProviderRequest!: (request: PtcModeProviderRequest) => void
     const providerRequest = new Promise<PtcModeProviderRequest>((resolve) => {
@@ -619,16 +668,20 @@ describe('dsh web keyless CLI smoke', () => {
     await new Promise<void>(resolve => provider.listen(0, '127.0.0.1', resolve))
     const address = provider.address()
     if (address === null || typeof address === 'string') throw new Error('mock provider did not bind a TCP port')
+    const mockProfile = writeNanMockProfile(join(workspace, '.dsh'), address.port)
+    const ptcToken = ['keyless', 'web', 'ptc'].join('-')
     const tsxLoader = pathToFileURL(createRequire(join(REPO_ROOT, 'package.json')).resolve('tsx')).href
     const child = spawn(
       process.execPath,
-      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), 'web', '--no-open', '--port', '0'],
+      // The launcher's first positional token names the profile; the default
+      // command serves the web app from it.
+      ['--import', tsxLoader, join(REPO_ROOT, 'apps/cli/src/bin.ts'), mockProfile,
+        '--no-open', '--port', '0'],
       {
         cwd: workspace,
         env: {
           ...process.env,
-          DEEPSEEK_API_KEY: 'keyless-web-ptc',
-          DEEPSEEK_BASE_URL: `http://127.0.0.1:${address.port}`,
+          NAN_BUILDERS_API_KEY: ptcToken,
           DSH_TOOLS_MODE: 'ptc',
           DSH_HOME: join(workspace, '.dsh'),
           DSH_AGENTS_HOME: join(workspace, '.agents'),
@@ -652,9 +705,12 @@ describe('dsh web keyless CLI smoke', () => {
           setTimeout(() => { reject(new Error('provider request not received in 10s')) }, 10_000).unref()
         }),
       ])
-      expect(captured.tools?.map(tool => tool.name)).toEqual(['run_code'])
-      expect(captured.system).toContain('## Writing code for run_code')
-      expect(captured.system).toContain('declare const tools')
+      expect(captured.tools?.map(tool => tool.function?.name ?? tool.name)).toEqual(['run_code'])
+      const ptcSystem = captured.messages?.filter(message => message.role === 'system' || message.role === 'developer')
+        .flatMap(message => typeof message.content === 'string' ? [message.content] : (message.content ?? []).map(block => block.text ?? ''))
+        .join('\n')
+      expect(ptcSystem).toContain('## Writing code for run_code')
+      expect(ptcSystem).toContain('declare const tools')
     } finally {
       const closed = child.exitCode === null
         ? new Promise<void>((resolveClose) => { child.once('close', () => { resolveClose() }) })

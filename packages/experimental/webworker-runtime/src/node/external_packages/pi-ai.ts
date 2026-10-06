@@ -10,7 +10,7 @@
  * activates, and "this deployment ships no pi-ai provider" is the truth here.
  * Everything on a request path is loud.
  */
-import { notImplementedFail } from '../notImplementedFail.ts'
+import { notAvailableError, notImplementedFail } from '../notImplementedFail.ts'
 
 const MODULE = '@earendil-works/pi-ai'
 
@@ -72,14 +72,51 @@ export function getBuiltinModels(): unknown[] {
   return []
 }
 
-/** Anthropic messages API binding (unavailable). */
-export const anthropicMessagesApi = notImplementedFail(MODULE, 'anthropicMessagesApi')
+/**
+ * `@earendil-works/pi-ai/providers/all`'s model catalog reader, named by
+ * `llm-pi-ai/models.ts`. Returns an empty mutable collection: the worker
+ * deployment ships no providers, and request paths stay loud through the
+ * wire-protocol stubs above.
+ * @returns an empty Models/MutableModels stand-in.
+ */
+export function builtinModels(_options?: unknown): unknown {
+  const providers = new Map<string, unknown>()
+  return {
+    getProviders: () => [...providers.values()],
+    getProvider: (id: string) => providers.get(id),
+    getModels: () => [],
+    getModel: () => undefined,
+    refresh: () => Promise.resolve({ results: [] }),
+    checkAuth: () => Promise.resolve(undefined),
+    getAvailable: () => Promise.resolve([]),
+    setProvider: (provider: unknown) => { providers.set((provider as { id: string }).id, provider) },
+    deleteProvider: (id: string) => { providers.delete(id) },
+    clearProviders: () => { providers.clear() },
+  }
+}
 
-/** OpenAI completions API binding (unavailable). */
-export const openAICompletionsApi = notImplementedFail(MODULE, 'openAICompletionsApi')
+/**
+ * A wire-protocol binding whose factory succeeds — `llm-pi-ai` calls it while a
+ * route mounts — but whose request path is loud, per this stub's charter.
+ * @param symbol - exported symbol name to blame on request.
+ * @returns the stand-in Api object.
+ */
+function loudWireApi(symbol: string): unknown {
+  return {
+    stream: () => {
+      throw notAvailableError(MODULE, symbol)
+    },
+  }
+}
 
-/** OpenAI responses API binding (unavailable). */
-export const openAIResponsesApi = notImplementedFail(MODULE, 'openAIResponsesApi')
+/** Anthropic messages API binding: mounts, requests fail loud. */
+export const anthropicMessagesApi = () => loudWireApi('anthropicMessagesApi')
+
+/** OpenAI completions API binding: mounts, requests fail loud. */
+export const openAICompletionsApi = () => loudWireApi('openAICompletionsApi')
+
+/** OpenAI responses API binding: mounts, requests fail loud. */
+export const openAIResponsesApi = () => loudWireApi('openAIResponsesApi')
 
 /** CommonJS interop marker: the worker loader hands `default` to default imports. */
 export const __esModule = true
@@ -87,6 +124,6 @@ export const __esModule = true
 /** CommonJS default export: the members `require()` hands a caller of this module. */
 export default {
   createProvider, createModels, getSupportedThinkingLevels, isContextOverflow, builtinProviders,
-  getBuiltinModels, getBuiltinProviders, anthropicMessagesApi, openAICompletionsApi,
+  getBuiltinModels, builtinModels, getBuiltinProviders, anthropicMessagesApi, openAICompletionsApi,
   openAIResponsesApi,
 }

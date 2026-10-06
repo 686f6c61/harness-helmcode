@@ -1,8 +1,8 @@
-- dialog "确认启用完全权限？":
-  - heading "确认启用完全权限？" [level=2]
-  - button "关闭"
-  - paragraph: 启用完全权限后，智能体将减少确认步骤，并且可以直接执行更多操作，包括敏感操作、文件修改或外部命令。仅建议在你信任当前任务时使用。
-  - checkbox "我已了解风险，并愿意继续"
-  - text: 我已了解风险，并愿意继续
-  - button "取消"
-  - button "启用完全权限" [disabled]
+- dialog "¿Activar el acceso completo?":
+  - heading "¿Activar el acceso completo?" [level=2]
+  - button "Cerrar"
+  - paragraph: El acceso completo reduce los pasos de confirmación y permite que el agente realice más acciones directamente, incluidas operaciones sensibles, cambios en archivos o comandos externos. Úsalo solo cuando confíes en la tarea actual.
+  - checkbox "Entiendo los riesgos y quiero continuar"
+  - text: Entiendo los riesgos y quiero continuar
+  - button "Cancelar"
+  - button "Activar el acceso completo" [disabled]

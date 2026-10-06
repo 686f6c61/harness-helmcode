@@ -65,7 +65,8 @@ describe.skipIf(mode === 'record')('web e2e: independent-writer Excel previews',
       await files.click()
       await column.locator('[data-files-entry="file"]').getByRole('button', { name: `${name}.xlsx`, exact: true }).click()
       await expect.poll(async () => (await preview.getAttribute('data-textpreview-url'))?.endsWith(`/${name}.xlsx`)).toBe(true)
-      await sheets.getByText('Datos', { exact: true }).waitFor()
+      // The retained fixture workbook names its sheet in Chinese.
+      await sheets.getByText('数据', { exact: true }).waitFor()
       await excel.locator('.fortune-sheet-overlay').click({ position: { x: 70, y: 30 } })
       await expect.poll(() => excel.locator('.fortune-fx-input').innerText()).toBe('Item')
       await page.keyboard.press('ControlOrMeta+C')
