@@ -142,7 +142,7 @@ describe('web e2e: lifecycle & chrome (workspace flow / reload / dark mode)', ()
     // latin tokens. Accessible names join the row's label, token and
     // description spans with single spaces.
     { locale: ES_BROWSER_LOCALE, token: '/objetivo', row: 'Objetivo goal Establecer o ver el objetivo de una tarea de larga duración', hint: 'Describir el objetivo de una tarea de larga duración' },
-    { locale: ES_BROWSER_LOCALE, token: '/plan', row: 'Plan plan Entrar o salir del modo plan', hint: 'Describir tu tarea para generar el plan' },
+    { locale: ES_BROWSER_LOCALE, token: '/plan', row: 'Plan Entrar o salir del modo plan', hint: 'Describir tu tarea para generar el plan' },
   ])('keeps $token claimed across separator edits and hides hints during IME composition', async ({ locale, token, row, hint }) => {
     const inputPage = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale })
     const inputTripwire = watchConsole(inputPage)
@@ -281,7 +281,7 @@ describe('web e2e: lifecycle & chrome (workspace flow / reload / dark mode)', ()
       await zhPage.getByRole('button', { name: 'Añadir archivos o ejecutar comandos' }).click()
       const menu = zhPage.getByRole('listbox', { name: 'Sugerencias de activación' })
       await menu.waitFor({ timeout: 10_000 })
-      await menu.getByRole('option', { name: 'Plan plan Entrar o salir del modo plan', exact: true }).click()
+      await menu.getByRole('option', { name: 'Plan Entrar o salir del modo plan', exact: true }).click()
       await expect.poll(() => input.textContent()).toBe('/plan ')
       await input.press('Enter')
       const planButton = zhPage.getByRole('button', { name: 'Modo plan activado, pulsa para desactivarlo' })
