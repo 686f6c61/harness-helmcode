@@ -48,7 +48,7 @@ describe('web e2e: Desktop update workspace chrome', () => {
           await page.goto(scaffold.authenticatedUrl, { waitUntil: 'load' })
           await page.waitForSelector('[class*="frame"]')
           await expect.poll(() => page.evaluate(() => (window as FixtureWindow).updateFixture.listeners.size)).toBe(1)
-          const availableLabel = locale === 'es' ? 'Actualizar' : 'Update'
+          const availableLabel = locale === 'es' ? 'Nueva versión' : 'Update'
           const retryLabel = locale === 'es' ? 'Reintentar actualización' : 'Retry update'
           const errorDetail = locale === 'es' ? 'No se pudo descargar la actualización. Inténtalo de nuevo.' : 'Could not download the update. Please try again.'
           const readyLabel = locale === 'es' ? 'Instalar y reiniciar' : 'Install and Restart'
