@@ -1,5 +1,5 @@
-- menu "模型与推理等级":
-  - menuitemradio "Default" [checked]
+- menu "Modelo y nivel de razonamiento":
+  - menuitemradio "Predeterminado" [checked]
   - menuitemradio "Off"
   - menuitemradio "High"
   - menuitemradio "Max"

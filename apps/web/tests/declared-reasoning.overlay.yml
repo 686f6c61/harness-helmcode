@@ -1,8 +1,12 @@
 # The fixture-less web scaffold registers no adapter, so the shipped
 # deepseek-official default would be a route nothing serves. This scenario
 # starts the default on its own declared reasoning model so the effort pane
-# describes that model from the first open.
+# describes that model from the first open, and drops the built-in NaN
+# Builders catalog so only the declared route fills the pickers.
 - id: agent-default-model
   config:
     provider: acme-gateway
     model: acme-think
+- id: llm-pi-ai
+  config:
+    providers: {}
