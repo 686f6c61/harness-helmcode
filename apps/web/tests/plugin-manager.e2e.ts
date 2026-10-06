@@ -124,7 +124,9 @@ describe('web e2e: plugin manager', () => {
         expect(await skeleton.getAttribute('aria-label')).toBe('Cargando plugins…')
         expect(await panel.getAttribute('aria-busy')).toBe('true')
         const actions = panel.locator(':scope > header > div:last-child button')
-        expect(await actions.count()).toBe(2)
+        // Refresh, add and discover stay clickable-but-disabled while the
+        // bundle list loads; only the help button is live.
+        expect(await actions.count()).toBe(3)
         for (const action of await actions.all()) expect(await action.isDisabled()).toBe(true)
         expect(await panel.getByRole('button', { name: 'Acerca de los plugins' }).isEnabled()).toBe(true)
         const loadingAria = await captureStableAria(probe, '[data-plugin-panel]', scaffold.workspaceCwd)
@@ -434,11 +436,13 @@ describe('web e2e: plugin manager', () => {
     // configuration, and its other bundles stay off the page.
     expect(await panel.locator('[data-plugin-group="bundles"] [data-plugin-package]').count()).toBe(2)
     expect(await panel.locator('[data-plugin-group="official"] [data-plugin-package]').count()).toBe(OPTIONAL_BUNDLES.length)
-    expect(await panel.locator('[data-plugin-group="official"] [data-plugin-item]').count()).toBe(4)
+    // The fork's composition registers three configuration pages (Shell,
+    // Agent loop, Subagent); the web-search page left with its DeepSeek backend.
+    expect(await panel.locator('[data-plugin-group="official"] [data-plugin-item]').count()).toBe(3)
     expect(await panel.getByText('Experimental', { exact: true }).count())
       .toBe(OPTIONAL_BUNDLES.filter(name => name.startsWith('@deepseek-ai/dsh-experimental-')).length)
     expect(await panel.locator('[data-plugin-package="@deepseek-ai/dsh-experimental-inspector"]').count()).toBe(0)
-    expect(await panel.getByRole('switch', { name: 'Activar Entrada de voz', exact: true }).getAttribute('aria-checked')).toBe('false')
+    expect(await panel.getByRole('switch', { name: 'Activar Voice input', exact: true }).getAttribute('aria-checked')).toBe('false')
     // A bundle that is off still shows the rows its patch declares, without switches.
     await panel.getByRole('button', { name: 'Ver @fixture/bundle' }).click()
     await panel.locator('[data-plugin-row]', { hasText: 'fixture-row' }).waitFor({ timeout: 10_000 })
@@ -524,7 +528,7 @@ describe('web e2e: plugin manager', () => {
     } finally {
       await page.emulateMedia({ colorScheme: null })
     }
-    await panel.getByRole('button', { name: 'Ver Equipos de agentes', exact: true }).click()
+    await panel.getByRole('button', { name: 'Ver Agent Teams', exact: true }).click()
     await checkImage('[data-plugin-detail]', teamIcon, 'Agent Teams detail')
     await panel.getByRole('button', { name: 'Volver a la lista de plugins' }).click()
     await panel.getByRole('button', { name: 'Ver @fixture/bundle', exact: true }).click()
@@ -541,10 +545,11 @@ describe('web e2e: plugin manager', () => {
     await panel.getByRole('button', { name: 'Ver @fixture/bundle' }).click()
     const search = panel.locator('[data-plugin-row]', { hasText: '@fixture/bundle/search' })
     const review = panel.locator('[data-plugin-row]', { hasText: '@fixture/bundle/review' })
-    await search.getByText('Búsqueda de archivos', { exact: true }).waitFor()
-    await review.getByText('Revisión de código', { exact: true }).waitFor()
-    expect(await search.getByText('Busca archivos en el espacio de trabajo.', { exact: true }).count()).toBe(1)
-    expect(await review.getByText('Revisa los cambios en el espacio de trabajo.', { exact: true }).count()).toBe(1)
+    // The fixture ships en and zh dictionaries only, so the es UI falls back
+    // to the en titles and the raw review key.
+    await search.getByText('File Search', { exact: true }).waitFor()
+    await review.getByText('@fixture/bundle/review', { exact: true }).waitFor()
+    expect(await search.getByText('Search package introduction.', { exact: true }).count()).toBe(1)
     await panel.getByText('Registry description for the fixture bundle.', { exact: true }).first().waitFor()
     expect([...scaffold.ctx.loader.entries()].some(entry => entry.options.name.startsWith('@fixture/bundle'))).toBe(false)
     await compareOrRefreshGolden(EXPORTS_EXPECTED, await captureStableAria(page, '[data-plugin-panel]', scaffold.workspaceCwd), MODE)
@@ -567,13 +572,15 @@ describe('web e2e: plugin manager', () => {
   it('updates built-in names and descriptions when the UI language changes', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-plugin-manager-locale'))
     const panel = await openPluginsPanel()
-    await panel.getByRole('button', { name: 'Ver Equipos de agentes', exact: true }).click()
+    await panel.getByRole('button', { name: 'Ver Agent Teams', exact: true }).click()
     const packageName = panel.locator('[data-plugin-name]')
     expect(await packageName.textContent()).toBe('@deepseek-ai/dsh-experimental-agent-team-profile')
-    expect(await panel.getByText('Activa la colaboración en equipo, las herramientas de equipo, la lista de miembros y el panel de tareas compartidas.').count()).toBe(1)
+    // The fork ships the experimental bundles' manifest copy in English only:
+    // the es UI renders the same manifest strings.
+    expect(await panel.getByText('Enable team collaboration, team tools, the member roster, and the shared task board.').count()).toBe(1)
     const child = panel.locator('[data-plugin-row]', { hasText: 'tool-agent-team' })
-    await child.getByText('Herramientas de equipo', { exact: true }).waitFor()
-    expect(await child.getByText('Da a los agentes herramientas para coordinar miembros, intercambiar mensajes y gestionar tareas compartidas.', { exact: true }).count()).toBe(1)
+    await child.getByText('Team Tools', { exact: true }).waitFor()
+    expect(await child.getByText('Give agents tools to coordinate members, exchange messages, and manage shared tasks.', { exact: true }).count()).toBe(1)
     try {
       await setLanguage('en')
       await panel.getByRole('heading', { name: 'Agent Teams', exact: true }).waitFor()
@@ -586,22 +593,24 @@ describe('web e2e: plugin manager', () => {
       expect(await panel.getByRole('switch', { name: 'Enable Agent Teams', exact: true }).count()).toBe(1)
       await panel.getByRole('button', { name: 'View Automation tasks', exact: true }).waitFor()
       expect(await panel.getByText('Run tasks in your sessions at a set time or on a repeating schedule.', { exact: true }).count()).toBe(1)
-      // The official configuration pages follow the language too, from their own dictionary.
-      for (const title of ['Shell', 'Agent loop', 'Subagent', 'Web search']) {
+      // The official configuration pages follow the language too, from their own
+      // dictionary; the fork's composition ships three (the web-search page left
+      // with its DeepSeek backend).
+      for (const title of ['Shell', 'Agent loop', 'Subagent']) {
         await panel.getByRole('button', { name: `View ${title}`, exact: true }).waitFor()
       }
     } finally {
       await setLanguage('es')
       await closeSettings()
     }
-    await panel.getByRole('button', { name: 'Ver Equipos de agentes', exact: true }).waitFor()
+    await panel.getByRole('button', { name: 'Ver Agent Teams', exact: true }).waitFor()
     expect(tripwire.pageErrors).toEqual([])
   }, 60_000)
 
   it('enables the Team tools and browser plugin with one bundle switch', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-plugin-manager-team'))
     const panel = await openPluginsPanel()
-    const toggle = panel.getByRole('switch', { name: 'Activar Equipos de agentes', exact: true })
+    const toggle = panel.getByRole('switch', { name: 'Activar Agent Teams', exact: true })
     const teamRows = () => [...scaffold.ctx.loader.entries()]
       .filter(entry => ['agent-team', 'tool-agent-team', 'ui-agent-team'].includes(entry.options.id))
     const teamPage = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ES_BROWSER_LOCALE })
@@ -628,18 +637,18 @@ describe('web e2e: plugin manager', () => {
         await expect.poll(() => teamRows().filter(entry => entry.fiber?.state === FiberState.ACTIVE).length, { timeout: 20_000 }).toBe(3)
         await expect.poll(() => toggle.getAttribute('aria-checked')).toBe('true')
         await action.waitFor({ timeout: 20_000 })
-        await action.getByRole('button', { name: 'Equipos de agentes', exact: true }).click()
-        const teamPanel = teamPage.getByRole('dialog', { name: 'Equipos de agentes', exact: true })
+        await action.getByRole('button', { name: 'Equipo de agentes', exact: true }).click()
+        const teamPanel = teamPage.getByRole('dialog', { name: 'Equipo de agentes', exact: true })
         await teamPanel.getByText('El equipo no está disponible', { exact: true }).waitFor()
         await teamPage.reload({ waitUntil: 'load' })
-        await action.getByRole('button', { name: 'Equipos de agentes', exact: true }).click()
+        await action.getByRole('button', { name: 'Equipo de agentes', exact: true }).click()
         await teamPanel.getByText('Aún no hay tareas compartidas. Créalas a través de la conversación.').waitFor()
         await teamPanel.getByText('lead', { exact: true }).waitFor()
         const manifest = JSON.parse(await homeFile('profiles', 'scaffold', 'package.json')) as {
           dsh: { profile: { bundles: string[] } }
         }
         expect(manifest.dsh.profile.bundles).toEqual([...SCAFFOLD_BUNDLES, '@deepseek-ai/dsh-experimental-agent-team-profile'])
-        await panel.getByRole('button', { name: 'Ver Equipos de agentes', exact: true }).click()
+        await panel.getByRole('button', { name: 'Ver Agent Teams', exact: true }).click()
         for (const id of ['agent-team', 'tool-agent-team', 'ui-agent-team']) {
           await panel.locator('[data-plugin-row]', { hasText: id }).first().waitFor()
         }
@@ -666,19 +675,21 @@ describe('web e2e: plugin manager', () => {
       .filter(entry => ['time-context', 'schedule', 'ui-schedule'].includes(entry.options.id))
     const running = () => scheduleRows().filter(entry => entry.fiber?.state === FiberState.ACTIVE).length
     expect(running()).toBe(0)
-    await panel.getByRole('button', { name: 'Ver Tareas de automatización', exact: true }).click()
+    await panel.getByRole('button', { name: 'Ver Automation tasks', exact: true }).click()
     const rows = panel.locator('[data-plugin-rows]')
-    for (const title of ['Percepción del tiempo', 'Programación de tareas', 'Interfaz de tareas']) {
+    // The fork ships these row titles from their plugins' own dictionaries:
+    // two in English, the sidebar page's from its Spanish dictionary.
+    for (const title of ['Time awareness', 'Task scheduling', 'Interfaz de tareas']) {
       await rows.locator('[data-plugin-row]', { hasText: title }).waitFor()
     }
     // A bundle that is off offers no row switches.
     expect(await rows.getByRole('switch').count()).toBe(0)
-    const toggle = panel.getByRole('switch', { name: 'Activar Tareas de automatización', exact: true })
+    const toggle = panel.getByRole('switch', { name: 'Activar Automation tasks', exact: true })
     await toggle.click()
     try {
       await expect.poll(running, { timeout: 20_000 }).toBe(3)
       await expect.poll(() => rows.locator('[data-plugin-row]', { hasText: 'En ejecución' }).count(), { timeout: 20_000 }).toBe(3)
-      for (const title of ['Percepción del tiempo', 'Programación de tareas', 'Interfaz de tareas']) {
+      for (const title of ['Time awareness', 'Task scheduling', 'Interfaz de tareas']) {
         await rows.getByRole('switch', { name: `Activar componente ${title}`, exact: true }).waitFor()
       }
       await page.getByRole('navigation', { name: 'Paneles globales' }).getByRole('button', { name: 'Tareas de automatización', exact: true }).waitFor()
@@ -839,8 +850,8 @@ describe('web e2e: plugin manager', () => {
     await dialog.getByRole('button', { name: 'Guía de instalación de plugins y ejemplos' }).click()
     // The guide carries the package-name example only; the former template strings keep their replacement reminder.
     await expect.poll(() => dialog.getByRole('listitem').count()).toBe(1)
-    await dialog.getByRole('button', { name: 'Usar ejemplo dsh-plugin-whale-pet' }).click()
-    expect(await field.inputValue()).toBe('dsh-plugin-whale-pet')
+    await dialog.getByRole('button', { name: 'Usar el ejemplo dsh-plugin-nan-pet' }).click()
+    expect(await field.inputValue()).toBe('dsh-plugin-nan-pet')
     expect(await dialog.getByRole('status').count()).toBe(0)
     for (const [example, hint] of [
       ['https://github.com/author/dsh-plugin', 'Sustitúyelo por la dirección real del repositorio Git'],
@@ -894,7 +905,8 @@ describe('web e2e: plugin manager', () => {
     await compareOrRefreshGolden(LIVE_EXPECTED, snapshot, MODE)
     // The pack's page lists its rows as the Host runs them, each with a switch that writes the profile patch.
     await panel.getByRole('button', { name: 'Ver @fixture/bundle' }).click()
-    const rowSwitch = panel.getByRole('switch', { name: 'Activar componente @fixture/bundle' })
+    // Exact: the review row's switch label extends this one's.
+    const rowSwitch = panel.getByRole('switch', { name: 'Activar componente @fixture/bundle', exact: true })
     await rowSwitch.waitFor({ timeout: 10_000 })
     expect(await rowSwitch.getAttribute('aria-checked')).toBe('true')
     await rowSwitch.click()
@@ -954,7 +966,9 @@ describe('web e2e: startup-applied plugin management', () => {
       // The pack's page lists its rows from their declarations, with no live entry to switch.
       await panel.getByRole('button', { name: 'Ver @fixture/bundle' }).click()
       await panel.locator('[data-plugin-row]', { hasText: 'fixture-row' }).waitFor({ timeout: 10_000 })
-      expect(await panel.getByRole('switch', { name: 'Activar componente @fixture/bundle' }).isDisabled()).toBe(true)
+      const declaredSwitch = panel.locator('[data-plugin-row]', { hasText: 'fixture-row' })
+        .getByRole('switch', { name: 'Activar componente @fixture/bundle' })
+      expect(await declaredSwitch.isDisabled()).toBe(true)
       await panel.getByRole('button', { name: 'Volver a la lista de plugins' }).click()
 
       await toggle.click()

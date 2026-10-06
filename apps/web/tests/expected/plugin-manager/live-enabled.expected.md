@@ -1,46 +1,44 @@
-- heading "插件" [level=1]
-- text: 安装、启用和配置插件
-- button "插件说明"
-- button "刷新"
-- button "添加插件"
-- heading "官方" [level=3]
-- text: "8"
+- heading "Plugins" [level=1]
+- text: Instalar, activar y configurar plugins
+- button "Acerca de los plugins"
+- button "Actualizar"
+- button "Añadir plugin"
+- button "Descubrir plugins"
+- heading "Oficiales" [level=3]
+- text: "7"
 - list:
   - listitem:
-    - button "查看 智能体团队": 智能体团队
-    - text: 实验性 启用团队协作、团队工具、成员列表和共享任务看板。
-    - switch "启用 智能体团队"
+    - button "Ver Agent Teams": Agent Teams
+    - text: Experimental Enable team collaboration, team tools, the member roster, and the shared task board.
+    - switch "Activar Agent Teams"
   - listitem:
-    - button "查看 自动授权审查": 自动授权审查
-    - text: 实验性 提供自动审查权限模式，由模型在每次工具调用前判断是否授权。
-    - switch "启用 自动授权审查"
+    - button "Ver Auto Authorization Review": Auto Authorization Review
+    - text: Experimental Add an Auto review permission mode that uses the model to assess authorization before each tool call.
+    - switch "Activar Auto Authorization Review"
   - listitem:
-    - button "查看 自动化任务": 自动化任务
-    - text: 实验性 按设定的时间或周期，在会话中自动执行任务。
-    - switch "启用 自动化任务"
+    - button "Ver Automation tasks": Automation tasks
+    - text: Experimental Run tasks in your sessions at a set time or on a repeating schedule.
+    - switch "Activar Automation tasks"
   - listitem:
-    - button "查看 语音输入": 语音输入
-    - text: 实验性 在本机使用 SenseVoice 转写录音，首次使用需安装依赖。
-    - switch "启用 语音输入"
+    - button "Ver Voice input": Voice input
+    - text: Experimental Transcribe recordings locally with SenseVoice; first use requires installing dependencies
+    - switch "Activar Voice input"
   - listitem:
-    - button "查看 终端": 终端
-    - text: 限制每条命令最多能跑多久、最多输出多少内容。
+    - button "Ver Terminal": Terminal
+    - text: Limitar cuánto tiempo puede ejecutarse cada comando y cuánta salida puede producir.
   - listitem:
-    - button "查看 Agent 循环": Agent 循环
-    - text: 控制 Agent 派发工具调用的方式。
+    - button "Ver Bucle del Agent": Bucle del Agent
+    - text: Controla cómo el Agent envía las llamadas a herramientas.
   - listitem:
-    - button "查看 子智能体": 子智能体
-    - text: 设置子智能体的递归层级、数量和模型。
-  - listitem:
-    - button "查看 网页搜索": 网页搜索
-    - text: 设置 DeepSeek 的搜索提供方。
-- heading "已安装" [level=3]
+    - button "Ver Subagente": Subagente
+    - text: Configurar la profundidad de recursión, la cantidad y los modelos de los subagentes.
+- heading "Instalados" [level=3]
 - text: "2"
 - list:
   - listitem:
-    - button "查看 @fixture/bundle": "@fixture/bundle"
+    - button "Ver @fixture/bundle": "@fixture/bundle"
     - text: Registry description for the fixture bundle.
-    - switch "启用 @fixture/bundle" [checked]
+    - switch "Activar @fixture/bundle" [checked]
   - listitem:
-    - button "查看 dsh-web-scaffold-defaults": dsh-web-scaffold-defaults
-    - switch "启用 dsh-web-scaffold-defaults" [checked]
+    - button "Ver dsh-web-scaffold-defaults": dsh-web-scaffold-defaults
+    - switch "Activar dsh-web-scaffold-defaults" [checked]
