@@ -138,8 +138,11 @@ describe('web e2e: lifecycle & chrome (workspace flow / reload / dark mode)', ()
   it.skipIf(MODE === 'record').each([
     { locale: 'en-US', token: '/goal', row: 'Goal Set or view the goal for a long-running task', hint: 'describe the objective for a long-running task' },
     { locale: 'en-US', token: '/plan', row: 'Plan Enter or leave plan mode', hint: 'describe your task to generate plan' },
-    { locale: ES_BROWSER_LOCALE, token: '/目标', row: '目标 goal 设置或查看长期任务目标', hint: 'Describir el objetivo de una tarea de larga duración' },
-    { locale: ES_BROWSER_LOCALE, token: '/计划', row: '计划 plan 进入或退出计划模式', hint: '描述你的任务以生成计划' },
+    // The fork drops the zh dictionaries: the es browser claims the shared
+    // latin tokens. Accessible names join the row's label, token and
+    // description spans with single spaces.
+    { locale: ES_BROWSER_LOCALE, token: '/objetivo', row: 'Objetivo goal Establecer o ver el objetivo de una tarea de larga duración', hint: 'Describir el objetivo de una tarea de larga duración' },
+    { locale: ES_BROWSER_LOCALE, token: '/plan', row: 'Plan plan Entrar o salir del modo plan', hint: 'Describir tu tarea para generar el plan' },
   ])('keeps $token claimed across separator edits and hides hints during IME composition', async ({ locale, token, row, hint }) => {
     const inputPage = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale })
     const inputTripwire = watchConsole(inputPage)
@@ -266,7 +269,7 @@ describe('web e2e: lifecycle & chrome (workspace flow / reload / dark mode)', ()
     }
   })
 
-  it.skipIf(MODE === 'record')('shows the active Plan chip with the Chinese copy', async () => {
+  it.skipIf(MODE === 'record')('shows the active Plan chip with the shipped Spanish copy', async () => {
     const zhScaffold = await launchWebScaffold()
     const zhPage = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ES_BROWSER_LOCALE })
     const zhTripwire = watchConsole(zhPage)
@@ -278,8 +281,8 @@ describe('web e2e: lifecycle & chrome (workspace flow / reload / dark mode)', ()
       await zhPage.getByRole('button', { name: 'Añadir archivos o ejecutar comandos' }).click()
       const menu = zhPage.getByRole('listbox', { name: 'Sugerencias de activación' })
       await menu.waitFor({ timeout: 10_000 })
-      await menu.getByRole('option', { name: '计划 plan 进入或退出计划模式', exact: true }).click()
-      await expect.poll(() => input.textContent()).toBe('/计划 ')
+      await menu.getByRole('option', { name: 'Plan plan Entrar o salir del modo plan', exact: true }).click()
+      await expect.poll(() => input.textContent()).toBe('/plan ')
       await input.press('Enter')
       const planButton = zhPage.getByRole('button', { name: 'Modo plan activado, pulsa para desactivarlo' })
       await planButton.waitFor({ timeout: 10_000 })
