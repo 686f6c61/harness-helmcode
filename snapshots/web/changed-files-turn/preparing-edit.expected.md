@@ -1,1 +1,1 @@
-- text: 正在准备调用 编辑 正在准备内容 1KB
+- text: Preparando la llamada a la herramienta Editar Preparando contenido 1KB
