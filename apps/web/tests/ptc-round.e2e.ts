@@ -192,7 +192,7 @@ describe('web e2e: PTC mode round renders nested sub-calls', () => {
     const call = sessionEvents.find(event => event.type === 'tool/call' && event.data.name === 'run_code')
     if (call?.type !== 'tool/call') throw new Error('recorded PTC call missing')
     const args = JSON.parse(call.data.arguments) as { code: string; description: string }
-    await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
+    await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
     const row = page.locator('tr[data-kind="tool"]').filter({ hasText: 'run_code' }).first()
     await row.click()
     await page.getByRole('tab', { name: 'Code', exact: true }).waitFor()

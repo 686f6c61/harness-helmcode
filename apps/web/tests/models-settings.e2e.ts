@@ -75,7 +75,7 @@ describe('web e2e: Models settings page configures a dormant provider', () => {
     await openSettings(page, 'es')
     const dialog = page.getByRole('dialog', { name: 'Configuración' })
     await dialog.waitFor({ timeout: 10_000 })
-    await dialog.getByRole('button', { name: 'Modelo', exact: true }).click()
+    await dialog.getByRole('button', { name: 'Modelos', exact: true }).click()
     await dialog.getByText('Introduce las claves de API de cada proveedor para usar sus modelos.').waitFor({ timeout: 10_000 })
     // The dormant pi-ai adapter contributes its whole installed catalog; no
     // provider is configured yet, so the page is one add button.

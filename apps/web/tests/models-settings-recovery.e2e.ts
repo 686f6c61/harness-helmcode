@@ -39,7 +39,7 @@ describe('web e2e: repairs a stored provider after catalog drift', () => {
     await page.goto(scaffold.authenticatedUrl, { waitUntil: 'load' })
     await openSettings(page, 'es')
     const dialog = page.getByRole('dialog', { name: 'Configuración' })
-    await dialog.getByRole('button', { name: 'Modelo', exact: true }).click()
+    await dialog.getByRole('button', { name: 'Modelos', exact: true }).click()
     await dialog.getByText(FAILURE, { exact: true }).waitFor()
   }, 120_000)
 

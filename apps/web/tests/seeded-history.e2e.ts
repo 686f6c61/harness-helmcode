@@ -65,7 +65,7 @@ const PROMPT = 'Use the read tool twice in one assistant message: read a.txt and
 
 /** Trajectory visibility confirms Client receipt; Host persistence alone does not. */
 async function waitForContextInClient(page: Page, seq: number): Promise<void> {
-  await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
+  await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
   try {
     await page.locator(`[data-trajectory-scroll] tr[data-trajectory-row-key="context%00seq%00${seq}"]`)
       .waitFor({ state: 'visible', timeout: 10_000 })
@@ -488,8 +488,8 @@ describe('web e2e: seeded history renders through cold resume', () => {
     const scroller = page.locator('[data-conversation-scroll]')
     const top = await scroller.evaluate(element => element.scrollTop)
 
-    await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
-    await page.getByLabel('Trajectory timeline', { exact: true }).waitFor({ state: 'visible' })
+    await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
+    await page.getByLabel('Lineage timeline', { exact: true }).waitFor({ state: 'visible' })
     await page.getByRole('tab', { name: 'Chat', exact: true }).click()
 
     await expect.poll(() => current.getAttribute('aria-label')).toBe(active)

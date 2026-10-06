@@ -260,7 +260,7 @@ describe('web e2e: secondary Thinking Markdown', () => {
     expect(await summary.evaluate(element => getComputedStyle(element).textOverflow)).toBe('ellipsis')
 
     await page.setViewportSize({ width: 1680, height: 1000 })
-    await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
+    await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
     await page.locator('tr[data-trajectory-row-key]', { hasText: DONE }).click()
     const details = page.getByRole('tabpanel')
     const trajectoryToggle = details.getByRole('button', { name: 'Thinking', exact: true })

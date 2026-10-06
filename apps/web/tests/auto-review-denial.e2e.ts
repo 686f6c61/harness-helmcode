@@ -114,7 +114,7 @@ describe.skipIf(MODE === 'record')('web e2e: cold Auto-review denial', () => {
     const expanded = (await captureStableAria(page, '[class*="centerCol"]', scaffold.workspaceCwd))
       .split(SEED_ID).join('{{seededId}}')
 
-    await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
+    await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
     const ledger = page.locator('[data-trajectory-scroll]')
     await ledger.locator('table[data-scroll-ready="true"]').waitFor({ timeout: 15_000 })
     const nativeRecord = ledger.locator('tr[data-kind="tool"]').filter({ hasText: 'mystery' })

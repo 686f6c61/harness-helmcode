@@ -1,9 +1,9 @@
-- toolbar "Trajectory toolbar":
+- toolbar "Lineage toolbar":
   - button "Use actual duration": Duration
   - button "Collapse turns": Turns
   - button "Collapse calls": Calls
-  - searchbox "Search trajectory"
-- region "Trajectory timeline"
+  - searchbox "Search lineage"
+- region "Lineage timeline"
 - table:
   - rowgroup:
     - row "SYSTEM, Initial System Prompt":

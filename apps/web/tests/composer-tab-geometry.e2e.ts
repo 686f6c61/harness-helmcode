@@ -127,9 +127,9 @@ function measureTab(page: Page): Promise<TabMetrics> {
  * @param page - the page under test.
  * @param tab - the tab to show.
  */
-async function showTab(page: Page, tab: 'Chat' | 'Trajectory'): Promise<void> {
+async function showTab(page: Page, tab: 'Chat' | 'Lineage'): Promise<void> {
   await page.getByRole('tab', { name: tab, exact: true }).click()
-  if (tab === 'Trajectory') await page.getByLabel('Trajectory timeline').waitFor({ timeout: 30_000 })
+  if (tab === 'Lineage') await page.getByLabel('Lineage timeline').waitFor({ timeout: 30_000 })
   else await page.locator('[data-conversation-scroll] [data-chat-anchor-key]:visible').first().waitFor({ timeout: 30_000 })
   // Both measurements are taken after a paint, so a rectangle read mid-transition
   // cannot be reported as a shift the cascade did not cause.
@@ -146,7 +146,7 @@ async function showTab(page: Page, tab: 'Chat' | 'Trajectory'): Promise<void> {
 async function compareTabs(page: Page): Promise<TabComparison> {
   await showTab(page, 'Chat')
   const chat = await measureTab(page)
-  await showTab(page, 'Trajectory')
+  await showTab(page, 'Lineage')
   const trajectory = await measureTab(page)
   await showTab(page, 'Chat')
   return {

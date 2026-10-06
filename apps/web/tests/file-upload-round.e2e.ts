@@ -122,8 +122,8 @@ describe('web e2e: generic file upload through the real assembly', () => {
     await expect.poll(() => chatImage.getAttribute('src'), { timeout: 10_000 }).toMatch(/^blob:/)
     const chatImageUrl = await chatImage.getAttribute('src')
 
-    await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
-    await page.getByLabel('Trajectory timeline').waitFor({ timeout: 30_000 })
+    await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
+    await page.getByLabel('Lineage timeline').waitFor({ timeout: 30_000 })
     const row = page.getByRole('row', { name: `USER, Images ×1 · Files ×1 · ${PROMPT}`, exact: true })
     await row.waitFor({ timeout: 10_000 })
     const ledger = await captureStableAria(page, '[data-trajectory-row-key][aria-label*="Files ×1"]', scaffold.workspaceCwd)
@@ -398,7 +398,7 @@ describe('web e2e: generic file upload through the real assembly', () => {
       const warningStart = tripwire.warnings.length
       await page.reload({ waitUntil: 'load' })
       acknowledgeReloadConnectionLoss(tripwire, warningStart)
-      await page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
+      await page.getByRole('tab', { name: 'Lineage', exact: true }).click()
       await page.getByRole('row', { name: `USER, Images ×1 · Files ×1 · ${PROMPT}`, exact: true }).click()
       await page.getByRole('tab', { name: 'Preview', exact: true }).click()
       const panel = page.getByRole('tabpanel')

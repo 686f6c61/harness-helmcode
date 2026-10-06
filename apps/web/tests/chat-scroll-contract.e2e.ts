@@ -1005,8 +1005,8 @@ describe('web e2e: long Chat scroll contract', () => {
       await wheelTranscript(world.page, 1_300)
       const sessionAnchor = await visibleFlowAnchor(world.page)
 
-      await world.page.getByRole('tab', { name: 'Trajectory', exact: true }).click()
-      await world.page.getByLabel('Trajectory timeline').waitFor({ timeout: 30_000 })
+      await world.page.getByRole('tab', { name: 'Lineage', exact: true }).click()
+      await world.page.getByLabel('Lineage timeline').waitFor({ timeout: 30_000 })
       await world.page.setViewportSize({ width: 700, height: 900 })
       // The narrow breakpoint auto-collapses the sidebar. Re-open it because
       // this scenario switches sessions while pinning the narrow Chat scroll owner.
@@ -1030,14 +1030,14 @@ describe('web e2e: long Chat scroll contract', () => {
       await backToBottom.evaluate((button) => {
         if (!(button instanceof HTMLElement)) throw new Error('Back-to-bottom control is not an HTML element')
         button.click()
-        const trajectory = [...document.querySelectorAll<HTMLElement>('[role="tab"]')]
-          .find(tab => tab.textContent?.trim() === 'Trajectory')
-        if (!(trajectory instanceof HTMLElement)) {
-          throw new Error('Trajectory tab is unavailable during pinned remount')
+        const lineage = [...document.querySelectorAll<HTMLElement>('[role="tab"]')]
+          .find(tab => tab.textContent?.trim() === 'Lineage')
+        if (!(lineage instanceof HTMLElement)) {
+          throw new Error('Lineage tab is unavailable during pinned remount')
         }
-        trajectory.click()
+        lineage.click()
       })
-      await world.page.getByLabel('Trajectory timeline').waitFor({ timeout: 30_000 })
+      await world.page.getByLabel('Lineage timeline').waitFor({ timeout: 30_000 })
       await world.page.getByRole('tab', { name: 'Chat', exact: true }).click()
       await expectBottom(world.page)
       await openSeed(

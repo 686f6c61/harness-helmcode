@@ -6,7 +6,7 @@
   - button "Open right sidebar"
   - tablist:
     - tab "Chat" [selected]
-    - tab "Trajectory"
+    - tab "Lineage"
 - text: Inspect the protected operation, but do not run it unless authorized. {{clock}}
 - button "Copy"
 - status: Completed
@@ -34,7 +34,7 @@
   - button "Open right sidebar"
   - tablist:
     - tab "Chat" [selected]
-    - tab "Trajectory"
+    - tab "Lineage"
 - text: Inspect the protected operation, but do not run it unless authorized. {{clock}}
 - button "Copy"
 - status: Completed
@@ -66,13 +66,13 @@
   - button "Open right sidebar"
   - tablist:
     - tab "Chat"
-    - tab "Trajectory" [selected]
-- toolbar "Trajectory toolbar":
+    - tab "Lineage" [selected]
+- toolbar "Lineage toolbar":
   - button "Use actual duration": Duration
   - button "Collapse turns": Turns
   - button "Collapse calls": Calls
-  - searchbox "Search trajectory"
-- region "Trajectory timeline"
+  - searchbox "Search lineage"
+- region "Lineage timeline"
 - table:
   - rowgroup:
     - row "USER, Inspect the protected operation, but do not run it unless authorized.":
