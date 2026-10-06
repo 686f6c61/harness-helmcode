@@ -86,11 +86,21 @@ jobs:
       - name: Package the macOS bundle
         run: pnpm run package:desktop:mac:arm64:dir
 
+      # Zip on macOS with ditto: it preserves the executable bits and the
+      # Framework symlinks that a Linux-hosted zip strips, and both are what
+      # Gatekeeper checks before a downloaded bundle opens.
+      - name: Bundle the app for distribution
+        run: |
+          app="apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts/mac-arm64/Helmcode.app"
+          test -d "$app" || { echo 'packaged .app missing'; exit 1; }
+          ditto -c -k --sequesterRsrc --keepParent "$app" \
+            "apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts/Helmcode-mac-arm64.zip"
+
       - name: Upload the bundle
         uses: actions/upload-artifact@v4
         with:
           name: helmcode-mac-arm64-app
-          path: apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts/
+          path: apps/desktop/.desktop-build/targets/mac-arm64/unsigned-artifacts/Helmcode-mac-arm64.zip
 
   release:
     # Draft releases only from tags; workflow_dispatch builds stay artifacts.
@@ -121,9 +131,11 @@ jobs:
 
       - name: Bundle and checksum the artifacts
         run: |
-          app=$(find dist/mac -name '*.app' -maxdepth 3 | head -1)
-          test -n "$app" || { echo 'no .app in the macOS artifact'; exit 1; }
-          (cd "$(dirname "$app")" && zip -qry "$GITHUB_WORKSPACE/dist/Helmcode-${GITHUB_REF_NAME}-mac-arm64.zip" "$(basename "$app")")
+          # The macOS artifact is already the ditto-made zip (permissions and
+          # Framework symlinks preserved); only its name carries the tag here.
+          zip=$(find dist/mac -name 'Helmcode-*-mac-arm64.zip' | head -1)
+          test -n "$zip" || { echo 'no .app zip in the macOS artifact'; exit 1; }
+          mv "$zip" "dist/Helmcode-${GITHUB_REF_NAME}-mac-arm64.zip"
           installer=$(find dist/win -name '*.exe' | head -1)
           test -n "$installer" || { echo 'no .exe in the Windows artifact'; exit 1; }
           cp "$installer" "dist/Helmcode-${GITHUB_REF_NAME}-win-x64-setup.exe"

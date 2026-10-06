@@ -8,7 +8,7 @@ Segunda versión pública, y la primera con toda la casa en orden: CI completame
 
 ### Descargas
 
-- **macOS (Apple Silicon)**: `Helmcode-desktop-v0.1.3-mac-arm64.zip` — descomprime y arrastra `Helmcode.app` a Aplicaciones. El bundle va sin firmar: en la primera apertura, clic derecho → «Abrir» (o `xattr -dr com.apple.quarantine Helmcode.app`).
+- **macOS (Apple Silicon)**: `Helmcode-desktop-v0.1.3-mac-arm64.zip` — descomprime con doble clic y arrastra `Helmcode.app` a Aplicaciones. La app va sin firmar y la descarga llega marcada con cuarentena: antes del primer arranque ejecuta `xattr -dr com.apple.quarantine Helmcode.app` (o Sistema installer → Privacidad y seguridad → «Abrir igualmente»).
 - **Windows (x64)**: `Helmcode-desktop-v0.1.3-win-x64-setup.exe` — instalador NSIS sin firmar; SmartScreen avisará por no llevar firma de editor.
 - **SHA256SUMS.txt**: checksums SHA-256 de ambos ficheros. Verifica tu descarga antes de ejecutarla (`sha256sum -c SHA256SUMS.txt` o `shasum -a 256 -c SHA256SUMS.txt`).
 
