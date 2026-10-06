@@ -318,16 +318,11 @@ export function conversationContextKey(kind: string, id: string): string {
   return `${kind.length}:${kind}${id}`
 }
 
-/** Open Settings through the Web gear or Desktop account menu.
+/** Open Settings through the shell's gear button (the fork renders it in the
+ * desktop shell too; the account menu is gone with the disabled account plugin).
  * @param page - browser page with the mounted sidebar.
  * @param locale - current UI language.
  */
 export async function openSettings(page: Page, locale: 'en' | 'es'): Promise<void> {
-  const label = locale === 'es' ? 'Configuración' : 'Settings'
-  if (await page.evaluate(() => 'dshDesktop' in globalThis)) {
-    await page.getByRole('button', { name: locale === 'es' ? 'Menú de cuenta' : 'Account menu', exact: true }).click()
-    await page.getByRole('menuitem', { name: label, exact: true }).click()
-  } else {
-    await page.getByRole('button', { name: label, exact: true }).click()
-  }
+  await page.getByRole('button', { name: locale === 'es' ? 'Configuración' : 'Settings', exact: true }).click()
 }

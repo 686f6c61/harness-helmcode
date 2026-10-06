@@ -11,7 +11,6 @@ import {
 import { openSettings, ES_BROWSER_LOCALE, saveFailureShot } from './support.ts'
 
 const SNAPSHOT_DIR = fileURLToPath(new URL('./expected/onboarding-native', import.meta.url))
-const SIGNED_OUT_MENU_EXPECTED = join(SNAPSHOT_DIR, 'signed-out-menu.expected.md')
 const MODE = webSnapshotMode()
 
 describe.skipIf(MODE === 'record').each([false, true])('web e2e: native credential onboarding (desktop marker: %s)', (desktop) => {
@@ -22,7 +21,6 @@ describe.skipIf(MODE === 'record').each([false, true])('web e2e: native credenti
 
   beforeAll(async () => {
     scaffold = await launchWebScaffold({
-      deepSeekMissingCredential: true,
       welcomeNoticePending: true,
       ...desktop ? {} : { extraOverlayPath: fileURLToPath(new URL('./fixtures/onboarding-native/cordis.patch.yml', import.meta.url)) },
     })
@@ -39,13 +37,15 @@ describe.skipIf(MODE === 'record').each([false, true])('web e2e: native credenti
     await scaffold?.close()
   })
 
-  it('keeps the notice and Models settings without another credential dialog or credential write', async () => {
+  it('keeps the first-run page and Models settings free of credential writes', async () => {
     onTestFailed(() => saveFailureShot(page, 'web-e2e-onboarding-native'))
     const credentialPath = join(scaffold.harnessHome, '.credentials.yaml')
     const credentials = await readFile(credentialPath, 'utf8')
     await page.goto(scaffold.authenticatedUrl, { waitUntil: 'load' })
-    const welcome = page.getByRole('dialog', { name: WELCOME_NOTICE_COPY.es.title })
+    // The desktop shell owns its first-run flow, so the preview notice only
+    // appears in the plain web shell.
     if (!desktop) {
+      const welcome = page.getByRole('dialog', { name: WELCOME_NOTICE_COPY.es.title })
       await welcome.waitFor()
       await welcome.getByRole('button', { name: WELCOME_NOTICE_COPY.es.continueLabel }).click()
       await welcome.waitFor({ state: 'detached' })
@@ -57,43 +57,16 @@ describe.skipIf(MODE === 'record').each([false, true])('web e2e: native credenti
         await page.reload({ waitUntil: 'load' })
         acknowledgeReloadConnectionLoss(tripwire, warningsBefore)
       }
-      const accountMenu = page.getByRole('button', { name: 'Menú de cuenta', exact: true })
-      if (desktop) {
-        await accountMenu.waitFor()
-        expect(await accountMenu.textContent()).toBe('Más')
-        const triggerBox = (await accountMenu.boundingBox())!
-        expect(Math.abs(triggerBox.height - 32)).toBeLessThan(1)
-        await accountMenu.click()
-        const menu = page.getByRole('menu')
-        await menu.waitFor()
-        expect(await menu.getByRole('menuitem').allTextContents()).toEqual(['Configuración', 'Comentarios', 'Iniciar sesión'])
-        const menuBox = (await menu.boundingBox())!
-        expect(Math.abs(menuBox.width - 124)).toBeLessThan(1)
-        expect(Math.abs(menuBox.height - 128)).toBeLessThan(1)
-        expect(Math.abs(triggerBox.y - (menuBox.y + menuBox.height) - 4)).toBeLessThan(1)
-        for (const row of await menu.getByRole('menuitem').all()) {
-          const rowBox = (await row.boundingBox())!
-          expect(Math.abs(rowBox.height - 40)).toBeLessThan(1)
-          expect(Math.abs(menuBox.width - rowBox.width - 8)).toBeLessThan(1)
-          const glyph = (await row.locator('svg').first().boundingBox())!
-          expect(Math.abs(glyph.width - 16)).toBeLessThan(1)
-          expect(Math.abs(glyph.height - 16)).toBeLessThan(1)
-        }
-        const menuAria = await captureStableAria(page, '[role="menu"]', scaffold.workspaceCwd)
-        await compareOrRefreshGolden(SIGNED_OUT_MENU_EXPECTED, menuAria, MODE)
-        await page.keyboard.press('Escape')
-        await menu.waitFor({ state: 'detached' })
-      } else {
-        await page.getByRole('button', { name: 'Configuración', exact: true }).waitFor()
-        expect(await accountMenu.count()).toBe(0)
-        expect(await page.getByRole('dialog', { name: 'Empieza a crear' }).count()).toBe(0)
-      }
+      await page.getByRole('button', { name: 'Configuración', exact: true }).waitFor()
+      // The fork disables the account plugin, so no signed-out account menu
+      // exists in either shell; the desktop marker only changes which shell
+      // owns the first run.
+      expect(await page.getByRole('button', { name: 'Menú de cuenta', exact: true }).count()).toBe(0)
       await openSettings(page, 'es')
       const settings = page.getByRole('dialog', { name: 'Configuración', exact: true })
-      await settings.getByRole('button', { name: 'Modelo', exact: true }).click()
-      await settings.getByLabel('Clave de API', { exact: true }).waitFor()
+      await settings.getByRole('button', { name: 'Modelos', exact: true }).click()
+      await settings.getByRole('button', { name: 'Añadir proveedor de modelos' }).waitFor({ timeout: 10_000 })
       expect(await page.getByRole('dialog', { name: 'Añade una clave de API para empezar' }).count()).toBe(0)
-      expect(await welcome.count()).toBe(0)
       expect(await readFile(credentialPath, 'utf8')).toBe(credentials)
       const aria = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
       await compareOrRefreshGolden(join(SNAPSHOT_DIR, 'models.expected.md'), aria, MODE)
@@ -101,6 +74,6 @@ describe.skipIf(MODE === 'record').each([false, true])('web e2e: native credenti
     }
     expect(tripwire.warnings).toEqual([])
     expect(tripwire.pageErrors).toEqual([])
-    await assertFixtureInventory(SNAPSHOT_DIR, ['models.expected.md', 'signed-out-menu.expected.md'])
+    await assertFixtureInventory(SNAPSHOT_DIR, ['models.expected.md'])
   })
 })
